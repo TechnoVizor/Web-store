@@ -75,6 +75,7 @@
     </div>
 
     <livewire:profile.settings />
+    <livewire:profile.orders-preview />
     <livewire:profile.wishlist />
 </main>
 @endsection

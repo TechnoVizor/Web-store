@@ -98,12 +98,13 @@
 
 <header class="relative min-h-[560px] md:min-h-[720px] border-b border-white/5 overflow-hidden flex items-center">
     <video
+        data-hero-video
         class="absolute inset-0 h-full w-full object-cover opacity-35 pointer-events-none"
         autoplay
         muted
         loop
         playsinline
-        preload="metadata"
+        preload="auto"
         aria-hidden="true">
         <source src="{{ asset('videos/hero-fashion-loop.mp4') }}" type="video/mp4">
     </video>

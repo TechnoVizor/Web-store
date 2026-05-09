@@ -1,7 +1,7 @@
 <section class="profile-frame mt-10 p-5 sm:p-7">
     <div class="mb-6 flex flex-col gap-4 border-b border-white/10 pb-6 sm:flex-row sm:items-center sm:justify-between">
         <div class="border-l border-white/60 pl-4">
-            <p class="mono mb-2 text-[10px] uppercase tracking-[0.36em] text-white/30">{{ __('ui.store.total_units') }}: {{ $products->count() }}</p>
+            <p class="mono mb-2 text-[10px] uppercase tracking-[0.36em] text-white/30">{{ __('ui.store.total_units') }}: {{ $productsCount }}</p>
             <h2 class="text-xl font-black uppercase tracking-tight">{{ __('ui.profile.saved_items') }}</h2>
         </div>
 

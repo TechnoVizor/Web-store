@@ -48,7 +48,9 @@ class Wishlist extends Component
                 ->with('category:id,name')
                 ->select(['products.id', 'products.category_id', 'products.name', 'products.slug', 'products.price', 'products.image'])
                 ->latest('wishlists.created_at')
+                ->limit(4)
                 ->get(),
+            'productsCount' => Auth::user()->wishlists()->count(),
         ]);
     }
 }

@@ -85,7 +85,7 @@
                    wire:model.defer="userInput" 
                    wire:keydown.enter="sendMessage"
                    placeholder="{{ __('ui.chat.placeholder') }}" 
-                   class="w-full bg-transparent border-none outline-none text-[11px] uppercase placeholder:text-white/5 focus:ring-0">
+                   class="w-full bg-transparent border-none outline-none text-base uppercase placeholder:text-white/5 focus:ring-0">
         </div>
     </div>
 </div>

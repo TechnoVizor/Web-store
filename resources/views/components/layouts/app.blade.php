@@ -543,12 +543,15 @@
 
                 <div class="md:col-span-4 space-y-4">
                     <h4 class="text-[10px] font-bold tracking-[0.3em] text-white uppercase">{{ __('ui.footer.newsletter') }}</h4>
-                    <div class="relative">
+                    <form x-data="{ subscribed: false }" x-on:submit.prevent="subscribed = true" class="relative">
                         <input type="email" aria-label="{{ __('ui.footer.newsletter') }}" placeholder="{{ __('ui.footer.email_placeholder') }}"
-                            class="w-full bg-transparent border-b border-white/10 py-2 text-base md:text-[11px] mono focus:border-white outline-none transition-all placeholder:text-white/10">
-                        <button
-                            class="ui-btn ui-btn-compact absolute right-0 bottom-0 min-h-11 px-3 text-[10px] font-bold">{{ __('ui.footer.join') }}</button>
-                    </div>
+                            class="w-full bg-transparent border-b border-white/10 py-2 pr-28 text-base md:text-[11px] mono focus:border-white outline-none transition-all placeholder:text-white/10">
+                        <button type="submit"
+                            class="ui-btn ui-btn-compact absolute right-0 bottom-0 min-h-11 px-3 text-[10px] font-bold transition-transform hover:-translate-y-0.5">
+                            <span x-show="!subscribed">{{ __('ui.footer.join') }}</span>
+                            <span x-show="subscribed" x-cloak>{{ __('ui.footer.joined') }}</span>
+                        </button>
+                    </form>
                 </div>
 
             </div>
@@ -569,6 +572,31 @@
 
 
     @livewireScripts
+    <script>
+        (() => {
+            const playHeroVideos = () => {
+                document.querySelectorAll('[data-hero-video]').forEach((video) => {
+                    video.muted = true;
+                    video.loop = true;
+                    video.playsInline = true;
+
+                    if (video.readyState < 2) {
+                        video.load();
+                    }
+
+                    video.play().catch(() => {});
+                });
+            };
+
+            document.addEventListener('DOMContentLoaded', playHeroVideos);
+            document.addEventListener('livewire:navigated', () => requestAnimationFrame(playHeroVideos));
+            document.addEventListener('visibilitychange', () => {
+                if (!document.hidden) {
+                    playHeroVideos();
+                }
+            });
+        })();
+    </script>
 
 </body>
 
