@@ -1,16 +1,20 @@
 <?php
 
-use Livewire\Volt\Component;
 use App\Models\User;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
+use Livewire\Volt\Component;
 
-new class extends Component {
+new class extends Component
+{
     // Поля формы
     public $name = '';
+
     public $nickname = '';
+
     public $email = '';
+
     public $password = '';
 
     // ЛОГИКА ВХОДА
@@ -23,6 +27,7 @@ new class extends Component {
 
         if (Auth::attempt($credentials)) {
             session()->regenerate();
+
             return redirect()->intended('/');
         }
 
@@ -49,12 +54,18 @@ new class extends Component {
         ]);
 
         Auth::login($user);
+
         return redirect()->intended('/');
     }
 }; ?>
 
 <div x-data="{ mode: 'login' }" class="w-full max-w-sm mx-auto py-8 lg:py-8 antialiased mono">
-    
+    @if (session('auth_error'))
+        <div class="mb-8 border border-red-900/40 bg-red-950/20 px-4 py-3 text-[8px] font-bold uppercase tracking-[0.3em] text-red-300">
+            {{ session('auth_error') }}
+        </div>
+    @endif
+
     {{-- Переключатель режимов (Мгновенный через Alpine) --}}
     <div class="flex border-b border-white/5 mb-10">
         <button @click="mode = 'login'"
