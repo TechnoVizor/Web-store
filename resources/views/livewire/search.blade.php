@@ -52,7 +52,7 @@ new class extends Component {
                     @foreach($this->results as $product)
                         <a href="{{ route('product.show', $product->slug) }}" 
                            class="flex items-center p-4 hover:bg-white/5 transition group border-b border-white/5 last:border-0">
-                            <img src="{{ asset('storage/' . $product->image) }}" class="w-12 h-12 object-cover grayscale group-hover:grayscale-0 transition">
+                            <img src="{{ $product->image_url }}" class="w-12 h-12 object-cover grayscale group-hover:grayscale-0 transition">
                             <div class="ml-4">
                                 <div class="text-sm font-bold uppercase tracking-tight">{{ $product->name }}</div>
                                 <div class="text-[10px] text-white/40">{{ $product->category->name }} — ${{ number_format($product->price, 0) }}</div>

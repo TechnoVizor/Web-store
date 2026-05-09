@@ -31,7 +31,7 @@
                         
                         <div class="relative aspect-[4/5] overflow-hidden bg-black">
                             <a href="{{ route('product.show', $product->slug) }}" class="block w-full h-full">
-                                <img src="{{ asset('storage/' . $product->image) }}" 
+                                <img src="{{ $product->image_url }}" 
                                      class="w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-all duration-700">
                             </a>
 

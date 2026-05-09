@@ -35,7 +35,7 @@
         
         {{-- Картинка --}}
         <div class="w-full sm:w-32 aspect-[3/4] bg-white/5 shrink-0 border border-white/5 overflow-hidden">
-            <img src="{{ asset('storage/' . ($details['image'] ?? '')) }}" class="w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-all">
+            <img src="{{ $details['image'] ?? '' }}" class="w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-all">
         </div>
         
         <div class="flex-grow w-full">

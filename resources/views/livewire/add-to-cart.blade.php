@@ -1,9 +1,10 @@
 <?php
 
-use Livewire\Volt\Component;
 use App\Models\Product;
+use Livewire\Volt\Component;
 
-new class extends Component {
+new class extends Component
+{
     public $productId;
 
     public function addToBag()
@@ -15,10 +16,10 @@ new class extends Component {
             $cart[$this->productId]['quantity']++;
         } else {
             $cart[$this->productId] = [
-                "name" => $product->name,
-                "quantity" => 1,
-                "price" => $product->price,
-                "image" => $product->image
+                'name' => $product->name,
+                'quantity' => 1,
+                'price' => $product->price,
+                'image' => $product->image_url,
             ];
         }
 

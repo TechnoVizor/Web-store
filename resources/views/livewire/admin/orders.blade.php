@@ -144,7 +144,7 @@
                     <div class="flex items-center space-x-4">
                         {{-- Фото товара --}}
                         @if($item->product && $item->product->image)
-                            <img src="{{ asset('storage/' . $item->product->image) }}" class="w-16 h-16 object-cover border border-zinc-700">
+                            <img src="{{ $item->product->image_url }}" class="w-16 h-16 object-cover border border-zinc-700">
                         @else
                             <div class="w-16 h-16 bg-black border border-zinc-700 flex items-center justify-center text-[8px] text-zinc-600 tracking-widest">NO_IMG</div>
                         @endif

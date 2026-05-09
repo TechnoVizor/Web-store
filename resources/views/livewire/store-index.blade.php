@@ -172,7 +172,7 @@
                                     
                                     <a href="{{ route('product.show', $product->slug) }}" wire:navigate.hover class="block w-full h-full">
                                         <img x-ref="img"
-                                             src="{{ asset('storage/' . $product->image) }}"
+                                             src="{{ $product->image_url }}"
                                              @load="loaded = true"
                                              x-on:error="loaded = true"
                                              class="w-full h-full object-cover transition-all duration-700"

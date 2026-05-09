@@ -2,27 +2,36 @@
 
 namespace App\Livewire\Admin;
 
+use App\Models\Category;
+use App\Models\Product;
+use Illuminate\Support\Str;
+use Livewire\Attributes\Layout;
 use Livewire\Component;
 use Livewire\WithPagination;
-use Livewire\Attributes\Layout;
-use Livewire\WithFileUploads;
-use App\Models\Product;
-use App\Models\Category;
-use Illuminate\Support\Str;
 
 #[Layout('components.layouts.admin')]
 class Products extends Component
 {
-    use WithPagination, WithFileUploads;
+    use WithPagination;
 
     public $search = '';
-    
-    
+
     // Переменные для модального окна
     public $isModalOpen = false;
-    public $product_id, $name, $slug, $price, $category_id, $description;
+
+    public $product_id;
+
+    public $name;
+
+    public $slug;
+
+    public $price;
+
+    public $category_id;
+
+    public $description;
+
     public $image;
-    public $existingImage;
 
     // Сбрасываем страницу при поиске
     public function updatedSearch()
@@ -35,7 +44,6 @@ class Products extends Component
         $this->slug = Str::slug($value);
     }
 
-    
     // --- ЛОГИКА УПРАВЛЕНИЯ ОКНОМ ---
     public function openModal()
     {
@@ -57,8 +65,7 @@ class Products extends Component
         $this->price = '';
         $this->category_id = '';
         $this->description = '';
-        $this->image = null;
-        $this->existingImage = null;
+        $this->image = '';
     }
 
     // --- CRUD ОПЕРАЦИИ ---
@@ -71,8 +78,8 @@ class Products extends Component
         $this->price = $product->price;
         $this->category_id = $product->category_id;
         $this->description = $product->description;
-        $this->existingImage = $product->image;
-        
+        $this->image = $product->image;
+
         $this->isModalOpen = true;
     }
 
@@ -80,10 +87,10 @@ class Products extends Component
     {
         $this->validate([
             'name' => 'required|string|max:255',
-            'slug' => 'required|string|unique:products,slug,' . $this->product_id,
+            'slug' => 'required|string|unique:products,slug,'.$this->product_id,
             'price' => 'required|numeric',
             'category_id' => 'required|exists:categories,id',
-            'image' => 'nullable|image|max:15000', // Макс 2МБ
+            'image' => 'nullable|string|max:2048',
         ]);
 
         $data = [
@@ -92,13 +99,8 @@ class Products extends Component
             'price' => $this->price,
             'category_id' => $this->category_id,
             'description' => $this->description,
+            'image' => $this->image ?: null,
         ];
-
-        // Сохранение картинки
-        if ($this->image) {
-            // Сохраняет в storage/app/public/products и возвращает путь
-            $data['image'] = $this->image->store('products', 'public');
-        }
 
         Product::updateOrCreate(['id' => $this->product_id], $data);
 
@@ -112,10 +114,10 @@ class Products extends Component
 
     public function render()
     {
-        $products = Product::where('name', 'like', '%' . $this->search . '%')
+        $products = Product::where('name', 'like', '%'.$this->search.'%')
             ->latest()
             ->paginate(10);
-            
+
         // Передаем категории, чтобы выводить их в выпадающем списке <select>
         $categories = Category::all();
 

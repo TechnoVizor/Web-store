@@ -54,7 +54,7 @@
                     <div class="flex items-center space-x-4">
                         {{-- Фото --}}
                         @if($item->product && $item->product->image)
-                            <img src="{{ asset('storage/' . $item->product->image) }}" class="w-12 h-12 object-cover border border-white/10">
+                            <img src="{{ $item->product->image_url }}" class="w-12 h-12 object-cover border border-white/10">
                         @else
                             <div class="w-12 h-12 bg-black/50 border border-white/10 flex items-center justify-center text-[8px] text-white/20">NO_IMG</div>
                         @endif

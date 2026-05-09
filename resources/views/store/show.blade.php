@@ -37,7 +37,7 @@
             <div class="lg:col-span-7 space-y-6">
                 <div class="relative aspect-[4/5] bg-[#0a0a0a] border border-white/10 overflow-hidden group">
                     <div class="scan-line"></div>
-                    <img src="{{ asset('storage/' . $product->image) }}"
+                    <img src="{{ $product->image_url }}"
                         class="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-all duration-1000">
 
                     <div class="absolute top-6 left-6 mono text-[8px] text-white/40 space-y-1">
