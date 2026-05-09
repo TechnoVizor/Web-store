@@ -9,6 +9,7 @@ use App\Support\Phone;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Validation\ValidationException;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
@@ -125,16 +126,21 @@ class Checkout extends Component
             $order = null;
 
             try {
-                $order = Order::create([
+                $orderData = [
                     'user_id' => Auth::id(),
                     'customer_name' => $this->name,
                     'customer_email' => $this->email,
                     'customer_phone' => $this->phone,
-                    'customer_phone_normalized' => Phone::normalize($this->phone),
                     'customer_address' => $this->address,
                     'status' => 'new',
                     'total_amount' => $total,
-                ]);
+                ];
+
+                if (Schema::hasColumn('orders', 'customer_phone_normalized')) {
+                    $orderData['customer_phone_normalized'] = Phone::normalize($this->phone);
+                }
+
+                $order = Order::create($orderData);
 
                 $items->each(function ($item) use ($order) {
                     try {

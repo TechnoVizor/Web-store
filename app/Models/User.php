@@ -8,6 +8,7 @@ use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Schema;
 
 class User extends Authenticatable
 {
@@ -71,6 +72,9 @@ class User extends Authenticatable
     public function setPhoneAttribute($value): void
     {
         $this->attributes['phone'] = $value;
-        $this->attributes['phone_normalized'] = Phone::normalize($value);
+
+        if (Schema::hasColumn('users', 'phone_normalized')) {
+            $this->attributes['phone_normalized'] = Phone::normalize($value);
+        }
     }
 }

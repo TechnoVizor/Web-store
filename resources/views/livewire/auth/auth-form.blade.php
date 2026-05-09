@@ -5,6 +5,7 @@ use App\Support\CustomerOrders;
 use App\Support\Phone;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use Livewire\Volt\Component;
@@ -37,7 +38,7 @@ new class extends Component
 
         $user = str_contains($identifier, '@')
             ? User::where('email', Str::lower($identifier))->first()
-            : User::where('phone_normalized', $phone)->first();
+            : $this->findUserByPhone($phone);
 
         if (! $user || ! Hash::check($this->password, $user->password)) {
             throw ValidationException::withMessages([
@@ -71,7 +72,7 @@ new class extends Component
             ]);
         }
 
-        if (User::where('phone_normalized', $normalizedPhone)->exists()) {
+        if ($this->findUserByPhone($normalizedPhone)) {
             throw ValidationException::withMessages([
                 'phone' => 'PHONE_ERROR: ALREADY_REGISTERED',
             ]);
@@ -94,6 +95,21 @@ new class extends Component
     private function phoneEmail(string $normalizedPhone): string
     {
         return 'phone_'.$normalizedPhone.'_'.Str::lower(Str::random(8)).'@phone.local';
+    }
+
+    private function findUserByPhone(?string $phone): ?User
+    {
+        if (! $phone) {
+            return null;
+        }
+
+        if (Schema::hasColumn('users', 'phone_normalized')) {
+            return User::where('phone_normalized', $phone)->first();
+        }
+
+        return User::whereNotNull('phone')
+            ->get()
+            ->first(fn (User $user): bool => Phone::normalize($user->phone) === $phone);
     }
 }; ?>
 
