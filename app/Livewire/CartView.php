@@ -15,7 +15,7 @@ class CartView extends Component
     public function removeItem($id)
     {
         $cart = session()->get('cart', []);
-        
+
         if (isset($cart[$id])) {
             unset($cart[$id]);
             session()->put('cart', $cart);
@@ -46,14 +46,15 @@ class CartView extends Component
 
     public function render()
     {
-       $cart = session()->get('cart', []);
-    $total = 0;
-    foreach($cart as $item) {
-        $total += $item['price'] * $item['quantity'];
-    }
+        $cart = session()->get('cart', []);
+        $total = 0;
+        foreach ($cart as $item) {
+            $total += $item['price'] * $item['quantity'];
+        }
 
-    return view('livewire.cart-view', [
-        'cartItems' => $cart,
-        'total' => $total
-    ]); // УБРАЛИ ->layout()
-}}
+        return view('livewire.cart-view', [
+            'cartItems' => $cart,
+            'total' => $total,
+        ]); // УБРАЛИ ->layout()
+    }
+}

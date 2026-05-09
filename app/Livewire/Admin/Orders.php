@@ -2,28 +2,30 @@
 
 namespace App\Livewire\Admin;
 
-use Livewire\Component;
-use Livewire\WithPagination;
-use Livewire\Attributes\Layout;
 use App\Models\Order;
 use Illuminate\Validation\Rule;
-
+use Livewire\Attributes\Layout;
+use Livewire\Component;
+use Livewire\WithPagination;
 
 #[Layout('components.layouts.admin')]
 class Orders extends Component
 {
     use WithPagination;
 
+    private const STATUSES = ['new', 'pending', 'processing', 'paid', 'shipped', 'delivered', 'cancelled'];
+
     public $isModalOpen = false;
+
     public $selectedOrder = null;
+
     public $search = '';
 
-    // Метод для быстрого изменения статуса заказа
     public function updateStatus($orderId, $newStatus)
     {
         validator(
             ['status' => $newStatus],
-            ['status' => ['required', Rule::in(['new', 'pending', 'processing', 'paid', 'shipped', 'delivered', 'cancelled'])]]
+            ['status' => ['required', Rule::in(self::STATUSES)]]
         )->validate();
 
         $order = Order::findOrFail($orderId);
@@ -37,14 +39,17 @@ class Orders extends Component
 
     public function render()
     {
-        // Ищем по имени клиента или по ID заказа
         $orders = Order::query()
             ->withCount('items')
-            ->where(function ($query) {
-                $query->where('customer_name', 'like', '%' . $this->search . '%')
-                    ->orWhere('customer_phone', 'like', '%' . $this->search . '%')
-                    ->orWhere('customer_email', 'like', '%' . $this->search . '%')
-                    ->orWhere('id', 'like', '%' . $this->search . '%');
+            ->when(filled($this->search), function ($query) {
+                $term = '%'.trim($this->search).'%';
+
+                $query->where(function ($query) use ($term) {
+                    $query->where('customer_name', 'like', $term)
+                        ->orWhere('customer_phone', 'like', $term)
+                        ->orWhere('customer_email', 'like', $term)
+                        ->orWhere('id', 'like', $term);
+                });
             })
             ->latest()
             ->paginate(10);
@@ -53,28 +58,25 @@ class Orders extends Component
     }
 
     public function deleteOrder($id)
-{
-    $order = \App\Models\Order::findOrFail($id);
+    {
+        $order = Order::findOrFail($id);
 
-    // Проверка правила: только доставлено или отменено
-    if (in_array($order->status, ['delivered', 'cancelled'])) {
-        $order->delete();
-        // Можно добавить уведомление
-        // $this->dispatch('notify', 'Order purged from database.');
-    } else {
-        // Опционально: сообщение о том, что активные заказы удалять нельзя
-        session()->flash('error', 'ACCESS_DENIED: Cannot delete active orders.');
+        if (in_array($order->status, ['delivered', 'cancelled'], true)) {
+            $order->delete();
+        } else {
+            session()->flash('error', 'ACCESS_DENIED: Cannot delete active orders.');
+        }
     }
-}
+
     public function openModal($id)
     {
-        // ВАЖНО: меняем with('products') на with('items.product')
         $this->selectedOrder = Order::with('items.product')->findOrFail($id);
         $this->isModalOpen = true;
     }
+
     public function closeModal()
     {
         $this->isModalOpen = false;
-        $this->selectedOrder = null; // Очищаем выбранный заказ на всякий случай
+        $this->selectedOrder = null;
     }
 }

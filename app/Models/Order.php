@@ -9,14 +9,14 @@ class Order extends Model
     protected $guarded = [];
 
     protected $fillable = [
-    'user_id',
-    'customer_name',
-    'customer_email',
-    'customer_phone',
-    'customer_phone_normalized',
-    'customer_address',
-    'total_amount',
-    'status',
+        'user_id',
+        'customer_name',
+        'customer_email',
+        'customer_phone',
+        'customer_phone_normalized',
+        'customer_address',
+        'total_amount',
+        'status',
     ];
 
     // Заказ принадлежит пользователю

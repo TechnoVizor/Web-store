@@ -9,14 +9,14 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-public function up(): void
-{
-    Schema::table('users', function (Blueprint $table) {
-        // Делаем поля nullable, чтобы регистрация не ломалась
-        $table->string('phone')->nullable()->after('email');
-        $table->text('address')->nullable()->after('phone');
-    });
-}
+    public function up(): void
+    {
+        Schema::table('users', function (Blueprint $table) {
+            // Делаем поля nullable, чтобы регистрация не ломалась
+            $table->string('phone')->nullable()->after('email');
+            $table->text('address')->nullable()->after('phone');
+        });
+    }
 
     /**
      * Reverse the migrations.

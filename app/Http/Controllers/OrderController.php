@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use App\Support\CustomerOrders;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
@@ -30,6 +29,7 @@ class OrderController extends Controller
         }
 
         $order->load('items.product');
+
         return view('orders.show', compact('order'));
     }
 

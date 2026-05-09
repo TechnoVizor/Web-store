@@ -2,13 +2,12 @@
 
 namespace App\Livewire\Admin;
 
-use Livewire\Component;
-use Livewire\Attributes\Layout;
 use App\Models\Order;
-use App\Models\Product;
-use App\Models\User;
 use App\Models\OrderItem;
+use App\Models\User;
 use Illuminate\Support\Facades\DB;
+use Livewire\Attributes\Layout;
+use Livewire\Component;
 
 #[Layout('components.layouts.admin')]
 class Dashboard extends Component
@@ -28,11 +27,11 @@ class Dashboard extends Component
             DB::raw('DATE(created_at) as date'),
             DB::raw('SUM(total_amount) as total')
         )
-        ->where('status', '!=', 'cancelled')
-        ->where('created_at', '>=', now()->subDays(6))
-        ->groupBy('date')
-        ->orderBy('date', 'ASC')
-        ->get();
+            ->where('status', '!=', 'cancelled')
+            ->where('created_at', '>=', now()->subDays(6))
+            ->groupBy('date')
+            ->orderBy('date', 'ASC')
+            ->get();
 
         // 3. Топ-5 товаров (по количеству проданных единиц)
         $topProducts = OrderItem::select('product_id', DB::raw('SUM(quantity) as total_qty'))
@@ -49,7 +48,7 @@ class Dashboard extends Component
             'stats' => $stats,
             'salesData' => $salesData,
             'topProducts' => $topProducts,
-            'recentOrders' => $recentOrders
+            'recentOrders' => $recentOrders,
         ]);
     }
 }

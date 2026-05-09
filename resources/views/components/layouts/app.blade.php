@@ -568,12 +568,6 @@
     <livewire:chat-bot />
 
 
-    <script>
-        document.addEventListener('livewire:navigating', () => {
-            // Показываем какой-то системный лог в консоли для красоты (опционально)
-            console.log('DIGI_STORE: navigating...');
-        });
-    </script>
     @livewireScripts
 
 </body>

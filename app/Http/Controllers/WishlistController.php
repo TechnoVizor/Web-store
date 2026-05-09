@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
-use Illuminate\Http\Request;
 
 class WishlistController extends Controller
 {
@@ -12,7 +11,7 @@ class WishlistController extends Controller
     {
         // Получаем все товары из избранного текущего пользователя
         $products = auth()->user()->wishlists()->with('category')->latest()->get();
-        
+
         return view('wishlist.index', compact('products'));
     }
 
