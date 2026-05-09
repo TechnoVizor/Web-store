@@ -47,9 +47,11 @@
                 <button
                     type="button"
                     wire:click="removeItem('{{ $id }}')"
-                    class="rounded-full border border-white/5 p-2 text-white/35 transition-all hover:border-red-500/50 hover:bg-red-500/10 hover:text-red-300 focus:outline-none focus-visible:border-red-300"
+                    class="group/remove relative border border-white/10 p-2 text-white/35 transition-all duration-300 hover:-translate-y-px hover:border-red-500/50 hover:bg-red-500/10 hover:text-red-300 focus:outline-none focus-visible:border-red-300"
                     aria-label="{{ __('ui.cart.remove_item', ['name' => $details['name']]) }}"
                     title="{{ __('ui.cart.remove') }}">
+                    <span class="pointer-events-none absolute -left-px -top-px h-1.5 w-1.5 border-l border-t border-red-300/0 transition-colors group-hover/remove:border-red-300/70"></span>
+                    <span class="pointer-events-none absolute -bottom-px -right-px h-1.5 w-1.5 border-b border-r border-red-300/0 transition-colors group-hover/remove:border-red-300/70"></span>
                     <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M6 18L18 6M6 6l12 12" /></svg>
                 </button>
             </div>

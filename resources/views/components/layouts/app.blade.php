@@ -55,6 +55,75 @@
             border-color: rgba(255, 255, 255, 0.8) !important;
         }
 
+        .nav-action {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            min-height: 2.25rem;
+            border: 1px solid transparent;
+            padding: 0.5rem 0.65rem;
+            color: rgba(255, 255, 255, 0.4);
+            text-transform: uppercase;
+            transition: color 180ms ease, border-color 180ms ease, background-color 180ms ease, transform 180ms ease;
+        }
+
+        .nav-action::before,
+        .nav-action::after {
+            content: "";
+            position: absolute;
+            height: 1px;
+            width: 0.45rem;
+            background: currentColor;
+            opacity: 0;
+            transition: opacity 180ms ease, transform 180ms ease;
+        }
+
+        .nav-action::before {
+            top: -1px;
+            left: -1px;
+            transform: translate(-4px, -2px);
+        }
+
+        .nav-action::after {
+            right: -1px;
+            bottom: -1px;
+            transform: translate(4px, 2px);
+        }
+
+        .nav-action:hover,
+        .nav-action:focus-visible {
+            border-color: rgba(255, 255, 255, 0.24);
+            background: rgba(255, 255, 255, 0.045);
+            color: rgba(255, 255, 255, 0.86) !important;
+            transform: translateY(-1px);
+            outline: none;
+        }
+
+        .nav-action:hover::before,
+        .nav-action:hover::after,
+        .nav-action:focus-visible::before,
+        .nav-action:focus-visible::after {
+            opacity: 0.8;
+            transform: translate(0, 0);
+        }
+
+        .nav-action-danger {
+            color: rgba(255, 255, 255, 0.28);
+        }
+
+        .nav-action-active {
+            border-color: rgba(255, 255, 255, 0.22);
+            background: rgba(255, 255, 255, 0.055);
+            color: rgba(255, 255, 255, 0.86) !important;
+        }
+
+        .nav-action-danger:hover,
+        .nav-action-danger:focus-visible {
+            border-color: rgba(239, 68, 68, 0.45);
+            background: rgba(239, 68, 68, 0.10);
+            color: rgba(252, 165, 165, 0.92) !important;
+        }
+
         .glass {
             background: rgba(0, 0, 0, 0.8);
             backdrop-filter: blur(20px) saturate(180%);
@@ -146,17 +215,17 @@
                 </a>
 
                 <div
-                    class="hidden lg:flex items-center space-x-8 text-[10px] font-medium tracking-[0.2em] text-white/40">
+                    class="hidden lg:flex items-center gap-3 text-[10px] font-medium tracking-[0.2em] text-white/40">
                     <a href="/" wire:navigate
-                        class="hover:text-white transition-colors uppercase">{{ __('ui.nav.collections') }}</a>
+                        class="nav-action">{{ __('ui.nav.collections') }}</a>
                     <a href="/orders" wire:navigate
-                        class="hover:text-white transition-colors uppercase">{{ __('ui.nav.archive') }}</a>
-                    <a href="/labs" wire:navigate class="hover:text-white transition-colors uppercase">{{ __('ui.nav.labs') }}</a>
+                        class="nav-action">{{ __('ui.nav.archive') }}</a>
+                    <a href="/labs" wire:navigate class="nav-action">{{ __('ui.nav.labs') }}</a>
 
                     @auth
                         @if(auth()->user()->is_admin || auth()->user()->is_super_admin)
                             <a href="/admin" wire:navigate target="_blank"
-                                class="flex items-center text-white/40 hover:text-white transition-all group">
+                                class="nav-action group">
                                 <span class="w-[1px] h-3 bg-white/10 mx-2"></span>
                                 <svg class="w-3.5 h-3.5 transition-transform duration-700 group-hover:rotate-180" fill="none"
                                     viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -180,28 +249,28 @@
                 <div class="hidden lg:block h-4 w-[1px] bg-white/10 mx-2"></div>
 
                 <div class="flex items-center space-x-6 text-[10px] font-medium tracking-[0.2em]">
-                    <div class="hidden lg:flex items-center space-x-6">
+                    <div class="hidden lg:flex items-center gap-2">
                         @auth
                             <a href="/profile" wire:navigate
-                                class="text-white/40 hover:text-white transition-colors flex items-center space-x-2">
-                                <span class="w-1.5 h-1.5 bg-white rounded-full"></span>
+                                class="nav-action flex items-center space-x-2">
+                                <span class="h-1.5 w-1.5 border border-white/60 bg-white/20 transition-colors"></span>
                                 <span>{{ __('ui.nav.account') }}</span>
                             </a>
                             <form action="{{ route('logout') }}" method="POST" class="inline">
                                 @csrf
                                 <button type="submit"
-                                    class="rounded-sm border border-transparent px-2 py-1 text-white/25 transition-all uppercase hover:border-red-500/40 hover:bg-red-500/10 hover:text-red-400 focus:outline-none focus-visible:border-red-400 focus-visible:text-red-300">{{ __('ui.nav.logout') }}</button>
+                                    class="nav-action nav-action-danger">{{ __('ui.nav.logout') }}</button>
                             </form>
                         @else
                             <a href="/login" wire:navigate
-                                class="text-white/40 hover:text-white transition-colors">{{ __('ui.nav.sign_in') }}</a>
+                                class="nav-action">{{ __('ui.nav.sign_in') }}</a>
                         @endauth
                     </div>
 
-                    <div class="hidden lg:flex items-center gap-2 text-[9px] tracking-[0.2em] uppercase">
+                    <div class="hidden lg:flex items-center gap-1 text-[9px] tracking-[0.2em] uppercase">
                         @foreach(['en' => 'EN', 'ru' => 'RU', 'lv' => 'LV'] as $locale => $label)
                             <a href="{{ route('language.switch', $locale) }}"
-                                class="{{ app()->getLocale() === $locale ? 'text-white' : 'text-white/25 hover:text-white/70' }} transition-colors">
+                                class="nav-action min-h-8 px-2 py-1 {{ app()->getLocale() === $locale ? 'nav-action-active' : '' }}">
                                 {{ $label }}
                             </a>
                         @endforeach
@@ -236,18 +305,18 @@
 
             <div class="flex flex-col space-y-6 text-[12px] font-medium tracking-[0.3em] uppercase">
                 <a href="/" @click="mobileMenuOpen = false" wire:navigate
-                    class="text-white/60 hover:text-white">{{ __('ui.nav.collections') }}</a>
+                    class="nav-action w-full justify-between">{{ __('ui.nav.collections') }}</a>
                 <a href="/orders" @click="mobileMenuOpen = false" wire:navigate
-                    class="text-white/60 hover:text-white">{{ __('ui.nav.archive') }}</a>
+                    class="nav-action w-full justify-between">{{ __('ui.nav.archive') }}</a>
                 <a href="/labs" @click="mobileMenuOpen = false" wire:navigate
-                    class="text-white/60 hover:text-white">{{ __('ui.nav.labs') }}</a>
+                    class="nav-action w-full justify-between">{{ __('ui.nav.labs') }}</a>
             </div>
 
             <div class="flex items-center gap-4 text-[11px] tracking-[0.25em] uppercase">
                 <span class="text-white/25">{{ __('ui.nav.language') }}</span>
                 @foreach(['en' => 'EN', 'ru' => 'RU', 'lv' => 'LV'] as $locale => $label)
                     <a href="{{ route('language.switch', $locale) }}"
-                        class="{{ app()->getLocale() === $locale ? 'text-white' : 'text-white/35' }}">
+                        class="nav-action min-h-8 px-2 py-1 {{ app()->getLocale() === $locale ? 'nav-action-active' : '' }}">
                         {{ $label }}
                     </a>
                 @endforeach
@@ -256,22 +325,22 @@
             <div class="pt-8 border-t border-white/5 flex flex-col space-y-6">
                 @auth
                     <a href="/profile" @click="mobileMenuOpen = false" wire:navigate
-                        class="text-[12px] tracking-[0.2em] text-white flex items-center space-x-3 uppercase">
+                        class="nav-action text-[12px] tracking-[0.2em]">
                         <span>{{ __('ui.nav.account') }}</span>
                     </a>
 
                     @if(auth()->user()->is_admin)
                         <a href="/admin" wire:navigate
-                            class="text-[12px] tracking-[0.2em] text-blue-400 uppercase">{{ __('ui.nav.admin_panel') }}</a>
+                            class="nav-action text-[12px] tracking-[0.2em]">{{ __('ui.nav.admin_panel') }}</a>
                     @endif
 
                     <form action="{{ route('logout') }}" method="POST">
                         @csrf
-                        <button type="submit" class="rounded-sm border border-red-500/20 px-3 py-2 text-[12px] tracking-[0.2em] text-red-400 uppercase transition-all hover:bg-red-500/10 hover:text-red-300 focus:outline-none focus-visible:border-red-300">{{ __('ui.nav.logout') }}</button>
+                        <button type="submit" class="nav-action nav-action-danger text-[12px] tracking-[0.2em]">{{ __('ui.nav.logout') }}</button>
                     </form>
                 @else
                     <a href="/login" @click="mobileMenuOpen = false" wire:navigate
-                        class="text-[12px] tracking-[0.2em] text-white uppercase ">{{ __('ui.nav.sign_in') }}</a>
+                        class="nav-action text-[12px] tracking-[0.2em]">{{ __('ui.nav.sign_in') }}</a>
                 @endauth
             </div>
         </div>
