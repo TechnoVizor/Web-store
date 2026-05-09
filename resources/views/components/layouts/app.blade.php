@@ -151,7 +151,7 @@
 
             <div class="flex items-center space-x-6">
                 <div class="hidden md:block">
-                    <livewire:search />
+                    <livewire:search lazy />
                 </div>
 
                 <div class="hidden lg:block h-4 w-[1px] bg-white/10 mx-2"></div>

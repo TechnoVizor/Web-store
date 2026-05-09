@@ -5,7 +5,7 @@
             <h2 class="text-[10px] text-zinc-500 tracking-[0.3em] uppercase mb-1">User_Database // Access_Control</h2>
             <h1 class="text-3xl font-bold tracking-widest uppercase text-white">System_Users</h1>
         </div>
-        <input type="text" wire:model.live="search" placeholder="SEARCH_IDENTITY..."
+        <input type="text" wire:model.live.debounce.350ms="search" placeholder="SEARCH_IDENTITY..."
             class="bg-transparent border border-zinc-800 px-4 py-2 text-xs mono focus:border-white outline-none text-white w-64">
     </div>
 

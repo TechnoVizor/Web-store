@@ -6,7 +6,7 @@
             <h1 class="text-4xl font-bold tracking-tighter uppercase">Products</h1>
         </div>
         <div class="flex space-x-4">
-            <input type="text" wire:model.live="search" placeholder="> SEARCH..." 
+            <input type="text" wire:model.live.debounce.350ms="search" placeholder="> SEARCH..."
                    class="bg-black border border-gray-800 text-white px-4 py-2 focus:outline-none focus:border-gray-500 font-mono text-sm w-64">
             
             <button wire:click="openModal" class="bg-white text-black px-6 py-2 font-bold hover:bg-gray-200 uppercase text-sm tracking-widest transition-colors">

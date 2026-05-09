@@ -173,6 +173,12 @@
                                     <a href="{{ route('product.show', $product->slug) }}" wire:navigate class="block w-full h-full">
                                         <img x-ref="img"
                                              src="{{ $product->image_url }}"
+                                             alt="{{ $product->name }}"
+                                             width="640"
+                                             height="800"
+                                             loading="{{ $loop->index < 4 ? 'eager' : 'lazy' }}"
+                                             fetchpriority="{{ $loop->index === 0 ? 'high' : 'auto' }}"
+                                             decoding="async"
                                              @load="loaded = true"
                                              x-on:error="loaded = true"
                                              class="w-full h-full object-cover transition-all duration-700"
@@ -205,7 +211,13 @@
                                     <p class="mono text-[9px] text-white/30 uppercase italic mb-4">{{ $product->category->name }}</p>
                                     <div class="mt-auto">
                                         <span class="text-sm font-bold mono block mb-4">${{ number_format($product->price, 0) }}</span>
-                                        <livewire:add-to-cart :product-id="$product->id" :key="'add-' . $product->id" />
+                                        <button wire:click="addToBag({{ $product->id }})"
+                                            wire:loading.attr="disabled"
+                                            wire:target="addToBag({{ $product->id }})"
+                                            class="w-full py-3 sm:py-4 px-1 sm:px-4 bg-transparent border border-white/20 text-white text-[7px] sm:text-[10px] font-bold uppercase tracking-[0.2em] transition-all duration-300 hover:bg-white hover:text-black hover:border-white active:scale-[0.98] disabled:opacity-50 mono">
+                                            <span wire:loading.remove wire:target="addToBag({{ $product->id }})">Add to bag</span>
+                                            <span wire:loading wire:target="addToBag({{ $product->id }})">Adding...</span>
+                                        </button>
                                     </div>
                                 </div>
                             </div>

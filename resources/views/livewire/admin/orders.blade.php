@@ -6,7 +6,7 @@
             <h1 class="text-3xl font-bold tracking-widest uppercase text-white">Orders</h1>
         </div>
         <div class="flex space-x-4">
-            <input type="text" wire:model.live="search" placeholder="> SEARCH CUSTOMER..."
+        <input type="text" wire:model.live.debounce.350ms="search" placeholder="> SEARCH CUSTOMER..."
                 class="bg-black border border-zinc-700 text-white px-4 py-2 focus:outline-none focus:border-white text-xs w-64 tracking-widest">
         </div>
     </div>

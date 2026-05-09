@@ -16,7 +16,10 @@ new class extends Component {
     {
         if (strlen($this->query) < 2) return [];
 
-        return Product::where('name', 'like', '%' . $this->query . '%')
+        return Product::query()
+            ->with('category:id,name')
+            ->select(['id', 'category_id', 'name', 'slug', 'description', 'price', 'image'])
+            ->where('name', 'like', '%' . $this->query . '%')
             ->orWhere('description', 'like', '%' . $this->query . '%')
             ->take(5)
             ->get();

@@ -39,10 +39,37 @@ class StoreIndex extends Component
         $this->reset(['search', 'selectedCategory']);
     }
 
+    public function addToBag(int $productId): void
+    {
+        $product = Product::query()
+            ->select(['id', 'name', 'price', 'image'])
+            ->whereKey($productId)
+            ->where('is_active', true)
+            ->firstOrFail();
+
+        $cart = session()->get('cart', []);
+
+        if (isset($cart[$productId])) {
+            $cart[$productId]['quantity']++;
+        } else {
+            $cart[$productId] = [
+                'name' => $product->name,
+                'quantity' => 1,
+                'price' => $product->price,
+                'image' => $product->image_url,
+            ];
+        }
+
+        session()->put('cart', $cart);
+
+        $this->dispatch('cart-updated');
+    }
+
     public function render()
     {
         $products = Product::query()
             ->with('category')
+            ->select(['id', 'category_id', 'name', 'slug', 'price', 'image', 'is_active', 'created_at'])
             ->where('is_active', true)
             ->when($this->search, function ($query) {
                 $query->where('name', 'like', '%'.trim($this->search).'%');
@@ -55,7 +82,10 @@ class StoreIndex extends Component
 
         return view('livewire.store-index', [
             'products' => $products,
-            'categories' => Category::query()->orderBy('name')->get(),
+            'categories' => Category::query()
+                ->select(['id', 'name'])
+                ->orderBy('name')
+                ->get(),
         ]);
     }
 }
