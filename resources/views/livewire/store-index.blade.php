@@ -170,7 +170,7 @@
                                     
                                     <div x-show="!loaded" class="absolute inset-0 skeleton-shimmer z-10 transition-opacity duration-500" x-transition:leave="opacity-0"></div>
                                     
-                                    <a href="{{ route('product.show', $product->slug) }}" wire:navigate.hover class="block w-full h-full">
+                                    <a href="{{ route('product.show', $product->slug) }}" wire:navigate class="block w-full h-full">
                                         <img x-ref="img"
                                              src="{{ $product->image_url }}"
                                              @load="loaded = true"
@@ -186,7 +186,7 @@
     <livewire:wishlist-toggle :product-id="$product->id" :key="'wish-'.$product->id" />
 </div>
                                         @else
-                                            <a href="/login" wire:navigate.hover class="p-1.5 bg-black/40 backdrop-blur-md border border-white/5 block text-white/20">
+                                            <a href="/login" wire:navigate class="p-1.5 bg-black/40 backdrop-blur-md border border-white/5 block text-white/20">
                                                 <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                                     <path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
                                                 </svg>

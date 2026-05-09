@@ -20,7 +20,7 @@ new class extends Component {
 }; ?>
 
 <div class="relative">
-    <a href="{{ route('cart.index') }}" wire:navigate.hover class="group flex items-center space-x-3">
+    <a href="{{ route('cart.index') }}" wire:navigate class="group flex items-center space-x-3">
         <div class="hidden sm:block text-right">
             <p class="mono text-[8px] text-white/30 uppercase tracking-[0.2em] leading-none mb-1">
                 System_Bag

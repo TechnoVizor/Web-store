@@ -21,7 +21,7 @@
     @if(empty($cartItems))
         <div class="py-32 border border-dashed border-white/5 text-center bg-white/[0.02]">
             <p class="mono text-[10px] text-white/20 uppercase tracking-[0.5em]">Inventory_Empty // No_Data_Detected</p>
-            <a href="/" wire:navigate.hover class="inline-block mt-8 px-10 py-4 border border-white text-[9px] font-bold uppercase tracking-[0.3em] hover:bg-white hover:text-black transition-all duration-500">
+            <a href="/" wire:navigate class="inline-block mt-8 px-10 py-4 border border-white text-[9px] font-bold uppercase tracking-[0.3em] hover:bg-white hover:text-black transition-all duration-500">
                 Return_To_Base
             </a>
         </div>
@@ -95,8 +95,7 @@
                         </div>
                     </div>
 
-                    <a href="{{ route('checkout.index') }}" 
-   wire:navigate.hover
+                    <a href="{{ route('checkout.index') }}" wire:navigate
    class="block w-full bg-white text-black py-5 text-[10px] font-bold uppercase tracking-[0.3em] hover:bg-neutral-200 transition-all active:scale-[0.98] text-center">
     Confirm_Selection
 </a>

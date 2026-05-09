@@ -7,7 +7,7 @@
                 The requested resource could not be located within the current infrastructure.
             </p>
             <div class="mt-10">
-                <a href="/" wire:navigate.hover class="border border-white/20 px-10 py-4 text-[10px] mono uppercase tracking-[0.2em] hover:bg-white hover:text-black transition-all">
+                <a href="/" wire:navigate class="border border-white/20 px-10 py-4 text-[10px] mono uppercase tracking-[0.2em] hover:bg-white hover:text-black transition-all">
                     Return_to_Main_Terminal
                 </a>
             </div>

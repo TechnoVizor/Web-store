@@ -115,7 +115,7 @@
         <div class="container mx-auto px-6 h-14 flex items-center justify-between">
 
             <div class="flex items-center space-x-12">
-                <a href="/" wire:navigate.hover class="group flex items-center space-x-2">
+                <a href="/" wire:navigate class="group flex items-center space-x-2">
                     <span class="text-xl font-black tracking-tighter uppercase">
                         DIGI<span
                             class="text-white/20 group-hover:text-white transition-colors duration-500">_</span>STORE
@@ -124,15 +124,15 @@
 
                 <div
                     class="hidden lg:flex items-center space-x-8 text-[10px] font-medium tracking-[0.2em] text-white/40">
-                    <a href="/" wire:navigate wire:navigate.hover
+                    <a href="/" wire:navigate
                         class="hover:text-white transition-colors uppercase">Collections</a>
-                    <a href="/orders" wire:navigate.hover
+                    <a href="/orders" wire:navigate
                         class="hover:text-white transition-colors uppercase">Archive</a>
-                    <a href="/labs" wire:navigate.hover class="hover:text-white transition-colors uppercase">Labs</a>
+                    <a href="/labs" wire:navigate class="hover:text-white transition-colors uppercase">Labs</a>
 
                     @auth
                         @if(auth()->user()->is_admin || auth()->user()->is_super_admin)
-                            <a href="/admin" wire:navigate.hover target="_blank"
+                            <a href="/admin" wire:navigate target="_blank"
                                 class="flex items-center text-white/40 hover:text-white transition-all group">
                                 <span class="w-[1px] h-3 bg-white/10 mx-2"></span>
                                 <svg class="w-3.5 h-3.5 transition-transform duration-700 group-hover:rotate-180" fill="none"
@@ -159,7 +159,7 @@
                 <div class="flex items-center space-x-6 text-[10px] font-medium tracking-[0.2em]">
                     <div class="hidden lg:flex items-center space-x-6">
                         @auth
-                            <a href="/profile" wire:navigate.hover
+                            <a href="/profile" wire:navigate
                                 class="text-white/40 hover:text-white transition-colors flex items-center space-x-2">
                                 <span class="w-1.5 h-1.5 bg-white rounded-full"></span>
                                 <span>ACCOUNT</span>
@@ -170,7 +170,7 @@
                                     class="text-white/20 hover:text-red-500 transition-colors uppercase">LOGOUT</button>
                             </form>
                         @else
-                            <a href="/login" wire:navigate.hover
+                            <a href="/login" wire:navigate
                                 class="text-white/40 hover:text-white transition-colors">SIGN IN</a>
                         @endauth
                     </div>
@@ -202,23 +202,23 @@
             style="display: none;">
 
             <div class="flex flex-col space-y-6 text-[12px] font-medium tracking-[0.3em] uppercase">
-                <a href="/" @click="mobileMenuOpen = false" wire:navigate.hover
+                <a href="/" @click="mobileMenuOpen = false" wire:navigate
                     class="text-white/60 hover:text-white">Collections</a>
-                <a href="/orders" @click="mobileMenuOpen = false" wire:navigate.hover
+                <a href="/orders" @click="mobileMenuOpen = false" wire:navigate
                     class="text-white/60 hover:text-white">Archive</a>
-                <a href="/labs" @click="mobileMenuOpen = false" wire:navigate.hover
+                <a href="/labs" @click="mobileMenuOpen = false" wire:navigate
                     class="text-white/60 hover:text-white">Labs</a>
             </div>
 
             <div class="pt-8 border-t border-white/5 flex flex-col space-y-6">
                 @auth
-                    <a href="/profile" @click="mobileMenuOpen = false" wire:navigate.hover
+                    <a href="/profile" @click="mobileMenuOpen = false" wire:navigate
                         class="text-[12px] tracking-[0.2em] text-white flex items-center space-x-3 uppercase">
                         <span>Account</span>
                     </a>
 
                     @if(auth()->user()->is_admin)
-                        <a href="/admin" wire:navigate.hover
+                        <a href="/admin" wire:navigate
                             class="text-[12px] tracking-[0.2em] text-blue-400 uppercase">System_Admin_Panel</a>
                     @endif
 
@@ -227,7 +227,7 @@
                         <button type="submit" class="text-[12px] tracking-[0.2em] text-red-500 uppercase">Logout</button>
                     </form>
                 @else
-                    <a href="/login" @click="mobileMenuOpen = false" wire:navigate.hover
+                    <a href="/login" @click="mobileMenuOpen = false" wire:navigate
                         class="text-[12px] tracking-[0.2em] text-white uppercase ">Sign In</a>
                 @endauth
             </div>
@@ -250,7 +250,7 @@
             <div class="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-8">
 
                 <div class="md:col-span-4 space-y-6">
-                    <a href="/" wire:navigate.hover class="text-xl font-black tracking-tighter uppercase">
+                    <a href="/" wire:navigate class="text-xl font-black tracking-tighter uppercase">
                         DIGI<span class="text-white/20">_</span>STORE
                     </a>
                     <p class="text-[10px] leading-relaxed text-white/30 tracking-widest uppercase max-w-xs">
@@ -262,15 +262,15 @@
                 <div class="md:col-span-2 space-y-4">
                     <h4 class="text-[10px] font-bold tracking-[0.3em] text-white uppercase">Sitemap</h4>
                     <ul class="space-y-2 text-[10px] tracking-widest text-white/40 uppercase">
-                        <li><a href="/" wire:navigate.hover class="hover:text-white transition-colors">Collections</a>
+                        <li><a href="/" wire:navigate class="hover:text-white transition-colors">Collections</a>
                         </li>
-                        <li><a href="/orders" wire:navigate.hover class="hover:text-white transition-colors">Archive</a>
+                        <li><a href="/orders" wire:navigate class="hover:text-white transition-colors">Archive</a>
                         </li>
-                        <li><a href="/about" wire:navigate.hover
+                        <li><a href="/about" wire:navigate
                                 class="hover:text-white transition-colors">Manifesto</a></li>
-                        <li><a href="/privacy" wire:navigate.hover
+                        <li><a href="/privacy" wire:navigate
                                 class="hover:text-white transition-colors">Privacy</a></li>
-                        <li><a href="/terms" wire:navigate.hover class="hover:text-white transition-colors">Terms</a>
+                        <li><a href="/terms" wire:navigate class="hover:text-white transition-colors">Terms</a>
                         </li>
                     </ul>
                 </div>
