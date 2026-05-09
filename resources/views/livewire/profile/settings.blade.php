@@ -85,7 +85,7 @@ new class extends Component {
 }; ?>
 
 <div class="grid grid-cols-1 gap-8 lg:grid-cols-12">
-    <div class="space-y-6 lg:col-span-4">
+    <div class="space-y-5 lg:col-span-4">
         <div x-data="{ uploading: false }" x-on:livewire-upload-start="uploading = true"
             x-on:livewire-upload-finish="uploading = false" x-on:livewire-upload-error="uploading = false"
             class="profile-frame group relative flex aspect-square items-center justify-center overflow-hidden bg-[#050505]">
@@ -104,7 +104,7 @@ new class extends Component {
             </div>
 
             <label
-                class="absolute inset-0 flex cursor-pointer flex-col justify-end bg-gradient-to-t from-black via-black/60 to-transparent p-5 opacity-0 transition duration-300 group-hover:opacity-100">
+                class="absolute inset-x-0 bottom-0 flex cursor-pointer flex-col justify-end border-t border-white/10 bg-black/80 p-5 opacity-0 transition duration-300 group-hover:opacity-100">
                 <input type="file" wire:model="newAvatar" accept="image/*" class="hidden">
                 <span class="ui-btn w-full py-3 mono text-[10px] font-bold tracking-[0.25em]">
                     {{ __('ui.profile.update_picture') }}
@@ -112,11 +112,8 @@ new class extends Component {
             </label>
         </div>
 
-        <div class="profile-frame p-6">
-            <div class="mb-5 flex items-center justify-between gap-4">
-                <p class="mono text-[10px] uppercase tracking-[0.28em] text-white/30">{{ __('ui.profile.profile_status') }}</p>
-                <div class="h-2 w-2 bg-green-500"></div>
-            </div>
+        <div class="profile-frame p-5">
+            <p class="mono mb-4 text-[10px] uppercase tracking-[0.28em] text-white/35">{{ __('ui.profile.profile_status') }}</p>
             <div class="space-y-3">
                 <div class="profile-stat-line">
                     <span class="mono text-[10px] uppercase tracking-[0.22em] text-white/30">{{ __('ui.profile.last_login') }}</span>
@@ -131,7 +128,7 @@ new class extends Component {
     </div>
 
     <div class="lg:col-span-8">
-        <div class="profile-frame p-5 sm:p-8">
+        <div class="profile-frame p-5 sm:p-7">
             <form wire:submit="updateSettings" class="space-y-8">
                 <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
                     <div class="profile-field">

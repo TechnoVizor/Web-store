@@ -1,5 +1,5 @@
-<section class="profile-frame mt-12 p-5 sm:p-8">
-    <div class="mb-8 flex flex-col gap-4 border-b border-white/10 pb-8 sm:flex-row sm:items-end sm:justify-between">
+<section class="profile-frame mt-10 p-5 sm:p-7">
+    <div class="mb-6 flex flex-col gap-4 border-b border-white/10 pb-6 sm:flex-row sm:items-center sm:justify-between">
         <div class="border-l border-white/60 pl-4">
             <p class="mono mb-2 text-[10px] uppercase tracking-[0.36em] text-white/30">{{ __('ui.store.total_units') }}: {{ $products->count() }}</p>
             <h2 class="text-xl font-black uppercase tracking-tight">{{ __('ui.profile.saved_items') }}</h2>
@@ -20,10 +20,10 @@
             </a>
         </div>
     @else
-        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
+        <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
             @foreach($products as $product)
                 <article wire:key="profile-wish-{{ $product->id }}"
-                    class="group grid min-h-32 grid-cols-[96px_1fr] gap-4 border border-white/10 bg-white/[0.018] p-3 transition duration-200 hover:border-white/20 hover:bg-white/[0.04]">
+                    class="group grid min-h-32 grid-cols-[86px_1fr] gap-4 border border-white/10 bg-[#090909] p-3 transition duration-200 hover:border-white/20">
                     <a href="{{ route('product.show', $product->slug) }}" wire:navigate
                         class="block aspect-[4/5] overflow-hidden bg-black">
                         <img src="{{ $product->image_url }}"
