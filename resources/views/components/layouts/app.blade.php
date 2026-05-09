@@ -124,6 +124,60 @@
             color: rgba(252, 165, 165, 0.92) !important;
         }
 
+        .brand-mark {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            min-height: 2.5rem;
+            border: 1px solid transparent;
+            padding: 0.35rem 0.55rem;
+            transition: border-color 220ms ease, background-color 220ms ease, transform 220ms ease, letter-spacing 220ms ease;
+        }
+
+        .brand-mark::before,
+        .brand-mark::after {
+            content: "";
+            position: absolute;
+            width: 0.55rem;
+            height: 0.55rem;
+            opacity: 0;
+            transition: opacity 220ms ease, transform 220ms ease;
+            pointer-events: none;
+        }
+
+        .brand-mark::before {
+            top: -1px;
+            left: -1px;
+            border-top: 1px solid rgba(255,255,255,0.55);
+            border-left: 1px solid rgba(255,255,255,0.55);
+            transform: translate(-3px, -3px);
+        }
+
+        .brand-mark::after {
+            right: -1px;
+            bottom: -1px;
+            border-right: 1px solid rgba(255,255,255,0.55);
+            border-bottom: 1px solid rgba(255,255,255,0.55);
+            transform: translate(3px, 3px);
+        }
+
+        .brand-mark:hover,
+        .brand-mark:focus-visible {
+            border-color: rgba(255,255,255,0.16);
+            background: rgba(255,255,255,0.035);
+            transform: translateY(-1px);
+            letter-spacing: -0.015em;
+            outline: none;
+        }
+
+        .brand-mark:hover::before,
+        .brand-mark:hover::after,
+        .brand-mark:focus-visible::before,
+        .brand-mark:focus-visible::after {
+            opacity: 1;
+            transform: translate(0, 0);
+        }
+
         .ui-btn {
             position: relative;
             display: inline-flex;
@@ -299,7 +353,7 @@
         <div class="container mx-auto px-6 h-14 flex items-center justify-between">
 
             <div class="flex items-center space-x-12">
-                <a href="/" wire:navigate class="group flex items-center space-x-2">
+                <a href="/" wire:navigate class="brand-mark group">
                     <span class="text-xl font-black tracking-tighter uppercase">
                         DIGI<span
                             class="text-white/20 group-hover:text-white transition-colors duration-500">_</span>STORE
