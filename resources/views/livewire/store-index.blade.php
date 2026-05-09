@@ -13,15 +13,28 @@
         }
         @keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
 
-        .filter-input { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); color: white; outline: none; transition: all 0.3s; }
+        .filter-input { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); color: rgba(255,255,255,0.8); outline: none; transition: all 0.3s; }
         .filter-input:focus { border-color: white; background: rgba(255,255,255,0.07); }
         .cat-btn { font-size: 9px; padding: 6px 12px; border: 1px solid rgba(255,255,255,0.1); transition: all 0.3s; text-transform: uppercase; letter-spacing: 0.1em; }
-        .cat-btn.active { background: white; color: black; border-color: white; }
+        .cat-btn.active { background: rgba(255,255,255,0.8); color: black; border-color: rgba(255,255,255,0.8); }
         .loading-fade { transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
     </style>
 
-<header class="py-16 md:py-20 border-b border-white/5">
-    <div class="container mx-auto px-6 text-center"
+<header class="relative min-h-[560px] md:min-h-[720px] border-b border-white/5 overflow-hidden flex items-center">
+    <video
+        class="absolute inset-0 h-full w-full object-cover opacity-35 pointer-events-none"
+        autoplay
+        muted
+        loop
+        playsinline
+        preload="metadata"
+        aria-hidden="true">
+        <source src="https://cdn.pixabay.com/video/2022/12/25/144156-784280927_medium.mp4" type="video/mp4">
+    </video>
+    <div class="absolute inset-0 bg-black/55 pointer-events-none"></div>
+    <div class="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-black to-transparent pointer-events-none"></div>
+
+    <div class="relative z-10 container mx-auto px-6 text-center"
          x-data="{
             status: '',
             titlePart1: '',
@@ -68,7 +81,7 @@
 
 <style>
 .blink-cursor {
-    color: #fff;
+    color: rgba(255, 255, 255, 0.8);
     margin-left: 1px;
     animation: blink-animation 1.1s step-end infinite;
     font-weight: 200;
