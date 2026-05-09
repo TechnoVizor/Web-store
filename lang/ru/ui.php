@@ -106,6 +106,8 @@ return [
     'orders' => [
         'title' => 'История заказов',
         'subtitle' => 'Клиент: :name',
+        'registry' => 'Реестр заказов гардероба',
+        'total_orders' => 'Всего заказов',
         'units_total' => 'Товаров всего',
         'amount' => 'Сумма',
         'status' => 'Статус',

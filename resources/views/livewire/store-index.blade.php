@@ -91,7 +91,7 @@
 
         .filter-input { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); color: rgba(255,255,255,0.8); outline: none; transition: all 0.3s; }
         .filter-input:focus { border-color: white; background: rgba(255,255,255,0.07); }
-        .cat-btn { font-size: 9px; padding: 6px 12px; letter-spacing: 0.1em; }
+        .cat-btn { font-size: 9px; min-height: 2rem; padding: 0.45rem 0.7rem; letter-spacing: 0.1em; }
         .cat-btn.active { background: rgba(255,255,255,0.8); color: #050505 !important; border-color: rgba(255,255,255,0.8); }
         .loading-fade { transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
     </style>

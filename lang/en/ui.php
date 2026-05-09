@@ -106,6 +106,8 @@ return [
     'orders' => [
         'title' => 'Order history',
         'subtitle' => 'Customer: :name',
+        'registry' => 'Wardrobe order registry',
+        'total_orders' => 'Total orders',
         'units_total' => 'Items total',
         'amount' => 'Amount',
         'status' => 'Status',

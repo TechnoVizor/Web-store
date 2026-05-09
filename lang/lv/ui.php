@@ -106,6 +106,8 @@ return [
     'orders' => [
         'title' => 'Pasūtījumu vēsture',
         'subtitle' => 'Klients: :name',
+        'registry' => 'Garderobes pasūtījumu reģistrs',
+        'total_orders' => 'Pasūtījumi kopā',
         'units_total' => 'Preces kopā',
         'amount' => 'Summa',
         'status' => 'Statuss',
