@@ -9,7 +9,7 @@
             <input type="text" wire:model.live.debounce.350ms="search" placeholder="{{ __('ui.admin.search') }}"
                    class="bg-black border border-zinc-700 text-white px-4 py-2 focus:outline-none focus:border-white text-xs w-64 tracking-widest transition-colors">
             
-            <button wire:click="openModal" class="bg-white text-black px-6 py-2 font-bold hover:bg-zinc-300 uppercase text-xs tracking-widest transition-colors">
+            <button wire:click="openModal" class="ui-btn ui-btn-primary px-6 py-2 font-bold text-xs tracking-widest">
                 {{ __('ui.admin.add_category') }}
             </button>
         </div>
@@ -33,10 +33,10 @@
                     <td class="p-4 font-bold text-zinc-300">{{ $category->name }}</td>
                     <td class="p-4 text-zinc-500">{{ $category->slug }}</td>
                     <td class="p-4 text-right space-x-4">
-                        <button wire:click="editCategory({{ $category->id }})" class="text-zinc-500 hover:text-white transition-colors">{{ __('ui.admin.edit') }}</button>
+                        <button wire:click="editCategory({{ $category->id }})" class="ui-btn px-3 py-1 text-[10px] tracking-widest">{{ __('ui.admin.edit') }}</button>
                         <button wire:click="deleteCategory({{ $category->id }})" 
                                 wire:confirm="{{ __('ui.admin.delete_category_confirm') }}"
-                                class="text-red-900 hover:text-red-500 transition-colors">{{ __('ui.admin.delete') }}</button>
+                                class="ui-btn ui-btn-danger px-3 py-1 text-[10px] tracking-widest text-red-500">{{ __('ui.admin.delete') }}</button>
                     </td>
                 </tr>
                 @empty
@@ -80,10 +80,10 @@
 
                 {{-- Кнопки --}}
                 <div class="flex justify-end space-x-4 mt-8 pt-6 border-t border-zinc-800">
-                    <button type="button" wire:click="closeModal" class="text-zinc-500 hover:text-white uppercase tracking-widest text-xs transition-colors px-4 py-2">
+                    <button type="button" wire:click="closeModal" class="ui-btn px-4 py-2 text-xs tracking-widest">
                         {{ __('ui.admin.cancel') }}
                     </button>
-                    <button type="submit" class="bg-white text-black px-6 py-2 font-bold hover:bg-zinc-300 uppercase text-xs tracking-widest transition-colors">
+                    <button type="submit" class="ui-btn ui-btn-primary px-6 py-2 font-bold text-xs tracking-widest">
                         {{ __('ui.admin.save') }}
                     </button>
                 </div>

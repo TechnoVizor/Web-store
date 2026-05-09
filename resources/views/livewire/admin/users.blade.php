@@ -68,7 +68,7 @@
                         <td class="p-4 text-right">
                             <div class="flex items-center justify-end space-x-2">
                                 <button wire:click="editUser({{ $user->id }})"
-                                    class="border border-zinc-700 px-3 py-1 text-[10px] hover:bg-white hover:text-black transition-colors uppercase font-bold">
+                                    class="ui-btn ui-btn-primary px-3 py-1 text-[10px] font-bold">
                                     {{ __('ui.admin.details') }}
                                 </button>
 
@@ -76,7 +76,7 @@
                                 @if(!$user->is_super_admin)
                                     <button wire:click="deleteUser({{ $user->id }})"
                                         wire:confirm="{{ __('ui.admin.delete_user_confirm') }}"
-                                        class="border border-red-900/50 text-red-900 px-2.5 py-1 text-[10px] hover:bg-red-600 hover:text-white transition-all font-bold">
+                                        class="ui-btn ui-btn-danger px-2.5 py-1 text-[10px] font-bold text-red-500">
                                         ✕
                                     </button>
                                 @endif
@@ -102,7 +102,7 @@
                         {{ __('ui.admin.user_details') }} // #{{ $userId }}
                     </h2>
                     <button wire:click="closeModal"
-                        class="text-zinc-500 hover:text-white uppercase text-[10px] tracking-widest transition-colors">✕
+                        class="ui-btn px-2 py-1 text-[10px] tracking-widest">✕
                         {{ __('ui.admin.cancel') }}</button>
                 </div>
 
@@ -173,7 +173,7 @@
                         <div class="mt-8">
                             @if($canEditUser)
                                 <button type="submit"
-                                    class="w-full bg-white text-black font-bold py-4 uppercase text-[10px] tracking-[0.2em] hover:bg-zinc-200 transition-all">
+                                    class="ui-btn ui-btn-primary w-full py-4 font-bold text-[10px] tracking-[0.2em]">
                                     {{ __('ui.admin.commit_changes') }}
                                 </button>
                             @else

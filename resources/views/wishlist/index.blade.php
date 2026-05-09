@@ -10,7 +10,7 @@
             </h1>
             <div class="flex items-center space-x-4 text-[10px] tracking-[0.3em] text-white/30 uppercase">
                 <span class="mono">User: {{ auth()->user()->name }}</span>
-                <span class="w-1 h-1 bg-white/10 rounded-full"></span>
+                <span class="w-1 h-1 bg-white/10"></span>
                 <span class="mono">Total: {{ $products->count() }} Units</span>
             </div>
         </div>
@@ -20,7 +20,7 @@
                 <div class="text-[10px] tracking-[0.5em] text-white/20 uppercase font-bold italic">
                     Database_Empty // No_Selection_Detected
                 </div>
-                <a href="/" class="px-8 py-3 border border-white text-[10px] font-black tracking-[0.3em] uppercase hover:bg-white hover:text-black transition-all duration-500">
+                <a href="/" class="ui-btn ui-btn-primary px-8 py-3 text-[10px] font-black tracking-[0.3em]">
                     Return to Store
                 </a>
             </div>
@@ -37,7 +37,7 @@
 
                             <form action="{{ route('wishlist.toggle', $product->id) }}" method="POST" class="absolute top-2 right-2">
                                 @csrf
-                                <button type="submit" class="p-2 bg-black/60 backdrop-blur-md border border-white/10 text-white/40 hover:text-red-500 transition-colors">
+                                <button type="submit" class="ui-btn ui-btn-icon ui-btn-danger bg-black/60 backdrop-blur-md text-white/40">
                                     <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                                     </svg>

@@ -65,7 +65,7 @@
                     </section>
 
                     <button type="submit" wire:loading.attr="disabled"
-                        class="w-full bg-white text-black py-6 text-[10px] font-bold uppercase tracking-[0.4em] transition-all hover:bg-zinc-200 active:scale-[0.98] disabled:opacity-50">
+                        class="ui-btn ui-btn-primary w-full py-6 text-[10px] font-bold tracking-[0.4em] active:scale-[0.98]">
                         
                         <span wire:loading.remove wire:target="placeOrder">{{ __('ui.checkout.execute') }}</span>
 

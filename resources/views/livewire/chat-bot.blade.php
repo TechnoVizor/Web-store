@@ -25,7 +25,7 @@
             x-transition:enter-start="opacity-0 scale-50 translate-y-10"
             x-transition:enter-end="opacity-100 scale-100 translate-y-0"
             @click="open = !open" 
-            class="w-10 h-10 bg-white text-black flex items-center justify-center hover:scale-110 transition-transform shadow-[0_0_20px_rgba(255,255,255,0.3)] focus:outline-none relative">
+            class="ui-btn ui-btn-primary w-10 h-10 flex items-center justify-center shadow-[0_0_20px_rgba(255,255,255,0.16)] focus:outline-none relative">
         
         <svg x-show="!open" x-cloak class="w-6 h-6 absolute" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
@@ -72,7 +72,7 @@
     <div class="shrink-0 px-4 py-2 flex gap-2 border-t border-white/5 bg-black/20 overflow-x-auto no-scrollbar">
         @foreach([__('ui.chat.quick_delivery'), __('ui.chat.quick_payment'), __('ui.chat.quick_returns')] as $cmd)
             <button wire:click="sendMessage('{{ $cmd }}')" 
-                    class="shrink-0 whitespace-nowrap text-[8px] border border-white/10 px-2 py-1 text-white/40 hover:border-white hover:text-white transition-all uppercase">
+                    class="ui-btn shrink-0 whitespace-nowrap text-[8px] px-2 py-1">
                 {{ $cmd }}
             </button>
         @endforeach

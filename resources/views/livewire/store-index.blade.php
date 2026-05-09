@@ -15,8 +15,8 @@
 
         .filter-input { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); color: rgba(255,255,255,0.8); outline: none; transition: all 0.3s; }
         .filter-input:focus { border-color: white; background: rgba(255,255,255,0.07); }
-        .cat-btn { font-size: 9px; padding: 6px 12px; border: 1px solid rgba(255,255,255,0.1); transition: all 0.3s; text-transform: uppercase; letter-spacing: 0.1em; }
-        .cat-btn.active { background: rgba(255,255,255,0.8); color: black; border-color: rgba(255,255,255,0.8); }
+        .cat-btn { font-size: 9px; padding: 6px 12px; letter-spacing: 0.1em; }
+        .cat-btn.active { background: rgba(255,255,255,0.8); color: #050505 !important; border-color: rgba(255,255,255,0.8); }
         .loading-fade { transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
     </style>
 
@@ -61,7 +61,7 @@
          ">
         
         {{-- Бадж статуса --}}
-        <div class="inline-block px-3 py-1 border border-white/10 rounded-full mb-6">
+        <div class="inline-block px-3 py-1 border border-white/10 mb-6">
             <span class="text-[8px] font-mono text-white/40 uppercase tracking-widest" x-text="status"></span>
         </div>
 
@@ -135,12 +135,12 @@
             </div>
 
             <div class="hidden md:flex flex-wrap items-center gap-3">
-                <button wire:click="resetFilters" class="mono text-[9px] text-white/20 hover:text-white uppercase tracking-widest transition-colors mr-4">
+                <button wire:click="resetFilters" class="ui-btn ui-btn-compact mono text-[9px] tracking-widest mr-4">
                     [ {{ __('ui.store.reset') }} ]
                 </button>
                 @foreach($categories as $category)
                     <button wire:click="selectCategory({{ $category->id }})" 
-                            class="cat-btn mono {{ $selectedCategory == $category->id ? 'active' : '' }}">
+                            class="ui-btn cat-btn mono {{ $selectedCategory == $category->id ? 'active' : '' }}">
                         {{ $category->name }}
                     </button>
                 @endforeach
@@ -204,7 +204,7 @@
     <livewire:wishlist-toggle :product-id="$product->id" :key="'wish-'.$product->id" />
 </div>
                                         @else
-                                            <a href="/login" wire:navigate aria-label="{{ __('ui.nav.sign_in') }}" class="p-1.5 bg-black/40 backdrop-blur-md border border-white/5 block text-white/20">
+                                            <a href="/login" wire:navigate aria-label="{{ __('ui.nav.sign_in') }}" class="ui-btn ui-btn-icon bg-black/40 backdrop-blur-md text-white/20">
                                                 <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                                     <path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
                                                 </svg>
@@ -226,7 +226,7 @@
                                         <button wire:click="addToBag({{ $product->id }})"
                                             wire:loading.attr="disabled"
                                             wire:target="addToBag({{ $product->id }})"
-                                            class="w-full py-3 sm:py-4 px-1 sm:px-4 bg-transparent border border-white/20 text-white text-[7px] sm:text-[10px] font-bold uppercase tracking-[0.2em] transition-all duration-300 hover:bg-white hover:text-black hover:border-white active:scale-[0.98] disabled:opacity-50 mono">
+                                            class="ui-btn ui-btn-primary w-full py-3 sm:py-4 px-1 sm:px-4 text-[7px] sm:text-[10px] font-bold tracking-[0.2em] active:scale-[0.98] mono">
                                             <span wire:loading.remove wire:target="addToBag({{ $product->id }})">{{ __('ui.store.add_to_bag') }}</span>
                                             <span wire:loading wire:target="addToBag({{ $product->id }})">{{ __('ui.store.adding') }}</span>
                                         </button>

@@ -172,7 +172,7 @@ new class extends Component {
                     {{ __('ui.profile.save_hint') }}
                 </div>
                 <button type="submit"
-                    class="px-10 py-4 bg-white text-black font-bold uppercase text-[10px] tracking-[0.2em] hover:bg-[#e5e5e5] transition-all">
+                    class="ui-btn ui-btn-primary px-10 py-4 font-bold text-[10px] tracking-[0.2em]">
                     {{ __('ui.profile.update_info') }}
                 </button>
             </div>

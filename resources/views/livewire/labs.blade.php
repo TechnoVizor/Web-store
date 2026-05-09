@@ -27,7 +27,7 @@
                         @foreach($projects as $project)
                             <button 
                                 wire:click="selectProject('{{ $project['id'] }}')"
-                                class="w-full group text-left px-5 py-6 border transition-all duration-500 flex justify-between items-center {{ $activeProject['id'] == $project['id'] ? 'border-white bg-white text-black' : 'border-white/5 hover:border-white/20' }}">
+                                class="ui-btn w-full group text-left px-5 py-6 flex justify-between items-center {{ $activeProject['id'] == $project['id'] ? 'ui-btn-primary' : '' }}">
                                 <div class="space-y-1">
                                     <span class="text-[7px] uppercase tracking-widest opacity-50">{{ $project['id'] }}</span>
                                     <p class="text-[11px] font-bold uppercase tracking-[0.2em]">{{ $project['title'] }}</p>
@@ -105,7 +105,7 @@
                     </div>
 
                     <div class="pt-8 border-t border-white/5 flex justify-start lg:justify-end">
-                        <button class="flex items-center space-x-4 group text-white/20 hover:text-white transition-colors">
+                        <button class="ui-btn ui-btn-compact flex items-center space-x-4 group">
                             <span class="text-[9px] uppercase tracking-[0.4em]">{{ __('ui.labs.request') }}</span>
                             <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />

@@ -6,7 +6,7 @@
         </div>
 
         <a href="{{ route('wishlist.index') }}" wire:navigate
-            class="mono text-[9px] text-white/30 hover:text-white uppercase tracking-[0.25em] transition-colors">
+            class="ui-btn ui-btn-compact mono text-[9px] tracking-[0.25em]">
             {{ __('ui.profile.open_wishlist') }}
         </a>
     </div>
@@ -15,7 +15,7 @@
         <div class="py-16 border border-dashed border-white/5 bg-white/[0.02] text-center">
             <p class="mono text-[10px] text-white/20 uppercase tracking-[0.4em]">{{ __('ui.profile.no_saved') }}</p>
             <a href="{{ route('home') }}" wire:navigate
-                class="inline-block mt-6 px-8 py-3 border border-white/20 text-[9px] font-bold uppercase tracking-[0.25em] hover:bg-white hover:text-black transition-all">
+                class="ui-btn ui-btn-primary mt-6 px-8 py-3 text-[9px] font-bold tracking-[0.25em]">
                 {{ __('ui.profile.browse_store') }}
             </a>
         </div>
@@ -49,7 +49,7 @@
                             <button wire:click="remove({{ $product->id }})"
                                 wire:loading.attr="disabled"
                                 wire:target="remove({{ $product->id }})"
-                                class="shrink-0 text-white/25 hover:text-red-400 transition-colors"
+                                class="ui-btn ui-btn-icon ui-btn-danger shrink-0 text-white/35"
                                 aria-label="{{ __('ui.profile.remove') }}">
                                 <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -62,7 +62,7 @@
                             <button wire:click="addToBag({{ $product->id }})"
                                 wire:loading.attr="disabled"
                                 wire:target="addToBag({{ $product->id }})"
-                                class="px-3 py-2 border border-white/15 text-[8px] font-bold uppercase tracking-[0.2em] hover:bg-white hover:text-black disabled:opacity-50 transition-all">
+                                class="ui-btn ui-btn-primary px-3 py-2 text-[8px] font-bold tracking-[0.2em]">
                                 <span wire:loading.remove wire:target="addToBag({{ $product->id }})">{{ __('ui.profile.add') }}</span>
                                 <span wire:loading wire:target="addToBag({{ $product->id }})">...</span>
                             </button>

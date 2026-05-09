@@ -69,13 +69,13 @@ new class extends Component
     {{-- Переключатель режимов (Мгновенный через Alpine) --}}
     <div class="flex border-b border-white/5 mb-10">
         <button @click="mode = 'login'"
-            :class="mode === 'login' ? 'text-white border-b border-white' : 'text-white/20 hover:text-white/40'"
-            class="flex-1 py-4 text-[10px] uppercase tracking-[0.4em] transition-all duration-300">
+            :class="mode === 'login' ? 'ui-btn-primary' : ''"
+            class="ui-btn flex-1 py-4 text-[10px] tracking-[0.4em]">
             /Sign_In
         </button>
         <button @click="mode = 'register'"
-            :class="mode === 'register' ? 'text-white border-b border-white' : 'text-white/20 hover:text-white/40'"
-            class="flex-1 py-4 text-[10px] uppercase tracking-[0.4em] transition-all duration-300">
+            :class="mode === 'register' ? 'ui-btn-primary' : ''"
+            class="ui-btn flex-1 py-4 text-[10px] tracking-[0.4em]">
             /Register
         </button>
     </div>
@@ -128,7 +128,7 @@ new class extends Component
         {{-- Кнопка действия --}}
         <div class="pt-6">
             <button @click="mode === 'login' ? $wire.login() : $wire.register()"
-                class="w-full py-5 bg-white text-black font-bold uppercase text-[10px] tracking-[0.4em] hover:bg-zinc-200 transition-all active:scale-[0.98]">
+                class="ui-btn ui-btn-primary w-full py-5 font-bold text-[10px] tracking-[0.4em] active:scale-[0.98]">
                 <span x-text="mode === 'login' ? 'login' : 'Register'"></span>
             </button>
         </div>
@@ -145,7 +145,7 @@ new class extends Component
 
         {{-- Google Auth --}}
         <a href="{{ route('google.login') }}"
-            class="flex items-center justify-center space-x-4 w-full py-5 border border-white/10 text-white font-bold uppercase text-[10px] tracking-[0.2em] transition-all hover:bg-white/5 active:scale-95">
+            class="ui-btn flex w-full items-center justify-center space-x-4 py-5 font-bold text-[10px] tracking-[0.2em] active:scale-95">
             <svg class="w-3.5 h-3.5" viewBox="0 0 24 24">
                 <path fill="currentColor" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
                 <path fill="currentColor" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />

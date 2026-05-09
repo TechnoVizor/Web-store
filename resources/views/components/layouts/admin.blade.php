@@ -60,6 +60,47 @@
         .admin-terminal .text-\[9px\] { font-size: 10px !important; }
         .admin-terminal .text-\[10px\] { font-size: 11px !important; }
         .admin-terminal .text-\[11px\] { font-size: 12px !important; }
+
+        .admin-terminal .ui-btn {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            background: rgba(255, 255, 255, 0.025);
+            color: rgba(255, 255, 255, 0.78);
+            text-transform: uppercase;
+            transition: color 180ms ease, border-color 180ms ease, background-color 180ms ease, transform 180ms ease, opacity 180ms ease;
+        }
+
+        .admin-terminal .ui-btn:hover,
+        .admin-terminal .ui-btn:focus-visible {
+            border-color: rgba(255, 255, 255, 0.34);
+            background: rgba(255, 255, 255, 0.07);
+            color: rgba(255, 255, 255, 0.94);
+            transform: translateY(-1px);
+            outline: none;
+        }
+
+        .admin-terminal .ui-btn-primary {
+            border-color: rgba(255, 255, 255, 0.78);
+            background: rgba(255, 255, 255, 0.80);
+            color: #050505;
+        }
+
+        .admin-terminal .ui-btn-primary:hover,
+        .admin-terminal .ui-btn-primary:focus-visible {
+            border-color: rgba(255, 255, 255, 0.92);
+            background: rgba(255, 255, 255, 0.88);
+            color: #050505;
+        }
+
+        .admin-terminal .ui-btn-danger:hover,
+        .admin-terminal .ui-btn-danger:focus-visible {
+            border-color: rgba(239, 68, 68, 0.55);
+            background: rgba(239, 68, 68, 0.10);
+            color: rgba(252, 165, 165, 0.95);
+        }
     </style>
 </head>
 
@@ -113,7 +154,7 @@
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
                     <button type="submit"
-                        class="text-[10px] tracking-widest uppercase border border-zinc-700 px-3 py-1 text-zinc-300 transition-all hover:border-red-500/50 hover:bg-red-500/10 hover:text-red-300 focus:outline-none focus-visible:border-red-300">
+                        class="ui-btn ui-btn-danger px-3 py-1 text-[10px] tracking-widest text-zinc-300">
                         {{ __('ui.admin.exit') }}
                     </button>
                 </form>

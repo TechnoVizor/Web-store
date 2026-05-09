@@ -7,7 +7,7 @@
                 {{ __('ui.pages.not_found_body') }}
             </p>
             <div class="mt-10">
-                <a href="/" wire:navigate class="border border-white/20 px-10 py-4 text-[10px] mono uppercase tracking-[0.2em] hover:bg-white hover:text-black transition-all">
+                <a href="/" wire:navigate class="ui-btn ui-btn-primary px-10 py-4 text-[10px] mono tracking-[0.2em]">
                     {{ __('ui.pages.return_home') }}
                 </a>
             </div>

@@ -30,7 +30,7 @@ new class extends Component {
      @keydown.window.slash.prevent="open = true" 
      @keydown.window.escape="open = false">
     
-    <button @click="open = true" class="text-white/50 hover:text-white transition uppercase text-[10px] tracking-widest">
+    <button @click="open = true" class="nav-action text-[10px] tracking-widest">
         Search
     </button>
 
@@ -47,7 +47,7 @@ new class extends Component {
                        x-init="$watch('open', value => { if(value) $el.focus() })"
                        class="w-full bg-transparent text-xl outline-none placeholder:text-white/10" 
                        placeholder="Начните вводить название товара...">
-                <button @click="open = false" class="text-white/20 hover:text-white text-xs">ЗАКРЫТЬ</button>
+                <button @click="open = false" class="ui-btn ui-btn-compact text-xs">ЗАКРЫТЬ</button>
             </div>
 
             <div class="max-h-[60vh] overflow-y-auto">

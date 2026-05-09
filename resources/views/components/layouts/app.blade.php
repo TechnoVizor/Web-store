@@ -124,6 +124,98 @@
             color: rgba(252, 165, 165, 0.92) !important;
         }
 
+        .ui-btn {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            background: rgba(255, 255, 255, 0.025);
+            color: rgba(255, 255, 255, 0.78);
+            text-transform: uppercase;
+            transition: color 180ms ease, border-color 180ms ease, background-color 180ms ease, transform 180ms ease, opacity 180ms ease;
+        }
+
+        .ui-btn::before,
+        .ui-btn::after {
+            content: "";
+            position: absolute;
+            height: 0.45rem;
+            width: 0.45rem;
+            opacity: 0;
+            transition: opacity 180ms ease, transform 180ms ease, border-color 180ms ease;
+        }
+
+        .ui-btn::before {
+            top: -1px;
+            left: -1px;
+            border-top: 1px solid currentColor;
+            border-left: 1px solid currentColor;
+            transform: translate(-3px, -3px);
+        }
+
+        .ui-btn::after {
+            right: -1px;
+            bottom: -1px;
+            border-right: 1px solid currentColor;
+            border-bottom: 1px solid currentColor;
+            transform: translate(3px, 3px);
+        }
+
+        .ui-btn:hover,
+        .ui-btn:focus-visible {
+            border-color: rgba(255, 255, 255, 0.34);
+            background: rgba(255, 255, 255, 0.07);
+            color: rgba(255, 255, 255, 0.94) !important;
+            transform: translateY(-1px);
+            outline: none;
+        }
+
+        .ui-btn:hover::before,
+        .ui-btn:hover::after,
+        .ui-btn:focus-visible::before,
+        .ui-btn:focus-visible::after {
+            opacity: 0.72;
+            transform: translate(0, 0);
+        }
+
+        .ui-btn-primary {
+            border-color: rgba(255, 255, 255, 0.78);
+            background: rgba(255, 255, 255, 0.80);
+            color: #050505 !important;
+        }
+
+        .ui-btn-primary:hover,
+        .ui-btn-primary:focus-visible {
+            border-color: rgba(255, 255, 255, 0.92);
+            background: rgba(255, 255, 255, 0.88);
+            color: #050505 !important;
+        }
+
+        .ui-btn-danger:hover,
+        .ui-btn-danger:focus-visible {
+            border-color: rgba(239, 68, 68, 0.55);
+            background: rgba(239, 68, 68, 0.10);
+            color: rgba(252, 165, 165, 0.95) !important;
+        }
+
+        .ui-btn-compact {
+            min-height: 2rem;
+            padding: 0.45rem 0.7rem;
+        }
+
+        .ui-btn-icon {
+            min-height: 2rem;
+            min-width: 2rem;
+            padding: 0.45rem;
+        }
+
+        .ui-btn:disabled {
+            cursor: not-allowed;
+            opacity: 0.45;
+            transform: none;
+        }
+
         .glass {
             background: rgba(0, 0, 0, 0.8);
             backdrop-filter: blur(20px) saturate(180%);
@@ -401,7 +493,7 @@
                         <input type="email" aria-label="{{ __('ui.footer.newsletter') }}" placeholder="{{ __('ui.footer.email_placeholder') }}"
                             class="w-full bg-transparent border-b border-white/10 py-2 text-base md:text-[11px] mono focus:border-white outline-none transition-all placeholder:text-white/10">
                         <button
-                            class="absolute right-0 bottom-0 min-h-11 px-3 text-[10px] font-bold hover:text-white/60 transition-colors">{{ __('ui.footer.join') }}</button>
+                            class="ui-btn ui-btn-compact absolute right-0 bottom-0 min-h-11 px-3 text-[10px] font-bold">{{ __('ui.footer.join') }}</button>
                     </div>
                 </div>
 

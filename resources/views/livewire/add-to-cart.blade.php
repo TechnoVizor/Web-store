@@ -33,7 +33,7 @@ new class extends Component
 <div>
     {{-- Удаляем <form>, оставляем только кнопку с wire:click --}}
         <button wire:click="addToBag" wire:loading.attr="disabled"
-            class="w-full py-3 sm:py-4 px-1 sm:px-4 bg-transparent border border-white/20 text-white text-[7px] sm:text-[10px] font-bold uppercase tracking-[0.2em] transition-all duration-300 hover:bg-white hover:text-black hover:border-white active:scale-[0.98] disabled:opacity-50 mono">
+            class="ui-btn ui-btn-primary w-full py-3 sm:py-4 px-1 sm:px-4 text-[7px] sm:text-[10px] font-bold tracking-[0.2em] active:scale-[0.98] mono">
 
             {{-- Текст меняется при загрузке --}}
             <span wire:loading.remove>Add to bag</span>

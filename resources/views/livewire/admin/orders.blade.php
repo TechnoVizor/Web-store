@@ -58,7 +58,7 @@
     <div class="flex items-center justify-end space-x-2">
         {{-- Кнопка Details --}}
         <button wire:click="openModal({{ $order->id }})"
-            class="border border-zinc-700 px-3 py-1 text-[10px] hover:bg-white hover:text-black transition-colors uppercase font-bold">
+            class="ui-btn ui-btn-primary px-3 py-1 text-[10px] font-bold">
             {{ __('ui.admin.details') }}
         </button>
 
@@ -67,7 +67,7 @@
             <button 
                 wire:click="deleteOrder({{ $order->id }})"
                 wire:confirm="{{ __('ui.admin.delete_confirm') }}"
-                class="border border-red-900/50 text-red-900 px-2 py-1 text-[10px] hover:bg-red-600 hover:text-white hover:border-red-600 transition-all font-bold"
+                class="ui-btn ui-btn-danger px-2 py-1 text-[10px] font-bold text-red-500"
                 title="{{ __('ui.admin.delete_record') }}">
                 ✕
             </button>
@@ -133,7 +133,7 @@
                         </div>
                     </div>
                 </div>
-                <button wire:click="closeModal" class="text-zinc-500 hover:text-white uppercase text-[10px] tracking-widest border border-zinc-800 px-2 py-1 transition-colors">✕ {{ __('ui.admin.close') }}</button>
+                <button wire:click="closeModal" class="ui-btn px-2 py-1 text-[10px] tracking-widest">✕ {{ __('ui.admin.close') }}</button>
             </div>
             
             {{-- Ниже идет список товаров и т.д. --}}

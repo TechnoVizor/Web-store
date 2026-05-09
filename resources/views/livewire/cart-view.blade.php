@@ -21,7 +21,7 @@
     @if(empty($cartItems))
         <div class="py-32 border border-dashed border-white/5 text-center bg-white/[0.02]">
             <p class="mono text-[10px] text-white/20 uppercase tracking-[0.5em]">{{ __('ui.cart.empty') }}</p>
-            <a href="/" wire:navigate class="inline-block mt-8 px-10 py-4 border border-white text-[9px] font-bold uppercase tracking-[0.3em] hover:bg-white hover:text-black transition-all duration-500">
+            <a href="/" wire:navigate class="ui-btn ui-btn-primary mt-8 px-10 py-4 text-[9px] font-bold tracking-[0.3em]">
                 {{ __('ui.cart.return') }}
             </a>
         </div>
@@ -47,7 +47,7 @@
                 <button
                     type="button"
                     wire:click="removeItem('{{ $id }}')"
-                    class="group/remove relative border border-white/10 p-2 text-white/35 transition-all duration-300 hover:-translate-y-px hover:border-red-500/50 hover:bg-red-500/10 hover:text-red-300 focus:outline-none focus-visible:border-red-300"
+                    class="ui-btn ui-btn-icon ui-btn-danger group/remove text-white/35"
                     aria-label="{{ __('ui.cart.remove_item', ['name' => $details['name']]) }}"
                     title="{{ __('ui.cart.remove') }}">
                     <span class="pointer-events-none absolute -left-px -top-px h-1.5 w-1.5 border-l border-t border-red-300/0 transition-colors group-hover/remove:border-red-300/70"></span>
@@ -58,11 +58,11 @@
 
             <div class="flex justify-between items-end mt-12">
                 <div class="flex items-center border border-white/10 bg-black/40">
-                    <button wire:click="updateQty('{{ $id }}', -1)" class="px-4 py-2 text-white/30 hover:text-white hover:bg-white/5">-</button>
+                    <button wire:click="updateQty('{{ $id }}', -1)" class="ui-btn ui-btn-compact border-0 px-4 py-2 text-white/45">-</button>
                     <span class="px-6 py-2 mono text-xs border-x border-white/10 text-white">
                         {{ str_pad($details['quantity'], 2, '0', STR_PAD_LEFT) }}
                     </span>
-                    <button wire:click="updateQty('{{ $id }}', 1)" class="px-4 py-2 text-white/30 hover:text-white hover:bg-white/5">+</button>
+                    <button wire:click="updateQty('{{ $id }}', 1)" class="ui-btn ui-btn-compact border-0 px-4 py-2 text-white/45">+</button>
                 </div>
 
                 <div class="text-right">
@@ -103,7 +103,7 @@
                     </div>
 
                     <a href="{{ route('checkout.index') }}" wire:navigate
-   class="block w-full bg-white text-black py-5 text-[10px] font-bold uppercase tracking-[0.3em] hover:bg-neutral-200 transition-all active:scale-[0.98] text-center">
+   class="ui-btn ui-btn-primary flex w-full py-5 text-[10px] font-bold tracking-[0.3em] active:scale-[0.98] text-center">
     {{ __('ui.cart.confirm') }}
 </a>
                     

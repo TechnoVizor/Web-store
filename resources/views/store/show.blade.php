@@ -59,14 +59,14 @@
                         {{ $product->name }} @auth
     <form action="{{ route('wishlist.toggle', $product->id) }}" method="POST" class="inline-block">
         @csrf
-        <button type="submit" class="transition-transform hover:scale-110 flex items-center justify-center focus:outline-none">
+        <button type="submit" class="ui-btn ui-btn-icon flex items-center justify-center focus:outline-none">
             <svg class="w-6 h-6 transition-colors {{ auth()->user()->wishlists->contains($product->id) ? 'fill-white text-white' : 'text-white/40 hover:text-white' }}" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
             </svg>
         </button>
     </form>
 @else
-    <a href="{{ route('login') }}" class="inline-block transition-transform hover:scale-110 focus:outline-none">
+    <a href="{{ route('login') }}" class="ui-btn ui-btn-icon inline-flex focus:outline-none">
         <svg class="w-6 h-6 text-white/40 hover:text-white transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
         </svg>
