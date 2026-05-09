@@ -1,8 +1,8 @@
 <div>
     <button wire:click.stop="toggle"
             aria-label="{{ $isWished ? __('ui.profile.remove') : __('ui.profile.saved_items') }}"
-            class="ui-btn ui-btn-icon bg-black/40 backdrop-blur-md focus:outline-none">
-        <svg class="w-4 h-4 transition-colors duration-300 {{ $isWished ? 'fill-white text-white' : 'text-white/40' }}"
+            class="wishlist-heart {{ $isWished ? 'is-active' : '' }}">
+        <svg class="w-4 h-4 transition-all duration-300"
              viewBox="0 0 24 24" 
              stroke="currentColor" 
              stroke-width="2">

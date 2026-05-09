@@ -47,6 +47,7 @@ return [
         'empty' => 'Preces nav atrastas',
         'add_to_bag' => 'Pievienot grozam',
         'adding' => 'Pievieno...',
+        'price_label' => 'Cena',
     ],
     'product' => [
         'category' => 'Kategorija',

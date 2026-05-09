@@ -3,8 +3,84 @@
 <style>
         .mono { font-family: 'JetBrains Mono', monospace; }
         .glass { background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(20px) saturate(180%); }
-        .product-card { background: #0a0a0a; border: 1px solid #1a1a1a; transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
-        .product-card:hover { border-color: rgba(255, 255, 255, 0.4); background: #111; }
+        .product-card {
+            position: relative;
+            background: linear-gradient(180deg, rgba(255,255,255,0.028), rgba(255,255,255,0.008));
+            border: 1px solid rgba(255,255,255,0.07);
+            transition: transform 260ms ease, border-color 260ms ease, background-color 260ms ease;
+        }
+        .product-card::before,
+        .product-card::after {
+            content: "";
+            position: absolute;
+            z-index: 2;
+            width: 0.8rem;
+            height: 0.8rem;
+            opacity: 0;
+            transition: opacity 260ms ease, transform 260ms ease;
+            pointer-events: none;
+        }
+        .product-card::before {
+            left: -1px;
+            top: -1px;
+            border-left: 1px solid rgba(255,255,255,0.58);
+            border-top: 1px solid rgba(255,255,255,0.58);
+            transform: translate(-4px, -4px);
+        }
+        .product-card::after {
+            right: -1px;
+            bottom: -1px;
+            border-right: 1px solid rgba(255,255,255,0.58);
+            border-bottom: 1px solid rgba(255,255,255,0.58);
+            transform: translate(4px, 4px);
+        }
+        .product-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(255, 255, 255, 0.22);
+            background: rgba(255,255,255,0.035);
+        }
+        .product-card:hover::before,
+        .product-card:hover::after {
+            opacity: 1;
+            transform: translate(0, 0);
+        }
+        .product-media::after {
+            content: "";
+            position: absolute;
+            inset: auto 0 0 0;
+            height: 34%;
+            background: linear-gradient(180deg, transparent, rgba(0,0,0,0.72));
+            opacity: 0.78;
+            pointer-events: none;
+        }
+        .wishlist-heart {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 2.15rem;
+            height: 2.15rem;
+            border: 1px solid rgba(255,255,255,0.16);
+            background: rgba(0,0,0,0.36);
+            color: rgba(255,255,255,0.46);
+            backdrop-filter: blur(16px);
+            transition: color 180ms ease, border-color 180ms ease, background-color 180ms ease, transform 180ms ease;
+        }
+        .wishlist-heart:hover,
+        .wishlist-heart:focus-visible {
+            color: rgba(255,255,255,0.88);
+            border-color: rgba(255,255,255,0.34);
+            background: rgba(0,0,0,0.58);
+            transform: translateY(-1px);
+            outline: none;
+        }
+        .wishlist-heart.is-active {
+            color: rgba(255,255,255,0.86);
+            border-color: rgba(255,255,255,0.30);
+            background: rgba(255,255,255,0.08);
+        }
+        .wishlist-heart.is-active svg {
+            fill: rgba(255,255,255,0.72);
+        }
         
         .skeleton-shimmer {
             background: linear-gradient(90deg, #050505 25%, #111111 50%, #050505 75%);
@@ -176,7 +252,7 @@
                             <div class="product-card flex flex-col group h-full" wire:key="p-{{ $product->id }}">
                                 
                                 {{-- Картинка --}}
-                                <div class="relative aspect-[4/5] overflow-hidden bg-black" 
+                                <div class="product-media relative aspect-[4/5] overflow-hidden bg-black" 
                                      x-data="{ loaded: false }" 
                                      x-init="$nextTick(() => { if ($refs.img && $refs.img.complete) loaded = true; }); setTimeout(() => { loaded = true; }, 3000);">
                                     
@@ -198,13 +274,11 @@
                                     </a>
                                     
                                     {{-- Wishlist --}}
-                                    <div class="absolute top-2 right-2 z-20">
+                                    <div class="absolute top-3 right-3 z-20">
                                         @if(auth()->check())
-                                           <div class="absolute top-2 right-2 z-20">
-    <livewire:wishlist-toggle :product-id="$product->id" :key="'wish-'.$product->id" />
-</div>
+                                            <livewire:wishlist-toggle :product-id="$product->id" :key="'wish-'.$product->id" />
                                         @else
-                                            <a href="/login" wire:navigate aria-label="{{ __('ui.nav.sign_in') }}" class="ui-btn ui-btn-icon bg-black/40 backdrop-blur-md text-white/20">
+                                            <a href="/login" wire:navigate aria-label="{{ __('ui.nav.sign_in') }}" class="wishlist-heart">
                                                 <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                                     <path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
                                                 </svg>
@@ -212,21 +286,29 @@
                                         @endif
                                     </div>
 
-                                    <div class="absolute top-2 left-2 mono text-[7px] text-white/20 bg-black/50 px-1 py-0.5 border border-white/5 uppercase">
+                                    <div class="absolute bottom-3 left-3 z-20 mono text-[7px] text-white/42 bg-black/45 px-2 py-1 border border-white/10 uppercase tracking-[0.22em]">
                                         Ref_{{ $product->id }}
                                     </div>
                                 </div>
 
                                 {{-- Данные --}}
-                                <div class="p-5 flex flex-col flex-grow">
-                                    <h3 class="text-xs font-bold uppercase tracking-wider mb-1 leading-tight text-white/80">{{ $product->name }}</h3>
-                                    <p class="mono text-[9px] text-white/30 uppercase italic mb-4">{{ $product->category->name }}</p>
+                                <div class="p-4 sm:p-5 flex flex-col flex-grow">
+                                    <div class="mb-5 min-h-[4.25rem]">
+                                        <div class="mb-2 flex items-center justify-between gap-3">
+                                            <p class="mono text-[8px] text-white/34 uppercase tracking-[0.22em] truncate">{{ $product->category->name }}</p>
+                                            <span class="h-px flex-1 bg-white/8"></span>
+                                        </div>
+                                        <h3 class="text-[12px] sm:text-sm font-bold uppercase tracking-[0.12em] leading-snug text-white/86 line-clamp-2">{{ $product->name }}</h3>
+                                    </div>
                                     <div class="mt-auto">
-                                        <span class="text-sm font-bold mono block mb-4">${{ number_format($product->price, 0) }}</span>
+                                        <div class="mb-4 flex items-end justify-between border-t border-white/6 pt-4">
+                                            <span class="mono text-[8px] uppercase tracking-[0.22em] text-white/30">{{ __('ui.store.price_label') }}</span>
+                                            <span class="text-base font-black mono text-white/86">${{ number_format($product->price, 0) }}</span>
+                                        </div>
                                         <button wire:click="addToBag({{ $product->id }})"
                                             wire:loading.attr="disabled"
                                             wire:target="addToBag({{ $product->id }})"
-                                            class="ui-btn ui-btn-primary w-full py-3 sm:py-4 px-1 sm:px-4 text-[7px] sm:text-[10px] font-bold tracking-[0.2em] active:scale-[0.98] mono">
+                                            class="ui-btn w-full py-3 sm:py-3.5 px-1 sm:px-4 text-[7px] sm:text-[10px] font-bold tracking-[0.2em] active:scale-[0.98] mono">
                                             <span wire:loading.remove wire:target="addToBag({{ $product->id }})">{{ __('ui.store.add_to_bag') }}</span>
                                             <span wire:loading wire:target="addToBag({{ $product->id }})">{{ __('ui.store.adding') }}</span>
                                         </button>

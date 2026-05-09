@@ -47,6 +47,7 @@ return [
         'empty' => 'No pieces found',
         'add_to_bag' => 'Add to bag',
         'adding' => 'Adding...',
+        'price_label' => 'Price',
     ],
     'product' => [
         'category' => 'Category',

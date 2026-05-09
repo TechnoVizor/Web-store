@@ -47,6 +47,7 @@ return [
         'empty' => 'Товары не найдены',
         'add_to_bag' => 'В корзину',
         'adding' => 'Добавляем...',
+        'price_label' => 'Цена',
     ],
     'product' => [
         'category' => 'Категория',
