@@ -67,7 +67,7 @@
     }
 }
 </style>
-    <main class="container mx-auto px-4 py-20 relative min-h-[800px]">
+    <main class="container mx-auto px-4 pt-28 pb-20 relative min-h-[800px]">
         
         {{-- ПАНЕЛЬ УПРАВЛЕНИЯ (Всегда видна) --}}
         <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-12 gap-6">
@@ -150,8 +150,8 @@
                                              alt="{{ $product->name }}"
                                              width="640"
                                              height="800"
-                                             loading="{{ $loop->first ? 'eager' : 'lazy' }}"
-                                             fetchpriority="{{ $loop->index === 0 ? 'high' : 'auto' }}"
+                                             loading="lazy"
+                                             fetchpriority="auto"
                                              decoding="async"
                                              @load="loaded = true"
                                              x-on:error="loaded = true"
