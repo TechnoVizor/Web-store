@@ -5,6 +5,7 @@ namespace App\Livewire\Admin;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -87,7 +88,11 @@ class Products extends Component
     {
         $this->validate([
             'name' => 'required|string|max:255',
-            'slug' => 'required|string|unique:products,slug,'.$this->product_id,
+            'slug' => [
+                'required',
+                'string',
+                Rule::unique('products', 'slug')->ignore($this->product_id),
+            ],
             'price' => 'required|numeric',
             'category_id' => 'required|exists:categories,id',
             'image' => 'nullable|string|max:2048',
@@ -102,7 +107,11 @@ class Products extends Component
             'image' => $this->image ?: null,
         ];
 
-        Product::updateOrCreate(['id' => $this->product_id], $data);
+        if ($this->product_id) {
+            Product::findOrFail($this->product_id)->update($data);
+        } else {
+            Product::create($data);
+        }
 
         $this->closeModal();
     }

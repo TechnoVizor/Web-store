@@ -2,11 +2,12 @@
 
 namespace App\Livewire\Admin;
 
-use Livewire\Component;
-use Livewire\WithPagination;
-use Livewire\Attributes\Layout;
 use App\Models\Category;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
+use Livewire\Attributes\Layout;
+use Livewire\Component;
+use Livewire\WithPagination;
 
 #[Layout('components.layouts.admin')]
 class Categories extends Component
@@ -14,10 +15,15 @@ class Categories extends Component
     use WithPagination;
 
     public $search = '';
-    
+
     // Переменные модального окна
     public $isModalOpen = false;
-    public $category_id, $name, $slug;
+
+    public $category_id;
+
+    public $name;
+
+    public $slug;
 
     public function updatedSearch()
     {
@@ -55,7 +61,7 @@ class Categories extends Component
         $this->category_id = $category->id;
         $this->name = $category->name;
         $this->slug = $category->slug;
-        
+
         $this->isModalOpen = true;
     }
 
@@ -63,16 +69,24 @@ class Categories extends Component
     {
         $this->validate([
             'name' => 'required|string|max:255',
-            'slug' => 'required|string|max:255|unique:categories,slug,' . $this->category_id,
+            'slug' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('categories', 'slug')->ignore($this->category_id),
+            ],
         ]);
 
-        Category::updateOrCreate(
-            ['id' => $this->category_id],
-            [
-                'name' => $this->name,
-                'slug' => $this->slug,
-            ]
-        );
+        $data = [
+            'name' => $this->name,
+            'slug' => $this->slug,
+        ];
+
+        if ($this->category_id) {
+            Category::findOrFail($this->category_id)->update($data);
+        } else {
+            Category::create($data);
+        }
 
         $this->closeModal();
     }
@@ -84,7 +98,7 @@ class Categories extends Component
 
     public function render()
     {
-        $categories = Category::where('name', 'like', '%' . $this->search . '%')
+        $categories = Category::where('name', 'like', '%'.$this->search.'%')
             ->latest()
             ->paginate(10);
 
