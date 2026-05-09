@@ -24,8 +24,12 @@ class StoreIndex extends Component
         $this->resetPage();
     }
 
-    public function updatingSelectedCategory()
+    public function updatedSelectedCategory($value): void
     {
+        if ($value === '') {
+            $this->selectedCategory = null;
+        }
+
         $this->resetPage();
     }
 

@@ -11,5 +11,6 @@
     </div>
 
     <livewire:profile.settings />
+    <livewire:profile.wishlist />
 </main>
 @endsection
