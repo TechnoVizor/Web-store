@@ -1,8 +1,11 @@
 <?php
 
 use App\Models\User;
+use App\Support\CustomerOrders;
+use App\Support\Phone;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use Livewire\Volt\Component;
 
@@ -15,25 +18,38 @@ new class extends Component
 
     public $email = '';
 
+    public $phone = '';
+
+    public $loginIdentifier = '';
+
     public $password = '';
 
     // ЛОГИКА ВХОДА
     public function login()
     {
-        $credentials = $this->validate([
-            'email' => 'required|email',
+        $this->validate([
+            'loginIdentifier' => 'required|string',
             'password' => 'required',
         ]);
 
-        if (Auth::attempt($credentials)) {
-            session()->regenerate();
+        $identifier = trim($this->loginIdentifier);
+        $phone = Phone::normalize($identifier);
 
-            return redirect()->intended('/');
+        $user = str_contains($identifier, '@')
+            ? User::where('email', Str::lower($identifier))->first()
+            : User::where('phone_normalized', $phone)->first();
+
+        if (! $user || ! Hash::check($this->password, $user->password)) {
+            throw ValidationException::withMessages([
+                'loginIdentifier' => 'AUTHENTICATION_ERROR: ACCESS_DENIED',
+            ]);
         }
 
-        throw ValidationException::withMessages([
-            'email' => 'AUTHENTICATION_ERROR: ACCESS_DENIED',
-        ]);
+        Auth::login($user);
+        session()->regenerate();
+        CustomerOrders::attachGuestOrders($user);
+
+        return redirect()->intended('/');
     }
 
     // ЛОГИКА РЕГИСТРАЦИИ
@@ -42,20 +58,42 @@ new class extends Component
         $this->validate([
             'name' => 'required|string|max:255',
             'nickname' => 'required|string|max:50|unique:users',
-            'email' => 'required|email|unique:users',
+            'email' => 'nullable|email|unique:users,email',
+            'phone' => 'required|string|min:10',
             'password' => 'required|min:8',
         ]);
+
+        $normalizedPhone = Phone::normalize($this->phone);
+
+        if (! $normalizedPhone) {
+            throw ValidationException::withMessages([
+                'phone' => 'PHONE_ERROR: INVALID_NUMBER',
+            ]);
+        }
+
+        if (User::where('phone_normalized', $normalizedPhone)->exists()) {
+            throw ValidationException::withMessages([
+                'phone' => 'PHONE_ERROR: ALREADY_REGISTERED',
+            ]);
+        }
 
         $user = User::create([
             'name' => $this->name,
             'nickname' => $this->nickname,
-            'email' => $this->email,
+            'email' => filled($this->email) ? Str::lower($this->email) : $this->phoneEmail($normalizedPhone),
+            'phone' => $this->phone,
             'password' => Hash::make($this->password),
         ]);
 
         Auth::login($user);
+        CustomerOrders::attachGuestOrders($user);
 
         return redirect()->intended('/');
+    }
+
+    private function phoneEmail(string $normalizedPhone): string
+    {
+        return 'phone_'.$normalizedPhone.'_'.Str::lower(Str::random(8)).'@phone.local';
     }
 }; ?>
 
@@ -103,21 +141,40 @@ new class extends Component
             </div>
         </template>
 
-        {{-- Общие поля (Email) --}}
-        <div class="space-y-3">
-            <label class="text-[9px] text-white/40 uppercase tracking-[0.3em] block">
-                <span x-text="mode === 'register' ? '03' : '01'"></span> // Communication_Email
-            </label>
-            <input type="email" wire:model="email"
-                class="w-full bg-transparent border-b border-white/10 py-3 text-base md:text-[11px] outline-none focus:border-white transition-all placeholder:text-white/5  tracking-[0.2em]"
-                placeholder="Email_Address">
-            @error('email') <span class="text-red-900 text-[8px] uppercase tracking-widest mt-2 block">{{ $message }}</span> @enderror
-        </div>
+        <template x-if="mode === 'register'">
+            <div class="space-y-8 animate-in fade-in slide-in-from-top-2 duration-500">
+                <div class="space-y-3">
+                    <label class="text-[9px] text-white/40 uppercase tracking-[0.3em] block">03 // Phone_Number</label>
+                    <input type="tel" wire:model="phone"
+                        class="w-full bg-transparent border-b border-white/10 py-3 text-base md:text-[11px] outline-none focus:border-white transition-all placeholder:text-white/5 tracking-[0.2em]"
+                        placeholder="+371 20000000">
+                    @error('phone') <span class="text-red-900 text-[8px] uppercase tracking-widest mt-2 block">{{ $message }}</span> @enderror
+                </div>
+
+                <div class="space-y-3">
+                    <label class="text-[9px] text-white/40 uppercase tracking-[0.3em] block">04 // Email_Optional</label>
+                    <input type="email" wire:model="email"
+                        class="w-full bg-transparent border-b border-white/10 py-3 text-base md:text-[11px] outline-none focus:border-white transition-all placeholder:text-white/5 tracking-[0.2em]"
+                        placeholder="Email_Address">
+                    @error('email') <span class="text-red-900 text-[8px] uppercase tracking-widest mt-2 block">{{ $message }}</span> @enderror
+                </div>
+            </div>
+        </template>
+
+        <template x-if="mode === 'login'">
+            <div class="space-y-3">
+                <label class="text-[9px] text-white/40 uppercase tracking-[0.3em] block">01 // Email_Or_Phone</label>
+                <input type="text" wire:model="loginIdentifier"
+                    class="w-full bg-transparent border-b border-white/10 py-3 text-base md:text-[11px] outline-none focus:border-white transition-all placeholder:text-white/5 tracking-[0.2em]"
+                    placeholder="Email / +371 20000000">
+                @error('loginIdentifier') <span class="text-red-900 text-[8px] uppercase tracking-widest mt-2 block">{{ $message }}</span> @enderror
+            </div>
+        </template>
 
         {{-- Общие поля (Password) --}}
         <div class="space-y-3">
             <label class="text-[9px] text-white/40 uppercase tracking-[0.3em] block">
-                <span x-text="mode === 'register' ? '04' : '02'"></span> // Password
+                <span x-text="mode === 'register' ? '05' : '02'"></span> // Password
             </label>
             <input type="password" wire:model="password"
                 class="w-full bg-transparent border-b Up border-white/10 py-3 text-base md:text-[11px] outline-none focus:border-white transition-all placeholder:text-white/5  tracking-[0.2em]"

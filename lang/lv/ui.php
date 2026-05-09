@@ -76,6 +76,7 @@ return [
         'shipping' => 'Piegādes dati',
         'full_name' => 'Pilns vārds',
         'email' => 'E-pasts',
+        'email_optional' => 'E-pasts nav obligāts',
         'phone' => 'Tālrunis',
         'address' => 'Piegādes adrese',
         'name_placeholder' => 'Piemēram: Janis Berzins',

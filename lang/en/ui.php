@@ -76,6 +76,7 @@ return [
         'shipping' => 'Delivery details',
         'full_name' => 'Full name',
         'email' => 'Email',
+        'email_optional' => 'Email optional',
         'phone' => 'Phone',
         'address' => 'Delivery address',
         'name_placeholder' => 'Example: Anna Smith',

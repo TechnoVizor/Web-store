@@ -76,6 +76,7 @@ return [
         'shipping' => 'Данные доставки',
         'full_name' => 'Полное имя',
         'email' => 'Email',
+        'email_optional' => 'Email необязательно',
         'phone' => 'Телефон',
         'address' => 'Адрес доставки',
         'name_placeholder' => 'Например: Иван Иванов',

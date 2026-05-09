@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Order;
+use App\Support\CustomerOrders;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -11,6 +12,8 @@ class OrderController extends Controller
     // Список заказов в личном кабинете
     public function index()
     {
+        CustomerOrders::attachGuestOrders(Auth::user());
+
         $orders = Auth::user()->orders()
             ->withCount('items')
             ->latest()
@@ -22,7 +25,7 @@ class OrderController extends Controller
     // Детали конкретного заказа
     public function show(Order $order)
     {
-        if ($order->user_id !== Auth::id()) {
+        if ((int) $order->user_id !== (int) Auth::id()) {
             abort(403, 'ACCESS_DENIED');
         }
 

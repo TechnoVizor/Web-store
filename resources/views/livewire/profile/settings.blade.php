@@ -1,6 +1,8 @@
 <?php
 
 use Livewire\Volt\Component;
+use App\Support\CustomerOrders;
+use App\Support\VercelBlobUploader;
 use Illuminate\Support\Facades\Auth;
 use Livewire\WithFileUploads;
 
@@ -31,10 +33,10 @@ new class extends Component {
         ]);
 
         $user = Auth::user();
-        $path = $this->newAvatar->store('avatars', 'public');
+        $avatar = $this->storeAvatar();
 
         $user->update([
-            'avatar' => '/storage/' . $path
+            'avatar' => $avatar,
         ]);
 
         session()->flash('message', __('ui.profile.avatar_updated'));
@@ -60,14 +62,25 @@ new class extends Component {
         ];
 
         if ($this->newAvatar) {
-            $path = $this->newAvatar->store('avatars', 'public');
-            $data['avatar'] = '/storage/' . $path;
+            $data['avatar'] = $this->storeAvatar();
         }
 
         $user->update($data);
+        CustomerOrders::attachGuestOrders($user);
 
         $this->dispatch('cart-updated');
         session()->flash('message', __('ui.profile.updated'));
+    }
+
+    private function storeAvatar(): string
+    {
+        $path = app(VercelBlobUploader::class)->upload($this->newAvatar, 'avatars');
+
+        if (str_starts_with($path, 'http://') || str_starts_with($path, 'https://') || str_starts_with($path, '/')) {
+            return $path;
+        }
+
+        return '/storage/' . ltrim($path, '/');
     }
 }; ?>
 

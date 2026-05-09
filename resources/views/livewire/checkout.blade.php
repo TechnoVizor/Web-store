@@ -43,7 +43,7 @@
 
                             {{-- Email --}}
                             <div class="space-y-2">
-                                <label class="mono text-[9px] uppercase text-white/40 ml-1">{{ __('ui.checkout.email') }}</label>
+                                <label class="mono text-[9px] uppercase text-white/40 ml-1">{{ __('ui.checkout.email_optional') }}</label>
                                 <input type="email" wire:model.blur="email" placeholder="{{ __('ui.checkout.email_placeholder') }}"
                                     class="w-full bg-white/5 border {{ $errors->has('email') ? 'border-red-500/50' : 'border-white/10' }} px-4 py-4 text-white mono text-xs focus:border-white transition-all outline-none placeholder:text-white/10">
                             </div>

@@ -5,6 +5,7 @@ namespace App\Livewire;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
+use App\Support\Phone;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -53,8 +54,7 @@ class Checkout extends Component
     {
         return [
             'name' => 'required|string|min:2',
-            'email' => 'required|email',
-            // Валидация телефона: обязателен, минимум 10 цифр
+            'email' => 'nullable|email',
             'phone' => ['required', 'regex:/^([0-9\s\-\+\(\)]*)$/', 'min:10'],
             'address' => 'required|string|min:5',
         ];
@@ -130,6 +130,7 @@ class Checkout extends Component
                     'customer_name' => $this->name,
                     'customer_email' => $this->email,
                     'customer_phone' => $this->phone,
+                    'customer_phone_normalized' => Phone::normalize($this->phone),
                     'customer_address' => $this->address,
                     'status' => 'new',
                     'total_amount' => $total,
@@ -203,7 +204,6 @@ class Checkout extends Component
 
     protected $messages = [
         'name.required' => 'ui.checkout.validation.name_required',
-        'email.required' => 'ui.checkout.validation.email_required',
         'email.email' => 'ui.checkout.validation.email_valid',
         'phone.required' => 'ui.checkout.validation.phone_required',
         'phone.regex' => 'ui.checkout.validation.phone_valid',

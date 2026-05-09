@@ -11,8 +11,9 @@ class Order extends Model
     protected $fillable = [
     'user_id',
     'customer_name',
-    'customer_email', // Если добавил в базу
+    'customer_email',
     'customer_phone',
+    'customer_phone_normalized',
     'customer_address',
     'total_amount',
     'status',

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Support\Phone;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -26,6 +27,7 @@ class User extends Authenticatable
         'google_id',
         'avatar',
         'phone',
+        'phone_normalized',
         'address',
         'is_admin',
         'is_super_admin',
@@ -64,5 +66,11 @@ class User extends Authenticatable
     public function orders()
     {
         return $this->hasMany(Order::class);
+    }
+
+    public function setPhoneAttribute($value): void
+    {
+        $this->attributes['phone'] = $value;
+        $this->attributes['phone_normalized'] = Phone::normalize($value);
     }
 }

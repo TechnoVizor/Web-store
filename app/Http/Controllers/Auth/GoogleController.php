@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Support\CustomerOrders;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Log;
@@ -53,6 +54,7 @@ class GoogleController extends Controller
             }
 
             Auth::login($user);
+            CustomerOrders::attachGuestOrders($user);
         } catch (Throwable $exception) {
             Log::warning('Google OAuth login failed.', [
                 'exception' => $exception::class,
