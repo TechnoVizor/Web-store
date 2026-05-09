@@ -143,6 +143,7 @@ class CheckoutTest extends TestCase
             ->set('nickname', 'future_customer')
             ->set('phone', '+371 2000 0003')
             ->set('password', 'password123')
+            ->set('password_confirmation', 'password123')
             ->call('register')
             ->assertRedirect('/');
 
@@ -169,6 +170,18 @@ class CheckoutTest extends TestCase
             ->assertRedirect('/');
 
         $this->assertAuthenticatedAs($user);
+    }
+
+    public function test_registration_requires_matching_password_confirmation(): void
+    {
+        Livewire::test('auth.auth-form')
+            ->set('name', 'Mismatch Customer')
+            ->set('nickname', 'mismatch_customer')
+            ->set('phone', '+371 2000 0005')
+            ->set('password', 'password123')
+            ->set('password_confirmation', 'password456')
+            ->call('register')
+            ->assertHasErrors(['password']);
     }
 
     public function test_guest_can_open_cart_and_checkout_pages(): void

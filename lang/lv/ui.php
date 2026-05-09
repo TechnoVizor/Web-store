@@ -145,7 +145,7 @@ return [
         'access_level' => 'Piekļuves līmenis',
         'authorized' => 'Autorizēts',
         'full_name' => 'Pilns vārds',
-        'nickname' => 'Lietotājvārds',
+        'nickname' => 'Uzvārds',
         'email' => 'E-pasts',
         'phone' => 'Tālrunis',
         'address' => 'Piegādes adrese',

@@ -145,7 +145,7 @@ return [
         'access_level' => 'Access level',
         'authorized' => 'Authorized',
         'full_name' => 'Full name',
-        'nickname' => 'Nickname',
+        'nickname' => 'Last name',
         'email' => 'Email address',
         'phone' => 'Phone',
         'address' => 'Delivery address',

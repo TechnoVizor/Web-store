@@ -37,28 +37,28 @@
                             {{-- Имя --}}
                             <div class="space-y-2">
                                 <label class="mono text-[9px] uppercase text-white/40 ml-1">{{ __('ui.checkout.full_name') }}</label>
-                                <input type="text" wire:model.blur="name" placeholder="{{ __('ui.checkout.name_placeholder') }}"
+                                <input type="text" wire:model="name" placeholder="{{ __('ui.checkout.name_placeholder') }}"
                                     class="w-full bg-white/5 border {{ $errors->has('name') ? 'border-red-500/50' : 'border-white/10' }} px-4 py-4 text-white mono text-xs focus:border-white transition-all outline-none placeholder:text-white/10">
                             </div>
 
                             {{-- Email --}}
                             <div class="space-y-2">
                                 <label class="mono text-[9px] uppercase text-white/40 ml-1">{{ __('ui.checkout.email_optional') }}</label>
-                                <input type="email" wire:model.blur="email" placeholder="{{ __('ui.checkout.email_placeholder') }}"
+                                <input type="email" wire:model="email" placeholder="{{ __('ui.checkout.email_placeholder') }}"
                                     class="w-full bg-white/5 border {{ $errors->has('email') ? 'border-red-500/50' : 'border-white/10' }} px-4 py-4 text-white mono text-xs focus:border-white transition-all outline-none placeholder:text-white/10">
                             </div>
 
                             {{-- Телефон --}}
                             <div class="space-y-2 md:col-span-2">
                                 <label class="mono text-[9px] uppercase text-white/40 ml-1">{{ __('ui.checkout.phone') }}</label>
-                                <input type="text" wire:model.blur="phone" placeholder="{{ __('ui.checkout.phone_placeholder') }}"
+                                <input type="text" wire:model="phone" placeholder="{{ __('ui.checkout.phone_placeholder') }}"
                                     class="w-full bg-white/5 border {{ $errors->has('phone') ? 'border-red-500/50' : 'border-white/10' }} px-4 py-4 text-white mono text-xs focus:border-white transition-all outline-none placeholder:text-white/10">
                             </div>
 
                             {{-- Адрес --}}
                             <div class="space-y-2 md:col-span-2">
                                 <label class="mono text-[9px] uppercase text-white/40 ml-1">{{ __('ui.checkout.address') }}</label>
-                                <textarea wire:model.blur="address" rows="3" placeholder="{{ __('ui.checkout.address_placeholder') }}"
+                                <textarea wire:model="address" rows="3" placeholder="{{ __('ui.checkout.address_placeholder') }}"
                                     class="w-full bg-white/5 border {{ $errors->has('address') ? 'border-red-500/50' : 'border-white/10' }} px-4 py-4 text-white mono text-xs focus:border-white transition-all outline-none resize-none placeholder:text-white/10"></textarea>
                             </div>
                         </div>

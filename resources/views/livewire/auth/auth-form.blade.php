@@ -25,6 +25,8 @@ new class extends Component
 
     public $password = '';
 
+    public $password_confirmation = '';
+
     // ЛОГИКА ВХОДА
     public function login()
     {
@@ -61,7 +63,7 @@ new class extends Component
             'nickname' => 'required|string|max:50|unique:users',
             'email' => 'nullable|email|unique:users,email',
             'phone' => 'required|string|min:10',
-            'password' => 'required|min:8',
+            'password' => 'required|min:8|confirmed',
         ]);
 
         $normalizedPhone = Phone::normalize($this->phone);
@@ -148,10 +150,10 @@ new class extends Component
                 </div>
 
                 <div class="space-y-3">
-                    <label class="text-[9px] text-white/40 uppercase tracking-[0.3em] block">02 // Nickname</label>
+                    <label class="text-[9px] text-white/40 uppercase tracking-[0.3em] block">02 // Last_Name</label>
                     <input type="text" wire:model="nickname"
                         class="w-full bg-transparent border-b border-white/10 py-3 text-base md:text-[11px] outline-none focus:border-white transition-all placeholder:text-white/5  tracking-[0.2em]"
-                        placeholder="Unique_ID">
+                        placeholder="Surname">
                     @error('nickname') <span class="text-red-900 text-[8px] uppercase tracking-widest mt-2 block">{{ $message }}</span> @enderror
                 </div>
             </div>
@@ -198,9 +200,18 @@ new class extends Component
             @error('password') <span class="text-red-900 text-[8px] uppercase tracking-widest mt-2 block">{{ $message }}</span> @enderror
         </div>
 
+        <template x-if="mode === 'register'">
+            <div class="space-y-3">
+                <label class="text-[9px] text-white/40 uppercase tracking-[0.3em] block">06 // Confirm_Password</label>
+                <input type="password" wire:model="password_confirmation"
+                    class="w-full bg-transparent border-b border-white/10 py-3 text-base md:text-[11px] outline-none focus:border-white transition-all placeholder:text-white/5 tracking-[0.2em]"
+                    placeholder="••••••••">
+            </div>
+        </template>
+
         {{-- Кнопка действия --}}
         <div class="pt-6">
-            <button @click="mode === 'login' ? $wire.login() : $wire.register()"
+            <button type="button" @click="mode === 'login' ? $wire.login() : $wire.register()"
                 class="ui-btn ui-btn-primary w-full py-5 font-bold text-[10px] tracking-[0.4em] active:scale-[0.98]">
                 <span x-text="mode === 'login' ? 'login' : 'Register'"></span>
             </button>

@@ -145,7 +145,7 @@ return [
         'access_level' => 'Уровень доступа',
         'authorized' => 'Авторизован',
         'full_name' => 'Полное имя',
-        'nickname' => 'Никнейм',
+        'nickname' => 'Фамилия',
         'email' => 'Email',
         'phone' => 'Телефон',
         'address' => 'Адрес доставки',

@@ -305,7 +305,8 @@
                                             <span class="mono text-[8px] uppercase tracking-[0.22em] text-white/30">{{ __('ui.store.price_label') }}</span>
                                             <span class="text-base font-black mono text-white/86">${{ number_format($product->price, 0) }}</span>
                                         </div>
-                                        <button wire:click="addToBag({{ $product->id }})"
+                                        <button type="button"
+                                            wire:click.prevent="addToBag({{ $product->id }})"
                                             wire:loading.attr="disabled"
                                             wire:target="addToBag({{ $product->id }})"
                                             class="ui-btn w-full py-3 sm:py-3.5 px-1 sm:px-4 text-[7px] sm:text-[10px] font-bold tracking-[0.2em] active:scale-[0.98] mono">
