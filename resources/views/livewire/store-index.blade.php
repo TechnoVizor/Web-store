@@ -29,7 +29,7 @@
         playsinline
         preload="metadata"
         aria-hidden="true">
-        <source src="https://cdn.pixabay.com/video/2022/12/25/144156-784280927_medium.mp4" type="video/mp4">
+        <source src="{{ asset('videos/hero-fashion-loop.mp4') }}" type="video/mp4">
     </video>
     <div class="absolute inset-0 bg-black/55 pointer-events-none"></div>
     <div class="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-black to-transparent pointer-events-none"></div>

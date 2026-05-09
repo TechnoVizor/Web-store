@@ -43,6 +43,17 @@
         .bg-white { background-color: rgba(255, 255, 255, 0.8) !important; }
         .border-white { border-color: rgba(255, 255, 255, 0.8) !important; }
         .fill-white { fill: rgba(255, 255, 255, 0.8) !important; }
+        .text-black,
+        .hover\:text-black:hover,
+        .group:hover .group-hover\:text-black {
+            color: #050505 !important;
+        }
+        .hover\:bg-white:hover {
+            background-color: rgba(255, 255, 255, 0.8) !important;
+        }
+        .hover\:border-white:hover {
+            border-color: rgba(255, 255, 255, 0.8) !important;
+        }
 
         .glass {
             background: rgba(0, 0, 0, 0.8);
