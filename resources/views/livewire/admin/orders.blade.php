@@ -1,86 +1,112 @@
 <div>
-    {{-- Шапка --}}
-    <div class="flex justify-between items-end mb-8 border-b border-zinc-800 pb-4">
+    @php
+        $statuses = ['new', 'pending', 'processing', 'paid', 'shipped', 'delivered', 'cancelled'];
+        $statusClass = fn (?string $status): string => 'status-pill status-' . ($status ?: 'new');
+        $selectClass = fn (?string $status): string => match ($status) {
+            'new' => 'text-blue-300 border-blue-500/30 bg-blue-500/10',
+            'pending' => 'text-yellow-300 border-yellow-500/35 bg-yellow-500/10',
+            'processing' => 'text-sky-300 border-sky-500/35 bg-sky-500/10',
+            'paid' => 'text-green-300 border-green-500/35 bg-green-500/10',
+            'shipped' => 'text-purple-300 border-purple-500/35 bg-purple-500/10',
+            'delivered' => 'text-teal-300 border-teal-500/35 bg-teal-500/10',
+            'cancelled' => 'text-red-300 border-red-500/35 bg-red-500/10',
+            default => 'text-zinc-300 border-zinc-700 bg-black',
+        };
+    @endphp
+
+    <div class="mb-8 grid gap-5 border-b border-zinc-800/80 pb-5 md:grid-cols-[1fr_auto] md:items-end">
         <div>
-            <h2 class="text-[10px] text-zinc-500 tracking-[0.3em] uppercase mb-1">{{ __('ui.admin.orders_section') }}</h2>
-            <h1 class="text-3xl font-bold tracking-widest uppercase text-white">{{ __('ui.admin.orders') }}</h1>
+            <h2 class="mb-2 text-[10px] uppercase tracking-[0.3em] text-zinc-500">{{ __('ui.admin.orders_section') }}</h2>
+            <h1 class="text-3xl font-black uppercase tracking-tight text-white">{{ __('ui.admin.orders') }}</h1>
         </div>
-        <div class="flex space-x-4">
+
         <input type="text" wire:model.live.debounce.350ms="search" placeholder="{{ __('ui.admin.search_customer') }}"
-                class="bg-black border border-zinc-700 text-white px-4 py-2 focus:outline-none focus:border-white text-xs w-64 tracking-widest">
-        </div>
+            class="admin-input w-full px-4 py-3 text-xs tracking-[0.18em] md:w-80">
     </div>
 
-    {{-- Таблица заказов --}}
-    <div class="border border-zinc-800 bg-black overflow-hidden relative">
-        <table class="w-full text-left text-sm">
-            <thead class="border-b border-zinc-800 text-zinc-500 uppercase tracking-widest text-[10px] bg-zinc-900/30">
+    @if (session()->has('error'))
+        <div class="mb-5 border border-red-500/30 bg-red-500/10 px-4 py-3 text-[10px] font-bold uppercase tracking-[0.22em] text-red-300">
+            {{ session('error') }}
+        </div>
+    @endif
+
+    <div class="mb-5 grid grid-cols-2 gap-3 md:grid-cols-7">
+        @foreach($statuses as $status)
+            <div class="{{ $statusClass($status) }} justify-center">
+                {{ __('ui.status.' . $status) }}
+            </div>
+        @endforeach
+    </div>
+
+    <div class="admin-panel overflow-hidden">
+        <table class="admin-table">
+            <thead>
                 <tr>
-                    <th class="p-4 font-normal">{{ __('ui.admin.order_id') }}</th>
-                    <th class="p-4 font-normal">{{ __('ui.admin.customer_data') }}</th>
-                    <th class="p-4 font-normal">{{ __('ui.admin.amount') }}</th>
-                    <th class="p-4 font-normal">{{ __('ui.admin.status') }}</th>
-                    <th class="p-4 font-normal">{{ __('ui.admin.timestamp') }}</th>
-                    <th class="p-4 font-normal text-right">{{ __('ui.admin.action') }}</th>
+                    <th>{{ __('ui.admin.order_id') }}</th>
+                    <th>{{ __('ui.admin.customer_data') }}</th>
+                    <th>{{ __('ui.admin.amount') }}</th>
+                    <th>{{ __('ui.admin.status') }}</th>
+                    <th>{{ __('ui.admin.timestamp') }}</th>
+                    <th class="text-right">{{ __('ui.admin.action') }}</th>
                 </tr>
             </thead>
-            <tbody class="divide-y divide-zinc-800/50 text-xs tracking-wider">
+            <tbody>
                 @forelse($orders as $order)
-                    <tr class="hover:bg-zinc-900/50 transition-colors">
-                        <td class="p-4 text-zinc-600">#{{ str_pad($order->id, 5, '0', STR_PAD_LEFT) }}</td>
-                        <td class="p-4">
-                            <div class="font-bold text-zinc-300 uppercase">{{ $order->customer_name }}</div>
-                            <div class="text-[10px] text-zinc-500">{{ $order->customer_phone }}</div>
+                    <tr wire:key="admin-order-{{ $order->id }}">
+                        <td class="text-zinc-500">
+                            <div class="font-bold text-white/75">#{{ str_pad($order->id, 5, '0', STR_PAD_LEFT) }}</div>
+                            <div class="mt-1 text-[10px] uppercase tracking-[0.18em] text-zinc-600">{{ $order->items_count ?? $order->items()->count() }} items</div>
                         </td>
-                        <td class="p-4 font-bold text-green-500">
+                        <td>
+                            <div class="font-bold uppercase text-zinc-200">{{ $order->customer_name ?: 'Guest customer' }}</div>
+                            <div class="mt-1 text-[10px] text-zinc-500">{{ $order->customer_phone ?: 'No phone' }}</div>
+                            @if($order->customer_email)
+                                <div class="mt-1 max-w-[220px] truncate text-[10px] text-zinc-600">{{ $order->customer_email }}</div>
+                            @endif
+                        </td>
+                        <td class="font-black text-green-400">
                             ${{ number_format($order->total_amount, 2) }}
                         </td>
-                        <td class="p-4">
-                            {{-- Выпадающий список для смены статуса --}}
+                        <td>
+                            <div class="mb-2 {{ $statusClass($order->status) }}">
+                                {{ __('ui.status.' . $order->status) }}
+                            </div>
+
                             <select wire:change="updateStatus({{ $order->id }}, $event.target.value)"
-                                class="bg-black border border-zinc-800 text-[10px] px-2 py-1 uppercase tracking-widest focus:border-white outline-none 
-                                @if($order->status == 'pending') text-yellow-500 @elseif($order->status == 'paid') text-green-500 @elseif($order->status == 'cancelled') text-red-500 @else text-blue-500 @endif">
-                                <option value="new" {{ $order->status == 'new' ? 'selected' : '' }}>{{ __('ui.status.new') }}</option>
-                                <option value="pending" {{ $order->status == 'pending' ? 'selected' : '' }}>{{ __('ui.status.pending') }}</option>
-                                <option value="processing" {{ $order->status == 'processing' ? 'selected' : '' }}>{{ __('ui.status.processing') }}
-                                </option>
-                                <option value="shipped" {{ $order->status == 'shipped' ? 'selected' : '' }}>{{ __('ui.status.shipped') }}</option>
-                                <option value="delivered" {{ $order->status == 'delivered' ? 'selected' : '' }}>{{ __('ui.status.delivered') }}
-                                </option>
-                                <option value="cancelled" {{ $order->status == 'cancelled' ? 'selected' : '' }}>{{ __('ui.status.cancelled') }}
-                                </option>
+                                class="admin-select w-full px-3 py-2 text-[10px] font-bold uppercase tracking-[0.16em] {{ $selectClass($order->status) }}">
+                                @foreach($statuses as $status)
+                                    <option value="{{ $status }}" {{ $order->status == $status ? 'selected' : '' }}>
+                                        {{ __('ui.status.' . $status) }}
+                                    </option>
+                                @endforeach
                             </select>
                         </td>
-                        <td class="p-4 text-zinc-500">
-                            {{ $order->created_at->timezone(config('app.timezone'))->format('Y-m-d H:i') }}
+                        <td class="text-zinc-500">
+                            {{ $order->created_at->timezone(config('app.timezone'))->format('d.m.Y') }}
+                            <div class="mt-1 text-[10px] text-zinc-600">{{ $order->created_at->timezone(config('app.timezone'))->format('H:i') }}</div>
                         </td>
-                        <td class="p-4 text-right">
-    <div class="flex items-center justify-end space-x-2">
-        {{-- Кнопка Details --}}
-        <button wire:click="openModal({{ $order->id }})"
-            class="ui-btn ui-btn-primary px-3 py-1 text-[10px] font-bold">
-            {{ __('ui.admin.details') }}
-        </button>
+                        <td class="text-right">
+                            <div class="flex items-center justify-end gap-2">
+                                <button type="button" wire:click="openModal({{ $order->id }})"
+                                    class="ui-btn px-3 py-2 text-[10px] font-bold tracking-widest">
+                                    {{ __('ui.admin.details') }}
+                                </button>
 
-        {{-- Кнопка удаления (показывается только для DELIVERED или CANCELLED) --}}
-        @if(in_array($order->status, ['delivered', 'cancelled']))
-            <button 
-                wire:click="deleteOrder({{ $order->id }})"
-                wire:confirm="{{ __('ui.admin.delete_confirm') }}"
-                class="ui-btn ui-btn-danger px-2 py-1 text-[10px] font-bold text-red-500"
-                title="{{ __('ui.admin.delete_record') }}">
-                ✕
-            </button>
-        @else
-            {{-- Заглушка, чтобы сохранить ровную сетку (опционально) --}}
-            <div class="w-[25px]"></div>
-        @endif
-    </div>
-</td>
+                                @if(in_array($order->status, ['delivered', 'cancelled'], true))
+                                    <button type="button"
+                                        wire:click="deleteOrder({{ $order->id }})"
+                                        wire:confirm="{{ __('ui.admin.delete_confirm') }}"
+                                        class="ui-btn ui-btn-danger px-3 py-2 text-[10px] font-bold text-red-400"
+                                        title="{{ __('ui.admin.delete_record') }}">
+                                        ✕
+                                    </button>
+                                @endif
+                            </div>
+                        </td>
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="6" class="p-8 text-center text-zinc-600 tracking-widest uppercase text-xs">
+                        <td colspan="6" class="p-10 text-center text-xs uppercase tracking-widest text-zinc-600">
                             {{ __('ui.admin.no_orders') }}
                         </td>
                     </tr>
@@ -89,94 +115,83 @@
         </table>
     </div>
 
-    <div class="mt-4">
+    <div class="mt-5">
         {{ $orders->links() }}
     </div>
-{{-- КИБЕР-МОДАЛКА: ДЕТАЛИ ЗАКАЗА --}}
+
     @if($isModalOpen && $selectedOrder)
-    <div class="fixed inset-0 bg-black/90 flex items-center justify-center z-50 backdrop-blur-sm">
-        <div class="bg-black border border-zinc-600 w-full max-w-2xl p-8 relative shadow-[0_0_30px_rgba(255,255,255,0.05)]">
-            
-            {{-- Шапка модалки --}}
-            <div class="flex justify-between items-start mb-8 border-b border-zinc-800 pb-6">
-                <div>
-                    <h2 class="text-xl font-bold tracking-widest uppercase text-white flex items-center">
-                        <span class="w-2 h-2 bg-white mr-3 text-green-500 shadow-[0_0_8px_#22c55e]"></span>
-                        {{ __('ui.admin.order_data') }} // #{{ str_pad($selectedOrder->id, 5, '0', STR_PAD_LEFT) }}
-                    </h2>
-                    
-                    {{-- Инфо-панель клиента --}}
-                    <div class="grid grid-cols-2 gap-x-8 gap-y-4 mt-4">
-                        <div>
-                            <div class="text-[9px] text-zinc-500 tracking-[0.2em] uppercase">{{ __('ui.admin.customer_name') }}</div>
-                            <div class="text-xs text-white uppercase font-bold">{{ $selectedOrder->customer_name }}</div>
+        <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/85 px-4 backdrop-blur-sm">
+            <div class="admin-panel w-full max-w-3xl p-6 shadow-[0_30px_90px_rgba(0,0,0,0.65)]">
+                <div class="mb-6 flex items-start justify-between gap-4 border-b border-zinc-800 pb-5">
+                    <div>
+                        <div class="mb-3 flex flex-wrap items-center gap-3">
+                            <h2 class="text-xl font-black uppercase tracking-tight text-white">
+                                {{ __('ui.admin.order_data') }} #{{ str_pad($selectedOrder->id, 5, '0', STR_PAD_LEFT) }}
+                            </h2>
+                            <div class="{{ $statusClass($selectedOrder->status) }}">{{ __('ui.status.' . $selectedOrder->status) }}</div>
                         </div>
-                        <div>
-                            <div class="text-[9px] text-zinc-500 tracking-[0.2em] uppercase">{{ __('ui.admin.registration_date') }}</div>
-                            <div class="text-xs text-white font-bold">{{ $selectedOrder->created_at->timezone(config('app.timezone'))->format('d.m.Y // H:i') }}</div>
-                        </div>
-                        <div>
-                            <div class="text-[9px] text-zinc-500 tracking-[0.2em] uppercase">{{ __('ui.admin.contact_email') }}</div>
-                            <div class="text-xs text-blue-400 font-bold underline decoration-blue-900">{{ $selectedOrder->customer_email ?? $selectedOrder->email ?? 'N/A' }}</div>
-                        </div>
-                        <div>
-                            <div class="text-[9px] text-zinc-500 tracking-[0.2em] uppercase">{{ __('ui.admin.contact_phone') }}</div>
-                            <div class="text-xs text-white font-bold">{{ $selectedOrder->customer_phone }}</div>
-                        </div>
-                        
-                        {{-- АДРЕС ДОСТАВКИ (на всю ширину) --}}
-                        <div class="col-span-2 pt-2 border-t border-zinc-900">
-                            <div class="text-[9px] text-zinc-500 tracking-[0.2em] uppercase mb-1">{{ __('ui.admin.shipping_address') }}</div>
-                            <div class="text-xs text-zinc-300 font-mono leading-relaxed uppercase">
-                                > {{ $selectedOrder->customer_address ?? $selectedOrder->address ?? __('ui.admin.location_missing') }}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <button wire:click="closeModal" class="ui-btn px-2 py-1 text-[10px] tracking-widest">✕ {{ __('ui.admin.close') }}</button>
-            </div>
-            
-            {{-- Ниже идет список товаров и т.д. --}}
 
-{{-- Список товаров через OrderItem --}}
-            <div class="space-y-4 max-h-[50vh] overflow-y-auto pr-2">
-                @forelse($selectedOrder->items as $item)
-                <div class="flex items-center justify-between border border-zinc-800 bg-zinc-900/20 p-4">
-                    <div class="flex items-center space-x-4">
-                        {{-- Фото товара --}}
-                        @if($item->product && $item->product->image)
-                            <img src="{{ $item->product->image_url }}" class="w-16 h-16 object-cover border border-zinc-700">
-                        @else
-                            <div class="w-16 h-16 bg-black border border-zinc-700 flex items-center justify-center text-[8px] text-zinc-600 tracking-widest">{{ __('ui.admin.no_image') }}</div>
-                        @endif
-                        
-                        {{-- Инфо --}}
-                        <div>
-                            <div class="font-bold text-white text-sm uppercase tracking-wider">
-                                {{ $item->product ? $item->product->name : __('ui.product.unknown') }}
+                        <div class="grid gap-4 text-xs md:grid-cols-2">
+                            <div>
+                                <div class="mb-1 text-[10px] uppercase tracking-[0.2em] text-zinc-500">{{ __('ui.admin.customer_name') }}</div>
+                                <div class="font-bold uppercase text-white/80">{{ $selectedOrder->customer_name }}</div>
                             </div>
-                            <div class="text-[10px] text-zinc-500 uppercase mt-1">
-                                {{ __('ui.admin.quantity') }}: {{ $item->quantity }}
+                            <div>
+                                <div class="mb-1 text-[10px] uppercase tracking-[0.2em] text-zinc-500">{{ __('ui.admin.registration_date') }}</div>
+                                <div class="font-bold text-white/80">{{ $selectedOrder->created_at->timezone(config('app.timezone'))->format('d.m.Y H:i') }}</div>
+                            </div>
+                            <div>
+                                <div class="mb-1 text-[10px] uppercase tracking-[0.2em] text-zinc-500">{{ __('ui.admin.contact_email') }}</div>
+                                <div class="font-bold text-sky-300">{{ $selectedOrder->customer_email ?: 'N/A' }}</div>
+                            </div>
+                            <div>
+                                <div class="mb-1 text-[10px] uppercase tracking-[0.2em] text-zinc-500">{{ __('ui.admin.contact_phone') }}</div>
+                                <div class="font-bold text-white/80">{{ $selectedOrder->customer_phone ?: 'N/A' }}</div>
+                            </div>
+                            <div class="md:col-span-2">
+                                <div class="mb-1 text-[10px] uppercase tracking-[0.2em] text-zinc-500">{{ __('ui.admin.shipping_address') }}</div>
+                                <div class="border border-zinc-800 bg-black px-3 py-3 text-zinc-300">
+                                    {{ $selectedOrder->customer_address ?? $selectedOrder->address ?? __('ui.admin.location_missing') }}
+                                </div>
                             </div>
                         </div>
                     </div>
-                    
-                    {{-- Цена (берем из item) --}}
-                    <div class="font-bold text-green-500 tracking-widest">
-                        ${{ number_format($item->price, 2) }}
-                    </div>
-                </div>
-                @empty
-                <div class="text-zinc-500 text-xs tracking-widest uppercase text-center py-4">{{ __('ui.admin.no_items') }}</div>
-                @endforelse
-            </div>
 
-            {{-- Итог --}}
-            <div class="mt-6 pt-4 border-t border-zinc-800 flex justify-between items-center">
-                <span class="text-xs text-zinc-500 tracking-widest uppercase">{{ __('ui.admin.total_amount') }}</span>
-                <span class="text-xl font-bold text-green-500">${{ number_format($selectedOrder->total_amount, 2) }}</span>
+                    <button type="button" wire:click="closeModal" class="ui-btn px-3 py-2 text-[10px] tracking-widest">✕</button>
+                </div>
+
+                <div class="max-h-[46vh] space-y-3 overflow-y-auto pr-1">
+                    @forelse($selectedOrder->items as $item)
+                        <div class="grid grid-cols-[64px_1fr_auto] items-center gap-4 border border-zinc-800 bg-black p-3">
+                            @if($item->product && $item->product->image)
+                                <img src="{{ $item->product->image_url }}" class="h-16 w-16 object-cover opacity-85">
+                            @else
+                                <div class="flex h-16 w-16 items-center justify-center border border-zinc-800 bg-zinc-950 text-[8px] text-zinc-600">{{ __('ui.admin.no_image') }}</div>
+                            @endif
+
+                            <div class="min-w-0">
+                                <div class="truncate text-sm font-bold uppercase tracking-wide text-white/80">
+                                    {{ $item->product ? $item->product->name : __('ui.product.unknown') }}
+                                </div>
+                                <div class="mt-1 text-[10px] uppercase tracking-[0.18em] text-zinc-500">
+                                    {{ __('ui.admin.quantity') }}: {{ $item->quantity }}
+                                </div>
+                            </div>
+
+                            <div class="text-right font-black text-green-400">
+                                ${{ number_format($item->price, 2) }}
+                            </div>
+                        </div>
+                    @empty
+                        <div class="py-8 text-center text-xs uppercase tracking-widest text-zinc-500">{{ __('ui.admin.no_items') }}</div>
+                    @endforelse
+                </div>
+
+                <div class="mt-6 flex items-center justify-between border-t border-zinc-800 pt-5">
+                    <span class="text-xs uppercase tracking-widest text-zinc-500">{{ __('ui.admin.total_amount') }}</span>
+                    <span class="text-2xl font-black text-green-400">${{ number_format($selectedOrder->total_amount, 2) }}</span>
+                </div>
             </div>
         </div>
-    </div>
     @endif
 </div>

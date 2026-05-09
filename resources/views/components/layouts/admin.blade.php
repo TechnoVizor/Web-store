@@ -16,8 +16,8 @@
         body.admin-terminal {
             margin: 0 !important;
             padding: 0 !important;
-            background-color: #0a0a0a !important;
-            color: #d4d4d4 !important;
+            background-color: #070707 !important;
+            color: rgba(255, 255, 255, 0.78) !important;
             font-family: 'Fira Code', monospace !important;
             font-size: 16px !important;
         }
@@ -27,7 +27,6 @@
         .admin-terminal * {
             font-family: 'Fira Code', monospace !important;
             border-color: rgba(255, 255, 255, 0.1);
-            /* Делаем границы мягче по умолчанию */
         }
 
         /* 3. Кастомный скроллбар (только для админки) */
@@ -49,7 +48,6 @@
             background: #666 !important;
         }
 
-        /* 4. Фикс для того, чтобы фоны из основного сайта не просачивались */
         .admin-terminal main,
         .admin-terminal aside {
             background-color: inherit;
@@ -101,51 +99,218 @@
             background: rgba(239, 68, 68, 0.10);
             color: rgba(252, 165, 165, 0.95);
         }
+
+        .admin-shell {
+            background:
+                linear-gradient(180deg, rgba(255,255,255,0.025), transparent 18rem),
+                #070707;
+        }
+
+        .admin-sidebar {
+            background: #050505;
+        }
+
+        .admin-nav-link {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            border: 1px solid transparent;
+            border-left-color: rgba(255,255,255,0.08);
+            padding: 0.85rem 1rem;
+            color: rgba(255,255,255,0.46);
+            transition: background-color 180ms ease, border-color 180ms ease, color 180ms ease, transform 180ms ease;
+        }
+
+        .admin-nav-link:hover,
+        .admin-nav-link:focus-visible {
+            background: rgba(255,255,255,0.045);
+            border-color: rgba(255,255,255,0.16);
+            color: rgba(255,255,255,0.84);
+            transform: translateX(2px);
+            outline: none;
+        }
+
+        .admin-panel {
+            border: 1px solid rgba(255,255,255,0.10);
+            background: #050505;
+        }
+
+        .admin-input,
+        .admin-select {
+            border: 1px solid rgba(255,255,255,0.12);
+            background: #030303;
+            color: rgba(255,255,255,0.78);
+            outline: none;
+            transition: border-color 180ms ease, background-color 180ms ease;
+        }
+
+        .admin-input:focus,
+        .admin-select:focus {
+            border-color: rgba(255,255,255,0.36);
+            background: #080808;
+        }
+
+        .admin-table {
+            width: 100%;
+            text-align: left;
+        }
+
+        .admin-table thead {
+            border-bottom: 1px solid rgba(255,255,255,0.10);
+            background: rgba(255,255,255,0.035);
+            color: rgba(255,255,255,0.36);
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            font-size: 10px;
+        }
+
+        .admin-table th {
+            padding: 1rem;
+            font-weight: 400;
+        }
+
+        .admin-table td {
+            padding: 1rem;
+        }
+
+        .admin-table tbody {
+            color: rgba(255,255,255,0.72);
+            font-size: 12px;
+            letter-spacing: 0.05em;
+        }
+
+        .admin-table tbody tr {
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            transition: background-color 160ms ease;
+        }
+
+        .admin-table tbody tr:hover {
+            background: rgba(255,255,255,0.035);
+        }
+
+        .admin-terminal table:not(.admin-table) {
+            width: 100%;
+            text-align: left;
+        }
+
+        .admin-terminal table:not(.admin-table) thead {
+            border-bottom: 1px solid rgba(255,255,255,0.10);
+            background: rgba(255,255,255,0.035);
+            color: rgba(255,255,255,0.36);
+        }
+
+        .admin-terminal table:not(.admin-table) tbody tr {
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            transition: background-color 160ms ease;
+        }
+
+        .admin-terminal table:not(.admin-table) tbody tr:hover {
+            background: rgba(255,255,255,0.035) !important;
+        }
+
+        .admin-terminal input:not([type="checkbox"]):not([type="file"]),
+        .admin-terminal textarea,
+        .admin-terminal select {
+            border-color: rgba(255,255,255,0.12) !important;
+            background-color: #030303 !important;
+        }
+
+        .admin-terminal input:not([type="checkbox"]):not([type="file"]):focus,
+        .admin-terminal textarea:focus,
+        .admin-terminal select:focus {
+            border-color: rgba(255,255,255,0.36) !important;
+            outline: none !important;
+        }
+
+        .status-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+            border: 1px solid currentColor;
+            padding: 0.38rem 0.65rem;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.16em;
+        }
+
+        .status-pill::before {
+            content: "";
+            width: 0.45rem;
+            height: 0.45rem;
+            background: currentColor;
+        }
+
+        .status-new { color: #93c5fd; background: rgba(59,130,246,0.10); }
+        .status-pending { color: #facc15; background: rgba(250,204,21,0.10); }
+        .status-processing { color: #38bdf8; background: rgba(56,189,248,0.10); }
+        .status-paid { color: #22c55e; background: rgba(34,197,94,0.10); }
+        .status-shipped { color: #c084fc; background: rgba(192,132,252,0.10); }
+        .status-delivered { color: #2dd4bf; background: rgba(45,212,191,0.10); }
+        .status-cancelled { color: #f87171; background: rgba(248,113,113,0.10); }
+
+        @media (max-width: 900px) {
+            body.admin-terminal {
+                overflow: auto !important;
+            }
+
+            .admin-layout {
+                min-height: 100vh;
+                flex-direction: column;
+                overflow: visible;
+            }
+
+            .admin-sidebar {
+                width: 100%;
+                height: auto;
+            }
+
+            .admin-nav {
+                display: grid;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
     </style>
 </head>
 
 {{-- Класс admin-terminal служит щитом для стилей --}}
 
-<body class="admin-terminal flex h-screen overflow-hidden selection:bg-white selection:text-black relative">
+<body class="admin-terminal selection:bg-white selection:text-black relative">
 
 
     {{-- САЙДБАР --}}
-    <aside class="w-64 flex flex-col border-r border-zinc-800 bg-black relative z-10 shrink-0">
+    <div class="admin-layout flex h-screen overflow-hidden">
+    <aside class="admin-sidebar w-64 flex flex-col border-r border-zinc-800 relative z-10 shrink-0">
         {{-- Логотип --}}
-        <div class="p-6 border-b border-zinc-800">
+        <div class="p-6 border-b border-zinc-800/80">
             <div class="text-[10px] text-zinc-500 tracking-[0.3em] mb-1 uppercase">{{ __('ui.admin.access') }}</div>
-            <h1 class="text-2xl font-bold tracking-widest text-white flex items-center">
-                DIGI<span class="animate-pulse ml-1 text-zinc-600">_</span>STORE
+            <h1 class="text-2xl font-black tracking-tight text-white flex items-center">
+                DIGI<span class="mx-1 text-zinc-600">_</span>STORE
             </h1>
         </div>
 
         {{-- Навигация --}}
-        <nav class="flex-1 overflow-y-auto p-4 space-y-1 text-sm tracking-widest">
-            <a href="{{ route('admin.dashboard') }}" wire:navigate
-                class="flex items-center px-4 py-3 text-zinc-400 hover:text-white hover:bg-zinc-900 border-l-2 border-transparent hover:border-white transition-all">
-                <span class="mr-3 opacity-40 text-xs">[01]</span> {{ __('ui.admin.dashboard') }}
+        <nav class="admin-nav flex-1 overflow-y-auto p-4 space-y-1 text-sm tracking-widest">
+            <a href="{{ route('admin.dashboard') }}" wire:navigate class="admin-nav-link">
+                <span class="opacity-40 text-xs">[01]</span> {{ __('ui.admin.dashboard') }}
             </a>
-            <a href="{{ route('admin.categories') }}" wire:navigate
-                class="flex items-center px-4 py-3 text-zinc-400 hover:text-white hover:bg-zinc-900 border-l-2 border-transparent hover:border-white transition-all">
-                <span class="mr-3 opacity-40 text-xs">[02]</span> {{ __('ui.admin.categories') }}
+            <a href="{{ route('admin.categories') }}" wire:navigate class="admin-nav-link">
+                <span class="opacity-40 text-xs">[02]</span> {{ __('ui.admin.categories') }}
             </a>
-            <a href="{{ route('admin.products') }}" wire:navigate
-                class="flex items-center px-4 py-3 text-zinc-400 hover:text-white hover:bg-zinc-900 border-l-2 border-transparent hover:border-white transition-all">
-                <span class="mr-3 opacity-40 text-xs">[03]</span> {{ __('ui.admin.products') }}
+            <a href="{{ route('admin.products') }}" wire:navigate class="admin-nav-link">
+                <span class="opacity-40 text-xs">[03]</span> {{ __('ui.admin.products') }}
             </a>
 
-            <a href="{{ route('admin.orders') }}" wire:navigate
-                class="flex items-center px-4 py-3 text-zinc-400 hover:text-white hover:bg-zinc-900 border-l-2 border-transparent hover:border-white transition-all">
-                <span class="mr-3 opacity-40 text-xs">[04]</span> {{ __('ui.admin.orders') }}
+            <a href="{{ route('admin.orders') }}" wire:navigate class="admin-nav-link">
+                <span class="opacity-40 text-xs">[04]</span> {{ __('ui.admin.orders') }}
             </a>
-                        <a href="{{ route('admin.users') }}" wire:navigate
-                class="flex items-center px-4 py-3 text-zinc-400 hover:text-white hover:bg-zinc-900 border-l-2 border-transparent hover:border-white transition-all">
-                <span class="mr-3 opacity-40 text-xs">[05]</span> {{ __('ui.admin.users') }}
+            <a href="{{ route('admin.users') }}" wire:navigate class="admin-nav-link">
+                <span class="opacity-40 text-xs">[05]</span> {{ __('ui.admin.users') }}
             </a>
         </nav>
 
         {{-- Инфо о пользователе --}}
-        <div class="p-4 border-t border-zinc-800 bg-black">
+        <div class="p-4 border-t border-zinc-800/80 bg-black">
             <div class="flex items-center justify-between">
                 <div class="overflow-hidden pr-2">
                     <div class="text-[9px] text-zinc-500 tracking-widest uppercase mb-1">{{ __('ui.admin.active_user') }}</div>
@@ -163,11 +328,11 @@
     </aside>
 
     {{-- ОСНОВНОЙ КОНТЕНТ --}}
-    <main class="flex-1 flex flex-col bg-[#0a0a0a] relative z-10 overflow-hidden">
+    <main class="admin-shell flex-1 flex flex-col relative z-10 overflow-hidden">
 
         {{-- Верхняя статус-панель --}}
         <header
-            class="h-10 border-b border-zinc-800 flex items-center justify-between px-6 bg-black text-[10px] tracking-widest text-zinc-500 uppercase">
+            class="h-11 border-b border-zinc-800/80 flex items-center justify-between px-6 bg-black/80 text-[10px] tracking-widest text-zinc-500 uppercase">
             <div class="flex space-x-8">
                 <span class="flex items-center"><span
                         class="w-1.5 h-1.5 rounded-full bg-green-500 mr-2 animate-pulse"></span> {{ __('ui.admin.db_connected') }}</span>
@@ -187,12 +352,13 @@
         </header>
 
         {{-- Контейнер для Livewire страниц --}}
-        <div class="flex-1 overflow-y-auto p-10">
+        <div class="flex-1 overflow-y-auto p-6 md:p-10">
             <div class="max-w-7xl mx-auto">
                 {{ $slot }}
             </div>
         </div>
     </main>
+    </div>
 
 </body>
 

@@ -6,6 +6,7 @@ use Livewire\Component;
 use Livewire\WithPagination;
 use Livewire\Attributes\Layout;
 use App\Models\Order;
+use Illuminate\Validation\Rule;
 
 
 #[Layout('components.layouts.admin')]
@@ -20,10 +21,13 @@ class Orders extends Component
     // Метод для быстрого изменения статуса заказа
     public function updateStatus($orderId, $newStatus)
     {
+        validator(
+            ['status' => $newStatus],
+            ['status' => ['required', Rule::in(['new', 'pending', 'processing', 'paid', 'shipped', 'delivered', 'cancelled'])]]
+        )->validate();
+
         $order = Order::findOrFail($orderId);
         $order->update(['status' => $newStatus]);
-        
-        // Можно добавить уведомление, если нужно
     }
 
     public function updatedSearch()
@@ -34,8 +38,14 @@ class Orders extends Component
     public function render()
     {
         // Ищем по имени клиента или по ID заказа
-        $orders = Order::where('customer_name', 'like', '%' . $this->search . '%')
-            ->orWhere('id', 'like', '%' . $this->search . '%')
+        $orders = Order::query()
+            ->withCount('items')
+            ->where(function ($query) {
+                $query->where('customer_name', 'like', '%' . $this->search . '%')
+                    ->orWhere('customer_phone', 'like', '%' . $this->search . '%')
+                    ->orWhere('customer_email', 'like', '%' . $this->search . '%')
+                    ->orWhere('id', 'like', '%' . $this->search . '%');
+            })
             ->latest()
             ->paginate(10);
 
