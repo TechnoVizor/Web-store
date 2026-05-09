@@ -2,19 +2,18 @@
 
 namespace Database\Factories;
 
+use App\Models\Category;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
-use App\Models\Category;
 
 class ProductFactory extends Factory
 {
     public function definition(): array
     {
-        $name = fake()->words(rand(2, 4), true);
+        $name = fake()->unique()->words(rand(2, 4), true);
 
         return [
-            // Берем случайную категорию из базы или создаем новую, если базы пуста
-            'category_id' => Category::inRandomOrder()->first()->id ?? Category::factory(),
+            'category_id' => Category::query()->inRandomOrder()->value('id') ?? Category::factory(),
             'name' => ucfirst($name),
             'slug' => Str::slug($name),
             'description' => fake()->realText(200), // Фейковый текст на 200 символов

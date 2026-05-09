@@ -4,18 +4,21 @@ namespace App\Livewire;
 
 use App\Models\Order;
 use App\Models\OrderItem;
-use Livewire\Component;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Livewire\Attributes\Layout;
-
+use Livewire\Component;
 
 #[Layout('layouts.app')]
 class Checkout extends Component
 {
     public $name = '';
-    public $email = ''; // ДОБАВЬ ЭТУ СТРОКУ
+
+    public $email = '';
+
     public $phone = '';
+
     public $address = '';
 
     public $cart = [];
@@ -35,7 +38,7 @@ class Checkout extends Component
             $this->name = $user->name;
             $this->email = $user->email;
             // Предполагаем, что поле phone есть в таблице users
-            $this->phone = $user->phone; 
+            $this->phone = $user->phone;
             $this->address = $user->address ?? '';
         }
 
@@ -54,55 +57,60 @@ class Checkout extends Component
         ];
     }
 
-   public function placeOrder()
-{
-    try {
-        $this->validate();
+    public function placeOrder()
+    {
+        try {
+            $this->validate();
 
-        $cart = session()->get('cart', []);
-        $total = array_sum(array_map(fn($item) => $item['price'] * $item['quantity'], $cart));
+            $cart = session()->get('cart', []);
+            $total = array_sum(array_map(fn ($item) => $item['price'] * $item['quantity'], $cart));
 
-        DB::transaction(function () use ($cart, $total) {
-            $order = Order::create([
-                'user_id' => Auth::id() ?? 1,
-                'customer_name' => $this->name,
-                'customer_email' => $this->email, // Проверь, есть ли такая колонка в БД!
-                'customer_phone' => $this->phone,
-                'customer_address' => $this->address,
-                'status' => 'new',
-                'total_amount' => $total,
+            DB::transaction(function () use ($cart, $total) {
+                $order = Order::create([
+                    'user_id' => Auth::id(),
+                    'customer_name' => $this->name,
+                    'customer_email' => $this->email,
+                    'customer_phone' => $this->phone,
+                    'customer_address' => $this->address,
+                    'status' => 'new',
+                    'total_amount' => $total,
+                ]);
+
+                foreach ($cart as $id => $details) {
+                    OrderItem::create([
+                        'order_id' => $order->id,
+                        'product_id' => $id,
+                        'quantity' => $details['quantity'],
+                        'price' => $details['price'],
+                    ]);
+                }
+            });
+
+            session()->forget('cart');
+
+            return redirect()->route('orders.success');
+
+        } catch (\Exception $e) {
+            Log::error('Checkout failed', [
+                'user_id' => Auth::id(),
+                'message' => $e->getMessage(),
             ]);
 
-            foreach ($cart as $id => $details) {
-                OrderItem::create([
-                    'order_id' => $order->id,
-                    'product_id' => $id,
-                    'quantity' => $details['quantity'],
-                    'price' => $details['price'],
-                ]);
-            }
-        });
-
-        session()->forget('cart');
-        return redirect()->route('orders.success');
-
-    } catch (\Exception $e) {
-        // Это выведет реальную ошибку (например, "Column not found") прямо на экран
-        dd($e->getMessage()); 
+            $this->addError('checkout', 'Не удалось оформить заказ. Попробуйте еще раз.');
+        }
     }
-}
 
     public function render()
     {
         $cart = session()->get('cart', []);
-        $total = array_sum(array_map(fn($item) => $item['price'] * $item['quantity'], $cart));
+        $total = array_sum(array_map(fn ($item) => $item['price'] * $item['quantity'], $cart));
 
         // Просто возвращаем вьюху, БЕЗ ->layout() и ->section()
         return view('livewire.checkout', [
             'cart' => $cart,
-            'total' => $total
+            'total' => $total,
         ])->layout('layouts.app');
-}
+    }
 
     protected $messages = [
         'name.required' => 'Идентификатор пользователя не обнаружен.',
@@ -115,6 +123,6 @@ class Checkout extends Component
 
     private function calculateTotal()
     {
-        $this->total = collect($this->cart)->sum(fn($item) => $item['price'] * $item['quantity']);
+        $this->total = collect($this->cart)->sum(fn ($item) => $item['price'] * $item['quantity']);
     }
 }

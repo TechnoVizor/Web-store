@@ -3,14 +3,19 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use Laravel\Socialite\Facades\Socialite;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Config;
+use Laravel\Socialite\Facades\Socialite;
 
 class GoogleController extends Controller
 {
     public function redirect()
     {
+        if (! filled(Config::get('services.google.client_id')) || ! filled(Config::get('services.google.client_secret'))) {
+            abort(500, 'Google OAuth is not configured. Set GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET in .env.');
+        }
+
         return Socialite::driver('google')->redirect();
     }
 
@@ -36,7 +41,7 @@ class GoogleController extends Controller
                 'avatar' => $googleUser->avatar,
                 'password' => bcrypt(str()->random(16)),
                 // Генерируем временный системный никнейм, так как поле у нас unique
-                'nickname' => 'digi_' . str()->random(6),
+                'nickname' => 'digi_'.str()->random(6),
             ]);
         }
 
@@ -48,6 +53,7 @@ class GoogleController extends Controller
     public function logout()
     {
         Auth::logout();
+
         return redirect('/');
     }
 }

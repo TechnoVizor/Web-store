@@ -16,13 +16,8 @@
         .filter-input { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); color: white; outline: none; transition: all 0.3s; }
         .filter-input:focus { border-color: white; background: rgba(255,255,255,0.07); }
         .cat-btn { font-size: 9px; padding: 6px 12px; border: 1px solid rgba(255,255,255,0.1); transition: all 0.3s; text-transform: uppercase; letter-spacing: 0.1em; }
-        .cat-btn.active { background: white; color: black; border-color: white;
-
-
+        .cat-btn.active { background: white; color: black; border-color: white; }
         .loading-fade { transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
-
-
-    }
     </style>
 
 <header class="py-24 border-b border-white/5">

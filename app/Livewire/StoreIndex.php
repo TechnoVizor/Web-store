@@ -2,25 +2,32 @@
 
 namespace App\Livewire;
 
-use App\Models\Product;
 use App\Models\Category;
+use App\Models\Product;
+use Livewire\Attributes\Layout;
 use Livewire\Component;
 use Livewire\WithPagination;
-use Livewire\Attributes\Layout;
 
 #[Layout('layouts.app')]
 class StoreIndex extends Component
 {
-    
     use WithPagination;
 
     // Параметры фильтрации
     public $search = '';
+
     public $selectedCategory = null;
 
     // Сбрасываем страницу пагинации при поиске
-    public function updatingSearch() { $this->resetPage(); }
-    public function updatingSelectedCategory() { $this->resetPage(); }
+    public function updatingSearch()
+    {
+        $this->resetPage();
+    }
+
+    public function updatingSelectedCategory()
+    {
+        $this->resetPage();
+    }
 
     public function selectCategory($categoryId)
     {
@@ -35,10 +42,12 @@ class StoreIndex extends Component
     public function render()
     {
         $products = Product::query()
-            ->when($this->search, function($query) {
-                $query->where('name', 'like', '%' . $this->search . '%');
+            ->with('category')
+            ->where('is_active', true)
+            ->when($this->search, function ($query) {
+                $query->where('name', 'like', '%'.trim($this->search).'%');
             })
-            ->when($this->selectedCategory, function($query) {
+            ->when($this->selectedCategory, function ($query) {
                 $query->where('category_id', $this->selectedCategory);
             })
             ->latest()
@@ -46,7 +55,7 @@ class StoreIndex extends Component
 
         return view('livewire.store-index', [
             'products' => $products,
-            'categories' => Category::all(),
+            'categories' => Category::query()->orderBy('name')->get(),
         ]);
     }
 }

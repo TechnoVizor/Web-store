@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
-use Illuminate\Http\Request;
 
 class StoreController extends Controller
 {
@@ -11,13 +10,18 @@ class StoreController extends Controller
     public function index()
     {
         // Берем только активные товары и подгружаем их категории
-       return view('store.index');
+        return view('store.index');
     }
 
     // Метод для страницы одного товара
-    public function show($slug)
-{
-    $product = \App\Models\Product::where('slug', $slug)->firstOrFail();
-    return view('store.show', compact('product'));
-}
+    public function show(string $slug)
+    {
+        $product = Product::query()
+            ->with('category')
+            ->where('slug', $slug)
+            ->where('is_active', true)
+            ->firstOrFail();
+
+        return view('store.show', compact('product'));
+    }
 }

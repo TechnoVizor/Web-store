@@ -1,38 +1,7 @@
 @extends('layouts.app')
 
-
-
-
-<!DOCTYPE html>
-<html lang="ru">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ $product->name }} // Digi_store</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=JetBrains+Mono:wght@400;700&display=swap"
-        rel="stylesheet">
+@section('content')
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #000;
-            color: #fff;
-            letter-spacing: -0.02em;
-        }
-
-        .mono {
-            font-family: 'JetBrains Mono', monospace;
-        }
-
-        .glass {
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(20px) saturate(180%);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        /* Анимация сканирующей линии на фото */
         .scan-line {
             width: 100%;
             height: 2px;
@@ -60,10 +29,7 @@
             }
         }
     </style>
-</head>
 
-<body class="antialiased">
-@section('content')
     <main class="container mx-auto px-6 py-12 lg:py-24 max-w-7xl">
 
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
@@ -176,6 +142,3 @@
         <p class="mono text-[8px] uppercase tracking-[0.8em] text-white/20">Digi // INDUSTRIAL // 2026</p>
     </footer>
 @endsection
-</body>
-
-</html>

@@ -7,8 +7,9 @@
     <title>{{ $title ?? 'DIGI_STORE // CORE' }}</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    {{-- Tailwind & Fonts --}}
-    <script src="https://cdn.tailwindcss.com"></script>
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+    {{-- Fonts --}}
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=JetBrains+Mono:wght@400;700&display=swap"
         rel="stylesheet">

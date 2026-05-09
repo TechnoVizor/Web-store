@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SYS_ADMIN // TERMINAL</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     {{-- Подключаем отдельный шрифт только для админки --}}
     <link rel="preconnect" href="https://fonts.googleapis.com">
