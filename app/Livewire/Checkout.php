@@ -5,7 +5,6 @@ namespace App\Livewire;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -73,28 +72,45 @@ class Checkout extends Component
                 return;
             }
 
-            $productIds = array_map('intval', array_keys($cart));
+            $cartItems = collect($cart)
+                ->map(function ($item, $id) {
+                    if (! ctype_digit((string) $id)) {
+                        return null;
+                    }
+
+                    return [
+                        'product_id' => (int) $id,
+                        'quantity' => max(1, (int) ($item['quantity'] ?? 1)),
+                    ];
+                })
+                ->filter()
+                ->values();
+
+            if ($cartItems->isEmpty() || $cartItems->count() !== count($cart)) {
+                $this->addError('checkout', __('ui.checkout.item_unavailable'));
+
+                return;
+            }
+
+            $productIds = $cartItems->pluck('product_id')->unique()->values();
             $products = Product::query()
                 ->whereIn('id', $productIds)
                 ->where('is_active', true)
                 ->get(['id', 'price'])
                 ->keyBy('id');
 
-            if ($products->count() !== count($productIds)) {
+            if ($products->count() !== $productIds->count()) {
                 $this->addError('checkout', __('ui.checkout.item_unavailable'));
 
                 return;
             }
 
-            $items = collect($cart)
-                ->map(function ($item, $id) use ($products) {
-                    $productId = (int) $id;
-                    $quantity = max(1, (int) ($item['quantity'] ?? 1));
-
+            $items = $cartItems
+                ->map(function ($item) use ($products) {
                     return [
-                        'product_id' => $productId,
-                        'quantity' => $quantity,
-                        'price' => $products[$productId]->price,
+                        'product_id' => $item['product_id'],
+                        'quantity' => $item['quantity'],
+                        'price' => $products[$item['product_id']]->price,
                     ];
                 })
                 ->values();
@@ -102,11 +118,11 @@ class Checkout extends Component
             $total = $items->sum(fn ($item) => $item['price'] * $item['quantity']);
 
             if (! app()->runningUnitTests()) {
-                DB::disconnect();
+                DB::purge();
                 DB::reconnect();
             }
 
-            DB::beginTransaction();
+            $order = null;
 
             try {
                 $order = Order::create([
@@ -119,22 +135,37 @@ class Checkout extends Component
                     'total_amount' => $total,
                 ]);
 
-                $now = Carbon::now();
-                OrderItem::insert(
-                    $items->map(fn ($item) => [
-                        'order_id' => $order->id,
-                        'product_id' => $item['product_id'],
-                        'quantity' => $item['quantity'],
-                        'price' => $item['price'],
-                        'created_at' => $now,
-                        'updated_at' => $now,
-                    ])->all()
-                );
+                $items->each(function ($item) use ($order) {
+                    try {
+                        OrderItem::create([
+                            'order_id' => $order->id,
+                            'product_id' => $item['product_id'],
+                            'quantity' => $item['quantity'],
+                            'price' => $item['price'],
+                        ]);
+                    } catch (Throwable $e) {
+                        Log::error('Checkout item insert failed', [
+                            'order_id' => $order->id,
+                            'product_id' => $item['product_id'],
+                            'quantity' => $item['quantity'],
+                            'price' => $item['price'],
+                            'message' => $e->getMessage(),
+                            'previous' => $e->getPrevious()?->getMessage(),
+                        ]);
 
-                DB::commit();
+                        throw $e;
+                    }
+                });
             } catch (Throwable $e) {
-                if (DB::transactionLevel() > 0) {
-                    DB::rollBack();
+                if ($order?->exists) {
+                    try {
+                        $order->delete();
+                    } catch (Throwable $cleanupException) {
+                        Log::warning('Checkout cleanup failed', [
+                            'order_id' => $order->id,
+                            'message' => $cleanupException->getMessage(),
+                        ]);
+                    }
                 }
 
                 throw $e;
@@ -149,6 +180,7 @@ class Checkout extends Component
         } catch (Throwable $e) {
             Log::error('Checkout failed', [
                 'user_id' => Auth::id(),
+                'cart_product_ids' => collect(session()->get('cart', []))->keys()->values()->all(),
                 'message' => $e->getMessage(),
                 'previous' => $e->getPrevious()?->getMessage(),
             ]);
