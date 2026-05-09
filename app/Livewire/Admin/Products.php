@@ -100,7 +100,7 @@ class Products extends Component
             ],
             'price' => 'required|numeric',
             'category_id' => 'required|exists:categories,id',
-            'imageUpload' => 'nullable|image|max:10240',
+            'imageUpload' => 'nullable|image|mimes:jpg,jpeg,png,webp,avif|max:4096',
         ]);
 
         $image = $this->image;

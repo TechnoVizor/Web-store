@@ -72,7 +72,7 @@
 <div class="mt-4">
     <label class="block text-zinc-500 text-[10px] tracking-widest uppercase mb-2">Visual_Asset (Image)</label>
     <div class="flex items-center space-x-4">
-        <input type="file" wire:model="imageUpload" accept="image/*" class="text-xs text-zinc-500 file:mr-4 file:py-2 file:px-4 file:border-0 file:bg-zinc-800 file:text-zinc-300 hover:file:bg-zinc-700">
+        <input type="file" wire:model="imageUpload" accept="image/jpeg,image/png,image/webp,image/avif" class="text-xs text-zinc-500 file:mr-4 file:py-2 file:px-4 file:border-0 file:bg-zinc-800 file:text-zinc-300 hover:file:bg-zinc-700">
 
         <div wire:loading wire:target="imageUpload" class="text-[10px] text-green-500 animate-pulse uppercase">Uploading...</div>
     </div>
