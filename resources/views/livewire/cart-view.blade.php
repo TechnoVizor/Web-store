@@ -43,6 +43,11 @@
                 <div>
                     <h3 class="text-sm font-bold uppercase tracking-widest text-white mb-1">{{ $details['name'] }}</h3>
                     <p class="mono text-[9px] text-white/20 uppercase">{{ __('ui.cart.item_id') }}: {{ $id }}</p>
+                    @if(!empty($details['size']))
+                        <p class="mono mt-2 inline-flex border border-white/10 px-2 py-1 text-[9px] uppercase tracking-[0.18em] text-white/45">
+                            {{ __('ui.product.size') }}: {{ $details['size'] }}
+                        </p>
+                    @endif
                 </div>
                 <button
                     type="button"

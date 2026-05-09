@@ -24,16 +24,34 @@
             @foreach($orders as $order)
                 <a href="{{ route('orders.show', $order) }}" wire:navigate
                     class="group grid gap-4 border border-white/10 bg-[#090909] p-4 transition duration-200 hover:border-white/24 sm:grid-cols-[1fr_auto] sm:items-center">
-                    <div class="min-w-0">
-                        <div class="mb-2 flex flex-wrap items-center gap-3">
-                            <span class="mono text-[10px] font-bold uppercase tracking-[0.24em] text-white/70">#{{ str_pad($order->id, 5, '0', STR_PAD_LEFT) }}</span>
-                            <span class="mono border border-white/10 px-2 py-1 text-[9px] uppercase tracking-[0.18em] text-white/45">
-                                {{ __('ui.status.' . $order->status) }}
-                            </span>
+                    <div class="flex min-w-0 gap-4">
+                        <div class="flex -space-x-2">
+                            @foreach($order->items->take(3) as $item)
+                                <div class="h-12 w-10 overflow-hidden border border-white/10 bg-black">
+                                    @if($item->product?->image_url)
+                                        <img src="{{ $item->product->image_url }}"
+                                            alt="{{ $item->product->name }}"
+                                            loading="lazy"
+                                            decoding="async"
+                                            class="h-full w-full object-cover opacity-75">
+                                    @else
+                                        <div class="h-full w-full bg-white/5"></div>
+                                    @endif
+                                </div>
+                            @endforeach
                         </div>
-                        <p class="mono truncate text-[10px] uppercase tracking-[0.22em] text-white/32">
-                            {{ $order->items_count }} {{ __('ui.orders.units_total') }} / {{ $order->created_at?->timezone(config('app.timezone'))->format('Y-m-d H:i') }}
-                        </p>
+
+                        <div class="min-w-0">
+                            <div class="mb-2 flex flex-wrap items-center gap-3">
+                                <span class="mono text-[10px] font-bold uppercase tracking-[0.24em] text-white/70">#{{ str_pad($order->id, 5, '0', STR_PAD_LEFT) }}</span>
+                                <span class="mono border border-white/10 px-2 py-1 text-[9px] uppercase tracking-[0.18em] text-white/45">
+                                    {{ __('ui.status.' . $order->status) }}
+                                </span>
+                            </div>
+                            <p class="mono truncate text-[10px] uppercase tracking-[0.22em] text-white/32">
+                                {{ $order->items_count }} {{ __('ui.orders.units_total') }} / {{ $order->created_at?->timezone(config('app.timezone'))->format('Y-m-d H:i') }}
+                            </p>
+                        </div>
                     </div>
 
                     <div class="flex items-center justify-between gap-4 sm:justify-end">

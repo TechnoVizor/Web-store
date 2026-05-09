@@ -55,6 +55,8 @@ return [
         'status' => 'Statuss',
         'available' => 'Pieejams',
         'tax_included' => 'Nodoklis iekļauts',
+        'size' => 'Izmērs',
+        'size_hint' => 'Izvēlieties',
         'fallback_description' => 'Rūpīgi izvēlēta garderobes prece ar tīru siluetu, ērtu piegriezumu un mūsdienīgu apdari.',
         'details' => 'Preces detaļas',
         'materials' => 'Materiāli',

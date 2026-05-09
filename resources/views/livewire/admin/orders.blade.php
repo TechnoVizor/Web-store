@@ -175,6 +175,9 @@
                                 </div>
                                 <div class="mt-1 text-[10px] uppercase tracking-[0.18em] text-zinc-500">
                                     {{ __('ui.admin.quantity') }}: {{ $item->quantity }}
+                                    @if($item->size)
+                                        / {{ __('ui.product.size') }}: {{ $item->size }}
+                                    @endif
                                 </div>
                             </div>
 

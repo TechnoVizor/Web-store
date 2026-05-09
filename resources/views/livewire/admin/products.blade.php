@@ -109,6 +109,20 @@
         placeholder="{{ __('ui.admin.description_placeholder') }}"></textarea>
     @error('description') <span class="text-red-500 text-[10px] uppercase tracking-widest mt-1 block">{{ $message }}</span> @enderror
 </div>
+                <div>
+                    <label class="block text-zinc-500 text-[10px] tracking-widest uppercase mb-2">{{ __('ui.product.size') }}</label>
+                    <div class="grid grid-cols-4 gap-2">
+                        @foreach(\App\Livewire\Admin\Products::SIZE_OPTIONS as $size)
+                            <label class="group/size">
+                                <input type="checkbox" wire:model="sizes" value="{{ $size }}" class="peer sr-only">
+                                <span class="flex min-h-9 items-center justify-center border border-zinc-800 bg-black mono text-[10px] font-bold tracking-widest text-zinc-500 transition-all group-hover/size:border-zinc-500 group-hover/size:text-zinc-200 peer-checked:border-white peer-checked:bg-white peer-checked:text-black">
+                                    {{ $size }}
+                                </span>
+                            </label>
+                        @endforeach
+                    </div>
+                    @error('sizes') <span class="text-red-500 text-[10px] uppercase tracking-widest mt-1 block">{{ $message }}</span> @enderror
+                </div>
                 {{-- Цена --}}
                 <div>
                     <label class="block text-gray-500 text-xs tracking-widest uppercase mb-1">{{ __('ui.admin.price') }} (USD)</label>

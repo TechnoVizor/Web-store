@@ -65,7 +65,12 @@
                                 <a href="{{ $item->product ? route('product.show', $item->product->slug) : '#' }}" class="block truncate text-sm font-bold uppercase tracking-[0.12em] text-white/78 transition-colors hover:text-white focus:outline-none focus-visible:underline">
                                     {{ $item->product ? $item->product->name : __('ui.product.unknown') }}
                                 </a>
-                                <p class="mono mt-1 text-[10px] uppercase tracking-[0.16em] text-white/38">{{ $item->quantity }} {{ __('ui.cart.units') }}</p>
+                                <p class="mono mt-1 text-[10px] uppercase tracking-[0.16em] text-white/38">
+                                    {{ $item->quantity }} {{ __('ui.cart.units') }}
+                                    @if($item->size)
+                                        / {{ __('ui.product.size') }}: {{ $item->size }}
+                                    @endif
+                                </p>
                             </div>
 
                             <div class="text-right">

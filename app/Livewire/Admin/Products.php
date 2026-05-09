@@ -17,6 +17,8 @@ class Products extends Component
 {
     use WithFileUploads, WithPagination;
 
+    public const SIZE_OPTIONS = ['XXS', 'XS', 'S', 'M', 'L', 'XL', 'XXL'];
+
     public $search = '';
 
     // Переменные для модального окна
@@ -37,6 +39,8 @@ class Products extends Component
     public $image;
 
     public $imageUpload;
+
+    public array $sizes = Product::DEFAULT_SIZES;
 
     // Сбрасываем страницу при поиске
     public function updatedSearch()
@@ -72,6 +76,7 @@ class Products extends Component
         $this->description = '';
         $this->image = '';
         $this->imageUpload = null;
+        $this->sizes = Product::DEFAULT_SIZES;
     }
 
     // --- CRUD ОПЕРАЦИИ ---
@@ -85,6 +90,7 @@ class Products extends Component
         $this->category_id = $product->category_id;
         $this->description = $product->description;
         $this->image = $product->image;
+        $this->sizes = $product->availableSizes();
 
         $this->isModalOpen = true;
     }
@@ -101,6 +107,8 @@ class Products extends Component
             'price' => 'required|numeric',
             'category_id' => 'required|exists:categories,id',
             'imageUpload' => 'nullable|image|mimes:jpg,jpeg,png,webp,avif|max:4096',
+            'sizes' => ['required', 'array', 'min:1'],
+            'sizes.*' => ['string', Rule::in(self::SIZE_OPTIONS)],
         ]);
 
         $image = $this->image;
@@ -116,6 +124,7 @@ class Products extends Component
             'category_id' => $this->category_id,
             'description' => $this->description,
             'image' => $image ?: null,
+            'sizes' => collect($this->sizes)->intersect(self::SIZE_OPTIONS)->values()->all(),
         ];
 
         if ($this->product_id) {

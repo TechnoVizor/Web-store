@@ -8,6 +8,10 @@ class OrderItem extends Model
 {
     protected $guarded = [];
 
+    protected $casts = [
+        'price' => 'decimal:2',
+    ];
+
     // Позиция принадлежит заказу
     public function order()
     {

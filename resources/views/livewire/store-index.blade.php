@@ -306,6 +306,26 @@
                                             <span class="mono text-[8px] uppercase tracking-[0.22em] text-white/30">{{ __('ui.store.price_label') }}</span>
                                             <span class="text-base font-black mono text-white/86">${{ number_format($product->price, 0) }}</span>
                                         </div>
+                                        <div class="mb-4">
+                                            <div class="mb-2 flex items-center justify-between">
+                                                <span class="mono text-[8px] uppercase tracking-[0.22em] text-white/30">{{ __('ui.product.size') }}</span>
+                                                <span class="mono text-[8px] uppercase tracking-[0.18em] text-white/20">{{ __('ui.product.size_hint') }}</span>
+                                            </div>
+                                            <div class="grid grid-cols-5 gap-1.5">
+                                                @foreach($product->availableSizes() as $size)
+                                                    <label class="group/size">
+                                                        <input type="radio"
+                                                            wire:model.live="selectedSizes.{{ $product->id }}"
+                                                            value="{{ $size }}"
+                                                            @checked(($selectedSizes[$product->id] ?? $product->availableSizes()[0]) === $size)
+                                                            class="peer sr-only">
+                                                        <span class="flex min-h-8 items-center justify-center border border-white/10 bg-black/30 mono text-[9px] font-bold uppercase tracking-[0.14em] text-white/42 transition-all group-hover/size:border-white/28 group-hover/size:text-white/78 peer-checked:border-white/70 peer-checked:bg-white/80 peer-checked:text-black">
+                                                            {{ $size }}
+                                                        </span>
+                                                    </label>
+                                                @endforeach
+                                            </div>
+                                        </div>
                                         <button type="button"
                                             wire:click.prevent="addToBag({{ $product->id }})"
                                             wire:loading.attr="disabled"

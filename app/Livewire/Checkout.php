@@ -74,13 +74,17 @@ class Checkout extends Component
             }
 
             $cartItems = collect($cart)
-                ->map(function ($item, $id) {
-                    if (! ctype_digit((string) $id)) {
+                ->map(function ($item, $cartKey) {
+                    $productId = (int) ($item['product_id'] ?? str($cartKey)->before(':')->toString());
+
+                    if ($productId <= 0) {
                         return null;
                     }
 
                     return [
-                        'product_id' => (int) $id,
+                        'cart_key' => (string) $cartKey,
+                        'product_id' => $productId,
+                        'size' => strtoupper((string) ($item['size'] ?? '')),
                         'quantity' => max(1, (int) ($item['quantity'] ?? 1)),
                     ];
                 })
@@ -97,7 +101,7 @@ class Checkout extends Component
             $products = Product::query()
                 ->whereIn('id', $productIds)
                 ->where('is_active', true)
-                ->get(['id', 'price'])
+                ->get(['id', 'price', 'sizes'])
                 ->keyBy('id');
 
             if ($products->count() !== $productIds->count()) {
@@ -108,10 +112,16 @@ class Checkout extends Component
 
             $items = $cartItems
                 ->map(function ($item) use ($products) {
+                    $product = $products[$item['product_id']];
+                    $sizes = $product->availableSizes();
+                    $size = in_array($item['size'], $sizes, true) ? $item['size'] : $sizes[0];
+
                     return [
+                        'cart_key' => $item['cart_key'],
                         'product_id' => $item['product_id'],
+                        'size' => $size,
                         'quantity' => $item['quantity'],
-                        'price' => $products[$item['product_id']]->price,
+                        'price' => $product->price,
                     ];
                 })
                 ->values();
@@ -148,6 +158,7 @@ class Checkout extends Component
                             'order_id' => $order->id,
                             'product_id' => $item['product_id'],
                             'quantity' => $item['quantity'],
+                            'size' => $item['size'] ?: null,
                             'price' => $item['price'],
                         ]);
                     } catch (Throwable $e) {

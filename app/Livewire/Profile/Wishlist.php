@@ -17,18 +17,22 @@ class Wishlist extends Component
     public function addToBag(int $productId): void
     {
         $product = Product::query()
-            ->select(['id', 'name', 'price', 'image'])
+            ->select(['id', 'name', 'price', 'image', 'sizes'])
             ->whereKey($productId)
             ->where('is_active', true)
             ->firstOrFail();
 
+        $size = $product->availableSizes()[0];
+        $cartKey = $product->id.':'.$size;
         $cart = session()->get('cart', []);
 
-        if (isset($cart[$productId])) {
-            $cart[$productId]['quantity']++;
+        if (isset($cart[$cartKey])) {
+            $cart[$cartKey]['quantity']++;
         } else {
-            $cart[$productId] = [
+            $cart[$cartKey] = [
+                'product_id' => $product->id,
                 'name' => $product->name,
+                'size' => $size,
                 'quantity' => 1,
                 'price' => $product->price,
                 'image' => $product->image_url,

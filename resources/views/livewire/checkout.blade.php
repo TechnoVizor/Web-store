@@ -92,7 +92,13 @@
                             <div class="flex justify-between items-start group">
                                 <div>
                                     <p class="text-xs text-white font-bold uppercase group-hover:text-green-500 transition-colors">{{ $item['name'] }}</p>
-                                    <p class="mono text-[9px] text-white/30 uppercase mt-1">{{ __('ui.cart.units') }}: {{ $item['quantity'] }} // PPU: ${{ number_format($item['price'], 0) }}</p>
+                                    <p class="mono text-[9px] text-white/30 uppercase mt-1">
+                                        {{ __('ui.cart.units') }}: {{ $item['quantity'] }}
+                                        @if(!empty($item['size']))
+                                            // {{ __('ui.product.size') }}: {{ $item['size'] }}
+                                        @endif
+                                        // PPU: ${{ number_format($item['price'], 0) }}
+                                    </p>
                                 </div>
                                 <span class="mono text-xs text-white font-bold">${{ number_format($item['price'] * $item['quantity'], 0) }}</span>
                             </div>

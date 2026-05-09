@@ -18,6 +18,8 @@ class StoreIndex extends Component
 
     public $selectedCategory = null;
 
+    public array $selectedSizes = [];
+
     // Сбрасываем страницу пагинации при поиске
     public function updatingSearch()
     {
@@ -46,18 +48,22 @@ class StoreIndex extends Component
     public function addToBag(int $productId): void
     {
         $product = Product::query()
-            ->select(['id', 'name', 'price', 'image'])
+            ->select(['id', 'name', 'price', 'image', 'sizes'])
             ->whereKey($productId)
             ->where('is_active', true)
             ->firstOrFail();
 
+        $size = $this->selectedSizeFor($product);
+        $cartKey = $this->cartKey($product->id, $size);
         $cart = session()->get('cart', []);
 
-        if (isset($cart[$productId])) {
-            $cart[$productId]['quantity']++;
+        if (isset($cart[$cartKey])) {
+            $cart[$cartKey]['quantity']++;
         } else {
-            $cart[$productId] = [
+            $cart[$cartKey] = [
+                'product_id' => $product->id,
                 'name' => $product->name,
+                'size' => $size,
                 'quantity' => 1,
                 'price' => $product->price,
                 'image' => $product->image_url,
@@ -69,11 +75,24 @@ class StoreIndex extends Component
         $this->dispatch('cart-updated');
     }
 
+    private function selectedSizeFor(Product $product): string
+    {
+        $sizes = $product->availableSizes();
+        $size = strtoupper((string) ($this->selectedSizes[$product->id] ?? $sizes[0]));
+
+        return in_array($size, $sizes, true) ? $size : $sizes[0];
+    }
+
+    private function cartKey(int $productId, string $size): string
+    {
+        return $productId.':'.$size;
+    }
+
     public function render()
     {
         $products = Product::query()
             ->with('category')
-            ->select(['id', 'category_id', 'name', 'slug', 'price', 'image', 'is_active', 'created_at'])
+            ->select(['id', 'category_id', 'name', 'slug', 'price', 'image', 'sizes', 'is_active', 'created_at'])
             ->where('is_active', true)
             ->when($this->search, function ($query) {
                 $query->where('name', 'like', '%'.trim($this->search).'%');

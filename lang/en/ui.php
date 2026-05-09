@@ -55,6 +55,8 @@ return [
         'status' => 'Status',
         'available' => 'Available',
         'tax_included' => 'Tax included',
+        'size' => 'Size',
+        'size_hint' => 'Select',
         'fallback_description' => 'A carefully selected wardrobe piece with a clean silhouette, comfortable fit, and a modern everyday finish.',
         'details' => 'Product details',
         'materials' => 'Materials',

@@ -18,6 +18,7 @@ class OrdersPreview extends Component
         return view('livewire.profile.orders-preview', [
             'orders' => $user
                 ->orders()
+                ->with(['items.product:id,name,image'])
                 ->withCount('items')
                 ->latest()
                 ->limit(3)

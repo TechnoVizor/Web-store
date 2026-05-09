@@ -8,21 +8,26 @@ use Illuminate\Validation\ValidationException;
 
 class CartController extends Controller
 {
-    public function add(int $id)
+    public function add(Request $request, int $id)
     {
         $product = Product::query()
             ->where('is_active', true)
             ->findOrFail($id);
 
+        $size = strtoupper((string) $request->input('size', $product->availableSizes()[0]));
+        $size = in_array($size, $product->availableSizes(), true) ? $size : $product->availableSizes()[0];
+        $cartKey = $product->id.':'.$size;
         $cart = session()->get('cart', []);
-        $currentQuantity = (int) ($cart[$id]['quantity'] ?? 0);
+        $currentQuantity = (int) ($cart[$cartKey]['quantity'] ?? 0);
 
         if ($currentQuantity >= $product->quantity) {
             return back()->with('error', 'Недостаточно товара на складе.');
         }
 
-        $cart[$id] = [
+        $cart[$cartKey] = [
+            'product_id' => $product->id,
             'name' => $product->name,
+            'size' => $size,
             'quantity' => $currentQuantity + 1,
             'price' => $product->price,
             'image' => $product->image_url,
@@ -48,7 +53,7 @@ class CartController extends Controller
     public function update(Request $request)
     {
         $validated = $request->validate([
-            'id' => ['required', 'integer'],
+            'id' => ['required', 'string'],
             'quantity' => ['required', 'integer', 'min:1', 'max:99'],
         ]);
 
@@ -60,7 +65,8 @@ class CartController extends Controller
             ]);
         }
 
-        $product = Product::query()->findOrFail($validated['id']);
+        $productId = (int) str($validated['id'])->before(':')->toString();
+        $product = Product::query()->findOrFail($productId);
         $cart[$validated['id']]['quantity'] = min($validated['quantity'], max(1, $product->quantity));
         session()->put('cart', $cart);
 
