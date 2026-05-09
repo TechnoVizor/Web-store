@@ -22,6 +22,12 @@ Build Command: from vercel.json
 Output Directory: public
 ```
 
+The install command intentionally runs only `npm ci`. Do not set it to
+`composer install` in Vercel Project Settings. The `vercel-php` runtime installs
+Composer dependencies while building the PHP serverless function; running
+`composer` in Vercel's generic install step can fail with `exit 127` when the
+global Composer binary is not present.
+
 ## 1. Neon database
 
 Create a Neon project and copy both connection strings:
