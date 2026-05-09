@@ -5,6 +5,7 @@ namespace App\Livewire;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -73,21 +74,41 @@ class Checkout extends Component
             }
 
             $productIds = array_map('intval', array_keys($cart));
-            $availableProducts = Product::query()
+            $products = Product::query()
                 ->whereIn('id', $productIds)
                 ->where('is_active', true)
-                ->pluck('id')
-                ->all();
+                ->get(['id', 'price'])
+                ->keyBy('id');
 
-            if (count($availableProducts) !== count($productIds)) {
+            if ($products->count() !== count($productIds)) {
                 $this->addError('checkout', __('ui.checkout.item_unavailable'));
 
                 return;
             }
 
-            $total = array_sum(array_map(fn ($item) => $item['price'] * $item['quantity'], $cart));
+            $items = collect($cart)
+                ->map(function ($item, $id) use ($products) {
+                    $productId = (int) $id;
+                    $quantity = max(1, (int) ($item['quantity'] ?? 1));
 
-            DB::transaction(function () use ($cart, $total) {
+                    return [
+                        'product_id' => $productId,
+                        'quantity' => $quantity,
+                        'price' => $products[$productId]->price,
+                    ];
+                })
+                ->values();
+
+            $total = $items->sum(fn ($item) => $item['price'] * $item['quantity']);
+
+            if (! app()->runningUnitTests()) {
+                DB::disconnect();
+                DB::reconnect();
+            }
+
+            DB::beginTransaction();
+
+            try {
                 $order = Order::create([
                     'user_id' => Auth::id(),
                     'customer_name' => $this->name,
@@ -98,15 +119,26 @@ class Checkout extends Component
                     'total_amount' => $total,
                 ]);
 
-                foreach ($cart as $id => $details) {
-                    OrderItem::create([
+                $now = Carbon::now();
+                OrderItem::insert(
+                    $items->map(fn ($item) => [
                         'order_id' => $order->id,
-                        'product_id' => $id,
-                        'quantity' => $details['quantity'],
-                        'price' => $details['price'],
-                    ]);
+                        'product_id' => $item['product_id'],
+                        'quantity' => $item['quantity'],
+                        'price' => $item['price'],
+                        'created_at' => $now,
+                        'updated_at' => $now,
+                    ])->all()
+                );
+
+                DB::commit();
+            } catch (Throwable $e) {
+                if (DB::transactionLevel() > 0) {
+                    DB::rollBack();
                 }
-            });
+
+                throw $e;
+            }
 
             session()->forget('cart');
 
@@ -118,6 +150,7 @@ class Checkout extends Component
             Log::error('Checkout failed', [
                 'user_id' => Auth::id(),
                 'message' => $e->getMessage(),
+                'previous' => $e->getPrevious()?->getMessage(),
             ]);
 
             $this->addError('checkout', __('ui.checkout.failed'));
