@@ -1,5 +1,6 @@
 <div>
-    <button wire:click.stop="toggle" 
+    <button wire:click.stop="toggle"
+            aria-label="{{ $isWished ? __('ui.profile.remove') : __('ui.profile.saved_items') }}"
             class="p-1.5 bg-black/40 backdrop-blur-md border border-white/5 hover:scale-110 transition-all focus:outline-none">
         <svg class="w-4 h-4 transition-colors duration-300 {{ $isWished ? 'fill-white text-white' : 'text-white/40' }}"
              viewBox="0 0 24 24" 

@@ -20,6 +20,7 @@
     
     <button x-show="showButton" 
             x-cloak
+            :aria-label="open ? '{{ __('ui.admin.close') }}' : '{{ __('ui.chat.title') }}'"
             x-transition:enter="transition ease-out duration-500"
             x-transition:enter-start="opacity-0 scale-50 translate-y-10"
             x-transition:enter-end="opacity-100 scale-100 translate-y-0"

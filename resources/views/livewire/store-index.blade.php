@@ -20,70 +20,24 @@
         .loading-fade { transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
     </style>
 
-<header class="py-24 border-b border-white/5">
-    <div class="container mx-auto px-6 text-center" 
-         x-data="{ 
-            status: '', 
-            titlePart1: '', 
-            titlePart2: '', 
-            desc: '',
-            fullStatus: @js(__('ui.store.status')),
-            fullPart1: @js(__('ui.store.title_1')),
-            fullPart2: @js(__('ui.store.title_2')),
-            fullDesc: @js(__('ui.store.description'))
-         }"
-         x-init="
-            {{-- 1. Статус --}}
-            let sCount = 0;
-            let sInterval = setInterval(() => {
-                if(sCount < fullStatus.length) { status += fullStatus[sCount]; sCount++; }
-                else clearInterval(sInterval);
-            }, 30);
-
-            {{-- 2. Precision --}}
-            setTimeout(() => {
-                let t1Count = 0;
-                let t1Interval = setInterval(() => {
-                    if(t1Count < fullPart1.length) { titlePart1 += fullPart1[t1Count]; t1Count++; }
-                    else clearInterval(t1Interval);
-                }, 60);
-            }, 500);
-
-            {{-- 3. Title second part --}}
-            setTimeout(() => {
-                let t2Count = 0;
-                let t2Interval = setInterval(() => {
-                    if(t2Count < fullPart2.length) { titlePart2 += fullPart2[t2Count]; t2Count++; }
-                    else clearInterval(t2Interval);
-                }, 60);
-            }, 1200);
-
-            {{-- 4. Описание --}}
-            setTimeout(() => {
-                let dCount = 0;
-                let dInterval = setInterval(() => {
-                    if(dCount < fullDesc.length) { desc += fullDesc[dCount]; dCount++; }
-                    else clearInterval(dInterval);
-                }, 20);
-            }, 2000);
-         ">
+<header class="py-16 md:py-20 border-b border-white/5">
+    <div class="container mx-auto px-6 text-center">
         
         {{-- Бадж статуса --}}
         <div class="inline-block px-3 py-1 border border-white/10 rounded-full mb-6">
-            <span class="text-[8px] font-mono text-white/40 uppercase tracking-widest" x-text="status"></span>
+            <span class="text-[8px] font-mono text-white/40 uppercase tracking-widest">{{ __('ui.store.status') }}</span>
         </div>
 
         {{-- ЗАГОЛОВОК: СТРУКТУРА КОТОРУЮ НЕ СЛОМАТЬ --}}
         <h1 class="text-4xl md:text-7xl font-bold tracking-tighter mb-6 uppercase text-white min-h-[1.5em] text-center leading-none">
-            <span x-text="titlePart1"></span>
+            <span>{{ __('ui.store.title_1') }}</span>
             <span class="inline">
-        <span class="text-white/20" x-text="titlePart2"></span>
-        <span class="blink-cursor">|</span>
+        <span class="text-white/20">{{ __('ui.store.title_2') }}</span>
     </span>
 </h1>
 
         {{-- Описание --}}
-        <p class="text-white/40 text-sm max-w-lg mx-auto font-light leading-relaxed min-h-[3em]" x-text="desc"></p>
+        <p class="text-white/40 text-sm max-w-lg mx-auto font-light leading-relaxed min-h-[3em]">{{ __('ui.store.description') }}</p>
     </div>
 </header>
 
@@ -196,7 +150,7 @@
                                              alt="{{ $product->name }}"
                                              width="640"
                                              height="800"
-                                             loading="{{ $loop->index < 4 ? 'eager' : 'lazy' }}"
+                                             loading="{{ $loop->first ? 'eager' : 'lazy' }}"
                                              fetchpriority="{{ $loop->index === 0 ? 'high' : 'auto' }}"
                                              decoding="async"
                                              @load="loaded = true"
@@ -212,7 +166,7 @@
     <livewire:wishlist-toggle :product-id="$product->id" :key="'wish-'.$product->id" />
 </div>
                                         @else
-                                            <a href="/login" wire:navigate class="p-1.5 bg-black/40 backdrop-blur-md border border-white/5 block text-white/20">
+                                            <a href="/login" wire:navigate aria-label="{{ __('ui.nav.sign_in') }}" class="p-1.5 bg-black/40 backdrop-blur-md border border-white/5 block text-white/20">
                                                 <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                                     <path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
                                                 </svg>

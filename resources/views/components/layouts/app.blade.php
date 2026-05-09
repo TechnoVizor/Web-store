@@ -5,14 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ $title ?? __('ui.brand') }}</title>
+    <meta name="description" content="{{ __('ui.footer.description') }}">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-
-    {{-- Fonts --}}
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=JetBrains+Mono:wght@400;700&display=swap"
-        rel="stylesheet">
 
     <style>
         [x-cloak] {
@@ -20,7 +16,7 @@
         }
 
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
             font-size: 16px;
             background-color: #000;
             color: #fff;
@@ -30,14 +26,19 @@
 
         /* ИСПРАВЛЕНО: Теперь тут реально Mono шрифт */
         .mono {
-            font-family: 'JetBrains Mono', monospace !important;
+            font-family: "JetBrains Mono", "SFMono-Regular", Consolas, "Liberation Mono", ui-monospace, monospace !important;
         }
 
-        .text-\[7px\] { font-size: 8px !important; }
-        .text-\[8px\] { font-size: 9px !important; }
-        .text-\[9px\] { font-size: 10px !important; }
-        .text-\[10px\] { font-size: 11px !important; }
+        .text-\[7px\],
+        .text-\[8px\],
+        .text-\[9px\],
+        .text-\[10px\],
         .text-\[11px\] { font-size: 12px !important; }
+
+        .text-white\/10 { color: rgba(255, 255, 255, 0.46) !important; }
+        .text-white\/20 { color: rgba(255, 255, 255, 0.58) !important; }
+        .text-white\/30 { color: rgba(255, 255, 255, 0.66) !important; }
+        .text-white\/40 { color: rgba(255, 255, 255, 0.74) !important; }
 
         .glass {
             background: rgba(0, 0, 0, 0.8);
@@ -196,6 +197,7 @@
                     </div>
 
                     <button @click="mobileMenuOpen = !mobileMenuOpen"
+                        :aria-label="mobileMenuOpen ? 'Close navigation' : 'Open navigation'"
                         class="lg:hidden relative w-6 h-5 focus:outline-none z-50">
                         <div class="relative flex items-center justify-center">
                             <span :class="mobileMenuOpen ? 'rotate-45 translate-y-0' : '-translate-y-1.5'"
@@ -312,10 +314,10 @@
                 <div class="md:col-span-4 space-y-4">
                     <h4 class="text-[10px] font-bold tracking-[0.3em] text-white uppercase">{{ __('ui.footer.newsletter') }}</h4>
                     <div class="relative">
-                        <input type="email" placeholder="{{ __('ui.footer.email_placeholder') }}"
+                        <input type="email" aria-label="{{ __('ui.footer.newsletter') }}" placeholder="{{ __('ui.footer.email_placeholder') }}"
                             class="w-full bg-transparent border-b border-white/10 py-2 text-base md:text-[11px] mono focus:border-white outline-none transition-all placeholder:text-white/10">
                         <button
-                            class="absolute right-0 bottom-2 text-[10px] font-bold hover:text-white/60 transition-colors">{{ __('ui.footer.join') }}</button>
+                            class="absolute right-0 bottom-0 min-h-11 px-3 text-[10px] font-bold hover:text-white/60 transition-colors">{{ __('ui.footer.join') }}</button>
                     </div>
                 </div>
 
