@@ -21,23 +21,48 @@
     </style>
 
 <header class="py-16 md:py-20 border-b border-white/5">
-    <div class="container mx-auto px-6 text-center">
+    <div class="container mx-auto px-6 text-center"
+         x-data="{
+            status: '',
+            titlePart1: '',
+            titlePart2: '',
+            desc: '',
+            fullStatus: @js(__('ui.store.status')),
+            fullPart1: @js(__('ui.store.title_1')),
+            fullPart2: @js(__('ui.store.title_2')),
+            fullDesc: @js(__('ui.store.description')),
+            type(target, source, speed) {
+                let index = 0;
+                const interval = setInterval(() => {
+                    this[target] += source[index] ?? '';
+                    index++;
+                    if (index >= source.length) clearInterval(interval);
+                }, speed);
+            }
+         }"
+         x-init="
+            type('status', fullStatus, 24);
+            setTimeout(() => type('titlePart1', fullPart1, 44), 250);
+            setTimeout(() => type('titlePart2', fullPart2, 44), 820);
+            setTimeout(() => type('desc', fullDesc, 12), 1250);
+         ">
         
         {{-- Бадж статуса --}}
         <div class="inline-block px-3 py-1 border border-white/10 rounded-full mb-6">
-            <span class="text-[8px] font-mono text-white/40 uppercase tracking-widest">{{ __('ui.store.status') }}</span>
+            <span class="text-[8px] font-mono text-white/40 uppercase tracking-widest" x-text="status"></span>
         </div>
 
         {{-- ЗАГОЛОВОК: СТРУКТУРА КОТОРУЮ НЕ СЛОМАТЬ --}}
         <h1 class="text-4xl md:text-7xl font-bold tracking-tighter mb-6 uppercase text-white min-h-[1.5em] text-center leading-none">
-            <span>{{ __('ui.store.title_1') }}</span>
+            <span x-text="titlePart1"></span>
             <span class="inline">
-        <span class="text-white/20">{{ __('ui.store.title_2') }}</span>
+        <span class="text-white/20" x-text="titlePart2"></span>
+        <span class="blink-cursor">|</span>
     </span>
 </h1>
 
         {{-- Описание --}}
-        <p class="text-white/40 text-sm max-w-lg mx-auto font-light leading-relaxed min-h-[3em]">{{ __('ui.store.description') }}</p>
+        <p class="text-white/40 text-sm max-w-lg mx-auto font-light leading-relaxed min-h-[3em]" x-text="desc"></p>
     </div>
 </header>
 

@@ -39,6 +39,10 @@
         .text-white\/20 { color: rgba(255, 255, 255, 0.58) !important; }
         .text-white\/30 { color: rgba(255, 255, 255, 0.66) !important; }
         .text-white\/40 { color: rgba(255, 255, 255, 0.74) !important; }
+        .text-white { color: rgba(255, 255, 255, 0.9) !important; }
+        .bg-white { background-color: rgba(255, 255, 255, 0.9) !important; }
+        .border-white { border-color: rgba(255, 255, 255, 0.9) !important; }
+        .fill-white { fill: rgba(255, 255, 255, 0.9) !important; }
 
         .glass {
             background: rgba(0, 0, 0, 0.8);
