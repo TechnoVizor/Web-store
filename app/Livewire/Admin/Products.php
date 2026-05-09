@@ -4,16 +4,18 @@ namespace App\Livewire\Admin;
 
 use App\Models\Category;
 use App\Models\Product;
+use App\Support\VercelBlobUploader;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 use Livewire\WithPagination;
 
 #[Layout('components.layouts.admin')]
 class Products extends Component
 {
-    use WithPagination;
+    use WithFileUploads, WithPagination;
 
     public $search = '';
 
@@ -33,6 +35,8 @@ class Products extends Component
     public $description;
 
     public $image;
+
+    public $imageUpload;
 
     // Сбрасываем страницу при поиске
     public function updatedSearch()
@@ -67,6 +71,7 @@ class Products extends Component
         $this->category_id = '';
         $this->description = '';
         $this->image = '';
+        $this->imageUpload = null;
     }
 
     // --- CRUD ОПЕРАЦИИ ---
@@ -95,8 +100,14 @@ class Products extends Component
             ],
             'price' => 'required|numeric',
             'category_id' => 'required|exists:categories,id',
-            'image' => 'nullable|string|max:2048',
+            'imageUpload' => 'nullable|image|max:10240',
         ]);
+
+        $image = $this->image;
+
+        if ($this->imageUpload) {
+            $image = app(VercelBlobUploader::class)->upload($this->imageUpload, 'products');
+        }
 
         $data = [
             'name' => $this->name,
@@ -104,7 +115,7 @@ class Products extends Component
             'price' => $this->price,
             'category_id' => $this->category_id,
             'description' => $this->description,
-            'image' => $this->image ?: null,
+            'image' => $image ?: null,
         ];
 
         if ($this->product_id) {
@@ -114,6 +125,19 @@ class Products extends Component
         }
 
         $this->closeModal();
+    }
+
+    public function getExistingImageUrlProperty(): ?string
+    {
+        if (! $this->image) {
+            return null;
+        }
+
+        if (str_starts_with($this->image, 'http://') || str_starts_with($this->image, 'https://')) {
+            return $this->image;
+        }
+
+        return asset('storage/'.$this->image);
     }
 
     public function deleteProduct($id)
