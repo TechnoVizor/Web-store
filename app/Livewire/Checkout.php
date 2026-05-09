@@ -4,11 +4,14 @@ namespace App\Livewire;
 
 use App\Models\Order;
 use App\Models\OrderItem;
+use App\Models\Product;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\ValidationException;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
+use Throwable;
 
 #[Layout('layouts.app')]
 class Checkout extends Component
@@ -63,6 +66,25 @@ class Checkout extends Component
             $this->validate();
 
             $cart = session()->get('cart', []);
+            if (empty($cart)) {
+                $this->addError('checkout', __('ui.checkout.empty_cart'));
+
+                return;
+            }
+
+            $productIds = array_map('intval', array_keys($cart));
+            $availableProducts = Product::query()
+                ->whereIn('id', $productIds)
+                ->where('is_active', true)
+                ->pluck('id')
+                ->all();
+
+            if (count($availableProducts) !== count($productIds)) {
+                $this->addError('checkout', __('ui.checkout.item_unavailable'));
+
+                return;
+            }
+
             $total = array_sum(array_map(fn ($item) => $item['price'] * $item['quantity'], $cart));
 
             DB::transaction(function () use ($cart, $total) {
@@ -90,13 +112,15 @@ class Checkout extends Component
 
             return redirect()->route('orders.success');
 
-        } catch (\Exception $e) {
+        } catch (ValidationException $e) {
+            throw $e;
+        } catch (Throwable $e) {
             Log::error('Checkout failed', [
                 'user_id' => Auth::id(),
                 'message' => $e->getMessage(),
             ]);
 
-            $this->addError('checkout', 'Не удалось оформить заказ. Попробуйте еще раз.');
+            $this->addError('checkout', __('ui.checkout.failed'));
         }
     }
 
@@ -113,13 +137,22 @@ class Checkout extends Component
     }
 
     protected $messages = [
-        'name.required' => 'Идентификатор пользователя не обнаружен.',
-        'email.required' => 'Канал связи (Email) обязателен.',
-        'phone.required' => 'Требуется защищенная линия связи (Телефон).',
-        'phone.regex' => 'Неверный протокол записи номера.',
-        'address.required' => 'Координаты точки сброса (Адрес) не указаны.',
-        'address.min' => 'Адрес слишком короткий для точного наведения курьера.',
+        'name.required' => 'ui.checkout.validation.name_required',
+        'email.required' => 'ui.checkout.validation.email_required',
+        'email.email' => 'ui.checkout.validation.email_valid',
+        'phone.required' => 'ui.checkout.validation.phone_required',
+        'phone.regex' => 'ui.checkout.validation.phone_valid',
+        'phone.min' => 'ui.checkout.validation.phone_min',
+        'address.required' => 'ui.checkout.validation.address_required',
+        'address.min' => 'ui.checkout.validation.address_min',
     ];
+
+    protected function messages()
+    {
+        return collect($this->messages)
+            ->map(fn ($key) => __($key))
+            ->all();
+    }
 
     private function calculateTotal()
     {

@@ -5,8 +5,8 @@
     <div class="flex items-center space-x-4 mb-16">
         <div class="w-1 h-10 bg-white"></div>
         <div>
-            <h1 class="text-3xl font-bold uppercase tracking-tighter">Profile_Settings</h1>
-            <p class="mono text-[10px] text-white/30 uppercase tracking-[0.3em]">Access_Level: Authorized_User</p>
+            <h1 class="text-3xl font-bold uppercase tracking-tighter">{{ __('ui.profile.title') }}</h1>
+            <p class="mono text-[10px] text-white/30 uppercase tracking-[0.3em]">{{ __('ui.profile.access') }}</p>
         </div>
     </div>
 

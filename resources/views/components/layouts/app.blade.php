@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
     <meta charset="UTF-8">
@@ -125,10 +125,10 @@
                 <div
                     class="hidden lg:flex items-center space-x-8 text-[10px] font-medium tracking-[0.2em] text-white/40">
                     <a href="/" wire:navigate
-                        class="hover:text-white transition-colors uppercase">Collections</a>
+                        class="hover:text-white transition-colors uppercase">{{ __('ui.nav.collections') }}</a>
                     <a href="/orders" wire:navigate
-                        class="hover:text-white transition-colors uppercase">Archive</a>
-                    <a href="/labs" wire:navigate class="hover:text-white transition-colors uppercase">Labs</a>
+                        class="hover:text-white transition-colors uppercase">{{ __('ui.nav.archive') }}</a>
+                    <a href="/labs" wire:navigate class="hover:text-white transition-colors uppercase">{{ __('ui.nav.labs') }}</a>
 
                     @auth
                         @if(auth()->user()->is_admin || auth()->user()->is_super_admin)
@@ -142,7 +142,7 @@
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                                 </svg>
                                 <span
-                                    class="ml-2 text-[9px] font-bold tracking-[0.3em] opacity-0 group-hover:opacity-100 transition-opacity uppercase">Admin_Panel</span>
+                                    class="ml-2 text-[9px] font-bold tracking-[0.3em] opacity-0 group-hover:opacity-100 transition-opacity uppercase">{{ __('ui.nav.admin_panel') }}</span>
                             </a>
                         @endif
                     @endauth
@@ -162,17 +162,26 @@
                             <a href="/profile" wire:navigate
                                 class="text-white/40 hover:text-white transition-colors flex items-center space-x-2">
                                 <span class="w-1.5 h-1.5 bg-white rounded-full"></span>
-                                <span>ACCOUNT</span>
+                                <span>{{ __('ui.nav.account') }}</span>
                             </a>
                             <form action="{{ route('logout') }}" method="POST" class="inline">
                                 @csrf
                                 <button type="submit"
-                                    class="text-white/20 hover:text-red-500 transition-colors uppercase">LOGOUT</button>
+                                    class="text-white/20 hover:text-red-500 transition-colors uppercase">{{ __('ui.nav.logout') }}</button>
                             </form>
                         @else
                             <a href="/login" wire:navigate
-                                class="text-white/40 hover:text-white transition-colors">SIGN IN</a>
+                                class="text-white/40 hover:text-white transition-colors">{{ __('ui.nav.sign_in') }}</a>
                         @endauth
+                    </div>
+
+                    <div class="hidden lg:flex items-center gap-2 text-[9px] tracking-[0.2em] uppercase">
+                        @foreach(['en' => 'EN', 'ru' => 'RU', 'lv' => 'LV'] as $locale => $label)
+                            <a href="{{ route('language.switch', $locale) }}"
+                                class="{{ app()->getLocale() === $locale ? 'text-white' : 'text-white/25 hover:text-white/70' }} transition-colors">
+                                {{ $label }}
+                            </a>
+                        @endforeach
                     </div>
 
                     <div class="relative">
@@ -203,32 +212,42 @@
 
             <div class="flex flex-col space-y-6 text-[12px] font-medium tracking-[0.3em] uppercase">
                 <a href="/" @click="mobileMenuOpen = false" wire:navigate
-                    class="text-white/60 hover:text-white">Collections</a>
+                    class="text-white/60 hover:text-white">{{ __('ui.nav.collections') }}</a>
                 <a href="/orders" @click="mobileMenuOpen = false" wire:navigate
-                    class="text-white/60 hover:text-white">Archive</a>
+                    class="text-white/60 hover:text-white">{{ __('ui.nav.archive') }}</a>
                 <a href="/labs" @click="mobileMenuOpen = false" wire:navigate
-                    class="text-white/60 hover:text-white">Labs</a>
+                    class="text-white/60 hover:text-white">{{ __('ui.nav.labs') }}</a>
+            </div>
+
+            <div class="flex items-center gap-4 text-[11px] tracking-[0.25em] uppercase">
+                <span class="text-white/25">{{ __('ui.nav.language') }}</span>
+                @foreach(['en' => 'EN', 'ru' => 'RU', 'lv' => 'LV'] as $locale => $label)
+                    <a href="{{ route('language.switch', $locale) }}"
+                        class="{{ app()->getLocale() === $locale ? 'text-white' : 'text-white/35' }}">
+                        {{ $label }}
+                    </a>
+                @endforeach
             </div>
 
             <div class="pt-8 border-t border-white/5 flex flex-col space-y-6">
                 @auth
                     <a href="/profile" @click="mobileMenuOpen = false" wire:navigate
                         class="text-[12px] tracking-[0.2em] text-white flex items-center space-x-3 uppercase">
-                        <span>Account</span>
+                        <span>{{ __('ui.nav.account') }}</span>
                     </a>
 
                     @if(auth()->user()->is_admin)
                         <a href="/admin" wire:navigate
-                            class="text-[12px] tracking-[0.2em] text-blue-400 uppercase">System_Admin_Panel</a>
+                            class="text-[12px] tracking-[0.2em] text-blue-400 uppercase">{{ __('ui.nav.admin_panel') }}</a>
                     @endif
 
                     <form action="{{ route('logout') }}" method="POST">
                         @csrf
-                        <button type="submit" class="text-[12px] tracking-[0.2em] text-red-500 uppercase">Logout</button>
+                        <button type="submit" class="text-[12px] tracking-[0.2em] text-red-500 uppercase">{{ __('ui.nav.logout') }}</button>
                     </form>
                 @else
                     <a href="/login" @click="mobileMenuOpen = false" wire:navigate
-                        class="text-[12px] tracking-[0.2em] text-white uppercase ">Sign In</a>
+                        class="text-[12px] tracking-[0.2em] text-white uppercase ">{{ __('ui.nav.sign_in') }}</a>
                 @endauth
             </div>
         </div>
@@ -262,9 +281,9 @@
                 <div class="md:col-span-2 space-y-4">
                     <h4 class="text-[10px] font-bold tracking-[0.3em] text-white uppercase">Sitemap</h4>
                     <ul class="space-y-2 text-[10px] tracking-widest text-white/40 uppercase">
-                        <li><a href="/" wire:navigate class="hover:text-white transition-colors">Collections</a>
+                        <li><a href="/" wire:navigate class="hover:text-white transition-colors">{{ __('ui.nav.collections') }}</a>
                         </li>
-                        <li><a href="/orders" wire:navigate class="hover:text-white transition-colors">Archive</a>
+                        <li><a href="/orders" wire:navigate class="hover:text-white transition-colors">{{ __('ui.nav.archive') }}</a>
                         </li>
                         <li><a href="/about" wire:navigate
                                 class="hover:text-white transition-colors">Manifesto</a></li>

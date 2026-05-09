@@ -1,22 +1,22 @@
 <section class="mt-16 border-t border-white/5 pt-12">
     <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-8">
         <div class="border-l-2 border-white pl-4">
-            <h2 class="text-xs font-bold uppercase tracking-[0.4em]">Saved_Items</h2>
-            <span class="mono text-[10px] text-white/40 uppercase">TOTAL_UNITS: {{ $products->count() }}</span>
+            <h2 class="text-xs font-bold uppercase tracking-[0.4em]">{{ __('ui.profile.saved_items') }}</h2>
+            <span class="mono text-[10px] text-white/40 uppercase">{{ __('ui.store.total_units') }}: {{ $products->count() }}</span>
         </div>
 
         <a href="{{ route('wishlist.index') }}" wire:navigate
             class="mono text-[9px] text-white/30 hover:text-white uppercase tracking-[0.25em] transition-colors">
-            Open_Full_Archive
+            {{ __('ui.profile.open_wishlist') }}
         </a>
     </div>
 
     @if($products->isEmpty())
         <div class="py-16 border border-dashed border-white/5 bg-white/[0.02] text-center">
-            <p class="mono text-[10px] text-white/20 uppercase tracking-[0.4em]">No_Saved_Units</p>
+            <p class="mono text-[10px] text-white/20 uppercase tracking-[0.4em]">{{ __('ui.profile.no_saved') }}</p>
             <a href="{{ route('home') }}" wire:navigate
                 class="inline-block mt-6 px-8 py-3 border border-white/20 text-[9px] font-bold uppercase tracking-[0.25em] hover:bg-white hover:text-black transition-all">
-                Browse_Store
+                {{ __('ui.profile.browse_store') }}
             </a>
         </div>
     @else
@@ -50,7 +50,7 @@
                                 wire:loading.attr="disabled"
                                 wire:target="remove({{ $product->id }})"
                                 class="shrink-0 text-white/25 hover:text-red-400 transition-colors"
-                                aria-label="Remove from wishlist">
+                                aria-label="{{ __('ui.profile.remove') }}">
                                 <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
                                 </svg>
@@ -63,7 +63,7 @@
                                 wire:loading.attr="disabled"
                                 wire:target="addToBag({{ $product->id }})"
                                 class="px-3 py-2 border border-white/15 text-[8px] font-bold uppercase tracking-[0.2em] hover:bg-white hover:text-black disabled:opacity-50 transition-all">
-                                <span wire:loading.remove wire:target="addToBag({{ $product->id }})">Add</span>
+                                <span wire:loading.remove wire:target="addToBag({{ $product->id }})">{{ __('ui.profile.add') }}</span>
                                 <span wire:loading wire:target="addToBag({{ $product->id }})">...</span>
                             </button>
                         </div>

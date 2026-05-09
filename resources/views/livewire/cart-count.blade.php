@@ -23,10 +23,10 @@ new class extends Component {
     <a href="{{ route('cart.index') }}" wire:navigate class="group flex items-center space-x-3">
         <div class="hidden sm:block text-right">
             <p class="mono text-[8px] text-white/30 uppercase tracking-[0.2em] leading-none mb-1">
-                System_Bag
+                {{ __('ui.cart.system_bag') }}
             </p>
             <p class="mono text-[7px] text-white/10 uppercase tracking-widest leading-none">
-                {{ $count > 0 ? 'Status: Loaded' : 'Status: Empty' }}
+                {{ $count > 0 ? __('ui.cart.status_loaded') : __('ui.cart.status_empty') }}
             </p>
         </div>
 
@@ -45,7 +45,7 @@ new class extends Component {
                 {{ str_pad($count, 2, '0', STR_PAD_LEFT) }}
             </span>
 
-            <span class="mono text-[9px] text-white/20 ml-2 uppercase">Units</span>
+            <span class="mono text-[9px] text-white/20 ml-2 uppercase">{{ __('ui.cart.units') }}</span>
         </div>
     </a>
 </div>

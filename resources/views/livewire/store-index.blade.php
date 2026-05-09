@@ -27,10 +27,10 @@
             titlePart1: '', 
             titlePart2: '', 
             desc: '',
-            fullStatus: 'Status: Production_Ready',
-            fullPart1: 'Precision ',
-            fullPart2: 'Equipment',
-            fullDesc: 'Advanced materials engineering meets minimalist industrial aesthetics.'
+            fullStatus: @js(__('ui.store.status')),
+            fullPart1: @js(__('ui.store.title_1')),
+            fullPart2: @js(__('ui.store.title_2')),
+            fullDesc: @js(__('ui.store.description'))
          }"
          x-init="
             {{-- 1. Статус --}}
@@ -118,19 +118,19 @@
         {{-- ПАНЕЛЬ УПРАВЛЕНИЯ (Всегда видна) --}}
         <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-12 gap-6">
             <div class="border-l-2 border-white pl-4">
-                <h2 class="text-xs font-bold uppercase tracking-[0.4em]">Inventory</h2>
-                <span class="mono text-[10px] text-white/40 uppercase">TOTAL_UNITS: {{ $products->total() }}</span>
+                <h2 class="text-xs font-bold uppercase tracking-[0.4em]">{{ __('ui.store.inventory') }}</h2>
+                <span class="mono text-[10px] text-white/40 uppercase">{{ __('ui.store.total_units') }}: {{ $products->total() }}</span>
             </div>
 
             <div class="w-full md:hidden">
                 <label for="mobile-category-filter" class="mono text-[8px] text-white/30 uppercase tracking-[0.25em] block mb-2">
-                    Category_Filter
+                    {{ __('ui.store.category_filter') }}
                 </label>
                 <div class="relative">
                     <select id="mobile-category-filter"
                         wire:model.live="selectedCategory"
                         class="w-full appearance-none bg-black border border-white/10 px-4 py-3 pr-10 text-[10px] text-white uppercase tracking-[0.2em] focus:outline-none focus:border-white mono">
-                        <option value="">All_Categories</option>
+                        <option value="">{{ __('ui.store.all_categories') }}</option>
                         @foreach($categories as $category)
                             <option value="{{ $category->id }}">{{ $category->name }}</option>
                         @endforeach
@@ -144,7 +144,7 @@
 
             <div class="hidden md:flex flex-wrap items-center gap-3">
                 <button wire:click="resetFilters" class="mono text-[9px] text-white/20 hover:text-white uppercase tracking-widest transition-colors mr-4">
-                    [ Reset_All ]
+                    [ {{ __('ui.store.reset') }} ]
                 </button>
                 @foreach($categories as $category)
                     <button wire:click="selectCategory({{ $category->id }})" 
@@ -176,7 +176,7 @@
                 
                 @if($products->isEmpty())
                     <div class="py-40 text-center border border-dashed border-white/5">
-                        <p class="mono text-[10px] text-white/20 uppercase tracking-[0.5em]">No_Units_Found_In_Sector</p>
+                        <p class="mono text-[10px] text-white/20 uppercase tracking-[0.5em]">{{ __('ui.store.empty') }}</p>
                     </div>
                 @else
                     <div class="grid grid-cols-2 md:grid-cols-4 gap-2 sm:gap-6">
@@ -235,8 +235,8 @@
                                             wire:loading.attr="disabled"
                                             wire:target="addToBag({{ $product->id }})"
                                             class="w-full py-3 sm:py-4 px-1 sm:px-4 bg-transparent border border-white/20 text-white text-[7px] sm:text-[10px] font-bold uppercase tracking-[0.2em] transition-all duration-300 hover:bg-white hover:text-black hover:border-white active:scale-[0.98] disabled:opacity-50 mono">
-                                            <span wire:loading.remove wire:target="addToBag({{ $product->id }})">Add to bag</span>
-                                            <span wire:loading wire:target="addToBag({{ $product->id }})">Adding...</span>
+                                            <span wire:loading.remove wire:target="addToBag({{ $product->id }})">{{ __('ui.store.add_to_bag') }}</span>
+                                            <span wire:loading wire:target="addToBag({{ $product->id }})">{{ __('ui.store.adding') }}</span>
                                         </button>
                                     </div>
                                 </div>
