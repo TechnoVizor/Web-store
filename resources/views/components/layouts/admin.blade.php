@@ -113,7 +113,7 @@
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
                     <button type="submit"
-                        class="text-[10px] tracking-widest uppercase border border-zinc-700 px-3 py-1 hover:bg-white hover:text-black transition-colors">
+                        class="text-[10px] tracking-widest uppercase border border-zinc-700 px-3 py-1 text-zinc-300 transition-all hover:border-red-500/50 hover:bg-red-500/10 hover:text-red-300 focus:outline-none focus-visible:border-red-300">
                         {{ __('ui.admin.exit') }}
                     </button>
                 </form>

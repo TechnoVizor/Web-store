@@ -32,6 +32,14 @@ Route::view('/privacy', 'pages.privacy')->name('privacy');
 Route::view('/terms', 'pages.terms')->name('terms');
 Route::get('/labs', Labs::class)->name('labs');
 
+// Cart and checkout stay public so guests can buy without creating an account.
+Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+Route::post('/cart/add/{id}', [CartController::class, 'add'])->name('cart.add');
+Route::patch('/cart/update', [CartController::class, 'update'])->name('cart.update');
+Route::delete('/cart/remove/{id}', [CartController::class, 'remove'])->name('cart.remove');
+Route::get('/checkout', Checkout::class)->name('checkout.index');
+Route::get('/orders/success', [OrderController::class, 'success'])->name('orders.success');
+
 // --- AUTH_REQUIRED (Только для залогиненных юзеров) ---
 Route::middleware('auth')->group(function () {
 
@@ -40,18 +48,8 @@ Route::middleware('auth')->group(function () {
         return view('profile');
     })->name('profile');
 
-    // Корзина
-    Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
-    Route::post('/cart/add/{id}', [CartController::class, 'add'])->name('cart.add');
-    Route::patch('/cart/update', [CartController::class, 'update'])->name('cart.update');
-    Route::delete('/cart/remove/{id}', [CartController::class, 'remove'])->name('cart.remove');
-
-    // Оформление заказа
-    Route::get('/checkout', Checkout::class)->name('checkout.index');
-
     // История заказов
     Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
-    Route::get('/orders/success', [OrderController::class, 'success'])->name('orders.success');
     Route::get('/orders/{order}', [OrderController::class, 'show'])->name('orders.show');
 
     // Wishlist

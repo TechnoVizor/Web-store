@@ -190,7 +190,7 @@
                             <form action="{{ route('logout') }}" method="POST" class="inline">
                                 @csrf
                                 <button type="submit"
-                                    class="text-white/20 hover:text-red-500 transition-colors uppercase">{{ __('ui.nav.logout') }}</button>
+                                    class="rounded-sm border border-transparent px-2 py-1 text-white/25 transition-all uppercase hover:border-red-500/40 hover:bg-red-500/10 hover:text-red-400 focus:outline-none focus-visible:border-red-400 focus-visible:text-red-300">{{ __('ui.nav.logout') }}</button>
                             </form>
                         @else
                             <a href="/login" wire:navigate
@@ -267,7 +267,7 @@
 
                     <form action="{{ route('logout') }}" method="POST">
                         @csrf
-                        <button type="submit" class="text-[12px] tracking-[0.2em] text-red-500 uppercase">{{ __('ui.nav.logout') }}</button>
+                        <button type="submit" class="rounded-sm border border-red-500/20 px-3 py-2 text-[12px] tracking-[0.2em] text-red-400 uppercase transition-all hover:bg-red-500/10 hover:text-red-300 focus:outline-none focus-visible:border-red-300">{{ __('ui.nav.logout') }}</button>
                     </form>
                 @else
                     <a href="/login" @click="mobileMenuOpen = false" wire:navigate
@@ -341,7 +341,7 @@
             <div
                 class="mt-20 pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
                 <div class="text-[8px] text-white/10 tracking-[0.5em] uppercase">
-                    © 2026 DIGI STORE // {{ __('ui.footer.rights') }}
+                    © 2026 DIGI STORE // {{ __('ui.footer.owner', ['name' => 'Illia Ponomarov']) }} // {{ __('ui.footer.rights') }}
                 </div>
                 <div class="flex space-x-8 text-[8px] text-white/10 tracking-[0.3em] uppercase italic">
                     <span>LVA_NODE_01</span>

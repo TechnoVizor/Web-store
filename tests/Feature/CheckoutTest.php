@@ -55,4 +55,45 @@ class CheckoutTest extends TestCase
 
         $this->assertSame(1, Order::query()->first()->items()->count());
     }
+
+    public function test_guest_can_place_order_from_session_cart(): void
+    {
+        $product = Product::factory()->create([
+            'is_active' => true,
+            'price' => 79,
+        ]);
+
+        $this->withSession([
+            'cart' => [
+                $product->id => [
+                    'name' => $product->name,
+                    'quantity' => 2,
+                    'price' => $product->price,
+                    'image' => $product->image_url,
+                ],
+            ],
+        ]);
+
+        Livewire::test(Checkout::class)
+            ->set('name', 'Guest Buyer')
+            ->set('email', 'guest@example.com')
+            ->set('phone', '+371 20000001')
+            ->set('address', 'Riga Guest Street 2')
+            ->call('placeOrder')
+            ->assertHasNoErrors()
+            ->assertRedirect(route('orders.success'));
+
+        $this->assertDatabaseHas('orders', [
+            'user_id' => null,
+            'customer_email' => 'guest@example.com',
+            'total_amount' => 158,
+        ]);
+    }
+
+    public function test_guest_can_open_cart_and_checkout_pages(): void
+    {
+        $this->get(route('cart.index'))->assertOk();
+        $this->get(route('checkout.index'))->assertOk();
+        $this->get(route('orders.success'))->assertOk();
+    }
 }

@@ -44,8 +44,13 @@
                     <h3 class="text-sm font-bold uppercase tracking-widest text-white mb-1">{{ $details['name'] }}</h3>
                     <p class="mono text-[9px] text-white/20 uppercase">{{ __('ui.cart.item_id') }}: {{ $id }}</p>
                 </div>
-                <button wire:click="removeItem('{{ $id }}')" class="text-white/10 hover:text-red-500 transition-colors p-2">
-                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M6 18L18 6M6 6l12 12" /></svg>
+                <button
+                    type="button"
+                    wire:click="removeItem('{{ $id }}')"
+                    class="rounded-full border border-white/5 p-2 text-white/35 transition-all hover:border-red-500/50 hover:bg-red-500/10 hover:text-red-300 focus:outline-none focus-visible:border-red-300"
+                    aria-label="{{ __('ui.cart.remove_item', ['name' => $details['name']]) }}"
+                    title="{{ __('ui.cart.remove') }}">
+                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M6 18L18 6M6 6l12 12" /></svg>
                 </button>
             </div>
 
