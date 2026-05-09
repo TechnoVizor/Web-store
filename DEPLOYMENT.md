@@ -16,10 +16,10 @@ Recommended settings:
 
 ```text
 Framework Preset: Other
-Root Directory: empty / repository root
+Root Directory: ./ / repository root
 Install Command: from vercel.json
 Build Command: from vercel.json
-Output Directory: leave empty
+Output Directory: public
 ```
 
 ## 1. Neon database
