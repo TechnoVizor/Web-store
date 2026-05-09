@@ -41,7 +41,7 @@ new class extends Component {
             'avatar' => '/storage/' . $path
         ]);
 
-        session()->flash('message', 'VISUAL_DATA_REWRITTEN');
+        session()->flash('message', __('ui.profile.avatar_updated'));
     }
 
     public function updateSettings()
@@ -72,7 +72,7 @@ new class extends Component {
         $user->update($data);
 
         $this->dispatch('cart-updated');
-        session()->flash('message', 'METADATA_UPDATED');
+        session()->flash('message', __('ui.profile.updated'));
     }
 }; ?>
 
@@ -89,12 +89,12 @@ new class extends Component {
                 <img src="{{ auth()->user()->avatar }}"
                     class="w-full h-full object-cover opacity-60 group-hover:opacity-40 transition-opacity">
             @else
-                <div class="text-white/10 mono text-[10px] uppercase">No_Visual_Data</div>
+                <div class="text-white/10 mono text-[10px] uppercase">{{ __('ui.profile.no_avatar') }}</div>
             @endif
 
             {{-- Индикатор загрузки --}}
             <div x-show="uploading" class="absolute inset-0 bg-black/80 flex items-center justify-center z-20">
-                <div class="mono text-[8px] text-green-500 animate-pulse uppercase tracking-[0.3em]">Uploading_Data...
+                <div class="mono text-[8px] text-green-500 animate-pulse uppercase tracking-[0.3em]">{{ __('ui.profile.uploading') }}
                 </div>
             </div>
 
@@ -102,20 +102,20 @@ new class extends Component {
             <label
                 class="absolute inset-0 cursor-pointer flex flex-col items-center justify-end p-4 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity">
                 <input type="file" wire:model="newAvatar" class="hidden">
-                <p class="mono text-[7px] text-center uppercase tracking-widest text-white">Update_Picture</p>
+                <p class="mono text-[7px] text-center uppercase tracking-widest text-white">{{ __('ui.profile.update_picture') }}</p>
             </label>
         </div>
 
         {{-- Блок Статуса (оставляем как есть) --}}
         <div class="p-6 border border-white/5 bg-white/[0.02]">
-            <p class="mono text-[8px] text-white/20 uppercase tracking-widest mb-4">System_Status</p>
+            <p class="mono text-[8px] text-white/20 uppercase tracking-widest mb-4">{{ __('ui.profile.profile_status') }}</p>
             <div class="flex items-center space-x-3">
                 <div class="w-1.5 h-1.5 rounded-full bg-green-500"></div>
-                <span class="mono text-[10px] uppercase tracking-widest">Active_Node</span>
+                <span class="mono text-[10px] uppercase tracking-widest">{{ __('ui.profile.active') }}</span>
             </div>
             <div class="mt-4 pt-4 border-t border-white/5 space-y-2">
-                <p class="mono text-[7px] text-white/20 uppercase">Last_Login: {{ now()->format('H:i:s') }}</p>
-                <p class="mono text-[7px] text-white/20 uppercase">Access_Level: Authorized</p>
+                <p class="mono text-[7px] text-white/20 uppercase">{{ __('ui.profile.last_login') }}: {{ now(config('app.timezone'))->format('H:i:s') }}</p>
+                <p class="mono text-[7px] text-white/20 uppercase">{{ __('ui.profile.access_level') }}: {{ __('ui.profile.authorized') }}</p>
             </div>
         </div>
     </div>
@@ -126,41 +126,36 @@ new class extends Component {
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 {{-- Имя --}}
                 <div>
-                    <label class="mono text-[8px] text-white/40 uppercase tracking-widest block mb-2">Metadata //
-                        Full_Name</label>
+                    <label class="mono text-[8px] text-white/40 uppercase tracking-widest block mb-2">{{ __('ui.profile.full_name') }}</label>
                     <input type="text" wire:model="name"
                         class="w-full bg-transparent border-b border-white/10 py-3 text-sm mono focus:border-white outline-none transition-all">
                 </div>
 
                 {{-- Никнейм --}}
                 <div>
-                    <label class="mono text-[8px] text-white/40 uppercase tracking-widest block mb-2">Metadata //
-                        NickName</label>
+                    <label class="mono text-[8px] text-white/40 uppercase tracking-widest block mb-2">{{ __('ui.profile.nickname') }}</label>
                     <input type="text" wire:model="nickname"
                         class="w-full bg-transparent border-b border-white/10 py-3 text-sm mono focus:border-white outline-none transition-all">
                 </div>
 
                 {{-- Почта --}}
                 <div>
-                    <label class="mono text-[8px] text-white/40 uppercase tracking-widest block mb-2">Communication //
-                        Email_Address</label>
+                    <label class="mono text-[8px] text-white/40 uppercase tracking-widest block mb-2">{{ __('ui.profile.email') }}</label>
                     <input type="email" wire:model="email"
                         class="w-full bg-transparent border-b border-white/10 py-3 text-sm mono focus:border-white outline-none transition-all">
                 </div>
 
                 {{-- ТЕЛЕФОН (Новое поле) --}}
                 <div>
-                    <label class="mono text-[8px] text-white/40 uppercase tracking-widest block mb-2">Communication //
-                        Secure_Line (Phone)</label>
+                    <label class="mono text-[8px] text-white/40 uppercase tracking-widest block mb-2">{{ __('ui.profile.phone') }}</label>
                     <input type="text" wire:model="phone" placeholder="+371..."
                         class="w-full bg-transparent border-b border-white/10 py-3 text-sm mono focus:border-white outline-none transition-all placeholder:text-white/20">
                 </div>
 
                 {{-- АДРЕС (Новое поле на всю ширину) --}}
                 <div class="md:col-span-2">
-                    <label class="mono text-[8px] text-white/40 uppercase tracking-widest block mb-2">Logistics //
-                        Delivery_Address</label>
-                    <input type="text" wire:model="address" placeholder="Night City, Sector 04, Apt 42"
+                    <label class="mono text-[8px] text-white/40 uppercase tracking-widest block mb-2">{{ __('ui.profile.address') }}</label>
+                    <input type="text" wire:model="address" placeholder="{{ __('ui.profile.address_placeholder') }}"
                         class="w-full bg-transparent border-b border-white/10 py-3 text-sm mono focus:border-white outline-none transition-all placeholder:text-white/20">
                 </div>
             </div>
@@ -174,11 +169,11 @@ new class extends Component {
 
             <div class="flex justify-between items-center pt-10 border-t border-white/5">
                 <div class="mono text-[8px] text-white/20 uppercase tracking-[0.3em]">
-                    Click to commit changes to database
+                    {{ __('ui.profile.save_hint') }}
                 </div>
                 <button type="submit"
                     class="px-10 py-4 bg-white text-black font-bold uppercase text-[10px] tracking-[0.2em] hover:bg-[#e5e5e5] transition-all">
-                    Update_Info
+                    {{ __('ui.profile.update_info') }}
                 </button>
             </div>
         </form>

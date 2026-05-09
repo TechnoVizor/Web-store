@@ -2,69 +2,69 @@
 
 namespace App\Livewire;
 
-use Livewire\Component;
 use Livewire\Attributes\Layout;
+use Livewire\Component;
 
 class Labs extends Component
 {
     public $projects = [
         [
             'id' => 'RD-01',
-            'title' => 'Neural_Interface',
-            'status' => 'Stable',
+            'title' => 'City_Layers',
+            'status' => 'Live',
             'year' => '2025',
-            'materials' => 'Carbon Fiber / Graphene / Bio-Polymer',
-            'description' => 'The first iteration of our neural feedback system. Designed for seamless integration between digital thought and physical execution. Minimizing latency to 0.04ms.',
+            'materials' => 'Cotton / Nylon / Softshell',
+            'description' => 'A clean citywear direction built around lightweight jackets, relaxed tees, and easy layering for changing weather.',
             'specs' => [
-                'Bandwidth' => '4.2 Tbps',
-                'Response_Time' => '0.04ms',
-                'Power_Consumption' => '12W',
-                'Sync_Rate' => '99.9%'
+                'Fit' => 'Relaxed',
+                'Season' => 'All year',
+                'Palette' => 'Grey / Black',
+                'Care' => 'Easy',
             ],
             'log' => [
-                '2025.02.14' => 'Initial neural handshake successful.',
-                '2025.04.10' => 'Material integrity confirmed under high thermal load.',
-                '2025.06.01' => 'Transitioning to production-ready firmware.'
-            ]
+                '2025.02.14' => 'Core layering pieces selected.',
+                '2025.04.10' => 'Fabric hand-feel and wash tests approved.',
+                '2025.06.01' => 'Collection prepared for storefront.',
+            ],
         ],
         [
             'id' => 'RD-02',
-            'title' => 'Carbon_Shell',
-            'status' => 'Testing',
+            'title' => 'Soft_Tailoring',
+            'status' => 'Preview',
             'year' => '2026',
-            'materials' => 'Monolithic T800 Carbon / Titanium Grade 5',
-            'description' => 'Research into ultra-lightweight exoskeleton structures. Focus on structural rigidity and impact absorption for high-stakes urban environments.',
+            'materials' => 'Wool Blend / Viscose / Stretch Fiber',
+            'description' => 'Structured pieces with softer movement: designed for workdays, evenings, and travel without losing shape.',
             'specs' => [
-                'Tensile_Strength' => '4900 MPa',
-                'Density' => '1.76 g/cm³',
-                'Elastic_Modulus' => '230 GPa',
-                'Weight_Reduction' => '42%'
+                'Fit' => 'Tailored',
+                'Season' => 'Spring',
+                'Palette' => 'Black / Bone',
+                'Care' => 'Gentle',
             ],
             'log' => [
-                '2026.01.05' => 'Stress test 01: 400% load capacity exceeded.',
-                '2026.02.18' => 'Titanium reinforcement points optimized.',
-                '2026.03.22' => 'Field testing initiated in Zone_04.'
-            ]
+                '2026.01.05' => 'First silhouette review completed.',
+                '2026.02.18' => 'Sample adjustments sent to production.',
+                '2026.03.22' => 'Editorial styling test started.',
+            ],
         ],
         [
             'id' => 'RD-03',
-            'title' => 'Optical_Sensor',
-            'status' => 'Experimental',
+            'title' => 'Weekend_Essentials',
+            'status' => 'Coming',
             'year' => '2026',
-            'materials' => 'Synthetic Sapphire / CMOS Architecture',
-            'description' => 'A multi-spectral sensing array capable of real-time environmental mapping. Developed for autonomous navigation and enhanced spatial awareness.',
+            'materials' => 'Heavy Cotton / Jersey / Rib Knit',
+            'description' => 'Comfort-first essentials with a sharper cut: tees, hoodies, and daily pieces made to rotate often.',
             'specs' => [
-                'Resolution' => '124 MP',
-                'Spectrum' => '400nm - 1100nm',
-                'FOV' => '210°',
-                'Processing' => 'Dedicated AI Core'
+                'Fit' => 'Regular',
+                'Season' => 'Weekend',
+                'Palette' => 'Washed neutrals',
+                'Care' => 'Machine wash',
             ],
             'log' => [
-                '2026.02.01' => 'Spectrum sensitivity expanded to infrared.',
-                '2026.03.10' => 'Miniaturization process successful.',
-                '2026.04.15' => 'Testing low-light performance in subterranean conditions.'
-            ]
-        ]
+                '2026.02.01' => 'Fabric weight confirmed.',
+                '2026.03.10' => 'Fit grading completed.',
+                '2026.04.15' => 'Launch styling in progress.',
+            ],
+        ],
     ];
 
     public $activeProject;

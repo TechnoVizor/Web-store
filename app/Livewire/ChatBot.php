@@ -7,7 +7,9 @@ use Livewire\Component;
 class ChatBot extends Component
 {
     public $isOpen = false;
+
     public $messages = [];
+
     public $userInput = '';
 
     public function mount()
@@ -15,19 +17,23 @@ class ChatBot extends Component
         // Приветственное сообщение при первом открытии
         $this->messages[] = [
             'role' => 'system',
-            'text' => 'SYSTEM_READY: Добро пожаловать в DIGI_STORE. Чем я могу помочь?'
+            'text' => __('ui.chat.welcome'),
         ];
     }
 
     public function toggleChat()
     {
-        $this->isOpen = !$this->isOpen;
+        $this->isOpen = ! $this->isOpen;
     }
+
     public $isTyping = false;
+
     public function sendMessage($text = null)
     {
         $messageText = $text ?? $this->userInput;
-        if (empty($messageText)) return;
+        if (empty($messageText)) {
+            return;
+        }
 
         // Добавляем сообщение пользователя
         $this->messages[] = ['role' => 'user', 'text' => $messageText];
@@ -39,22 +45,20 @@ class ChatBot extends Component
     }
 
     protected function generateResponse($input)
-{
-    $input = mb_strtolower($input);
-    $response = "ERROR: Команда не распознана. Попробуйте выбрать запрос из меню.";
+    {
+        $input = mb_strtolower($input);
+        $response = __('ui.chat.fallback');
 
-    if (str_contains($input, 'доставк')) {
-        $response = "INFO: Мы доставляем цифровые товары мгновенно. Физические — от 3 до 5 дней.";
-    } elseif (str_contains($input, 'оплат')) {
-        $response = "INFO: Доступна оплата картами, Apple Pay и криптовалютой.";
-    } elseif (str_contains($input, 'контакт')) {
-        $response = "SUPPORT: Наш Telegram: @digi_store_tech. Мы онлайн 24/7.";
-    } elseif (str_contains($input, 'гарант')) { // ДОБАВЛЯЕМ ЭТОТ БЛОК
-        $response = "WARRANTY: 12 месяцев на все оборудование и 14 дней на возврат цифровых ключей (если они не были активированы).";
+        if (str_contains($input, 'доставк') || str_contains($input, 'delivery') || str_contains($input, 'pieg')) {
+            $response = __('ui.chat.delivery');
+        } elseif (str_contains($input, 'оплат') || str_contains($input, 'payment') || str_contains($input, 'apmak')) {
+            $response = __('ui.chat.payment');
+        } elseif (str_contains($input, 'возврат') || str_contains($input, 'return') || str_contains($input, 'atgrie')) {
+            $response = __('ui.chat.returns');
+        }
+
+        $this->messages[] = ['role' => 'system', 'text' => $response];
     }
-
-    $this->messages[] = ['role' => 'system', 'text' => $response];
-}
 
     public function render()
     {

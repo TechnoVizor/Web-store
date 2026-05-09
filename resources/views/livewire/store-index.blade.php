@@ -49,7 +49,7 @@
                 }, 60);
             }, 500);
 
-            {{-- 3. Equipment --}}
+            {{-- 3. Title second part --}}
             setTimeout(() => {
                 let t2Count = 0;
                 let t2Interval = setInterval(() => {

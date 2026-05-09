@@ -1,18 +1,18 @@
 <div>
     {{-- Шапка --}}
     <div class="mb-10 border-b border-zinc-800 pb-4">
-        <h2 class="text-[10px] text-zinc-500 tracking-[0.3em] uppercase mb-1">Neural_Network // Brain</h2>
-        <h1 class="text-3xl font-bold tracking-widest uppercase text-white">System_Dashboard</h1>
+        <h2 class="text-[10px] text-zinc-500 tracking-[0.3em] uppercase mb-1">{{ __('ui.admin.dashboard_section') }}</h2>
+        <h1 class="text-3xl font-bold tracking-widest uppercase text-white">{{ __('ui.admin.dashboard') }}</h1>
     </div>
 
     {{-- Сетка статистики --}}
     <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
         @php
             $cards = [
-                ['label' => 'Total_Revenue', 'value' => '$' . number_format($stats['total_revenue'], 0), 'color' => 'text-green-500'],
-                ['label' => 'Order_Volume', 'value' => str_pad($stats['orders_count'], 4, '0', STR_PAD_LEFT), 'color' => 'text-white'],
-                ['label' => 'Average_Check', 'value' => '$' . number_format($stats['avg_check'], 2), 'color' => 'text-blue-400'],
-                ['label' => 'User_Base', 'value' => str_pad($stats['users_count'], 4, '0', STR_PAD_LEFT), 'color' => 'text-zinc-500'],
+                ['label' => __('ui.admin.total_revenue'), 'value' => '$' . number_format($stats['total_revenue'], 0), 'color' => 'text-green-500'],
+                ['label' => __('ui.admin.order_volume'), 'value' => str_pad($stats['orders_count'], 4, '0', STR_PAD_LEFT), 'color' => 'text-white'],
+                ['label' => __('ui.admin.average_check'), 'value' => '$' . number_format($stats['avg_check'], 2), 'color' => 'text-blue-400'],
+                ['label' => __('ui.admin.user_base'), 'value' => str_pad($stats['users_count'], 4, '0', STR_PAD_LEFT), 'color' => 'text-zinc-500'],
             ];
         @endphp
 
@@ -29,7 +29,7 @@
         <div class="lg:col-span-2 border border-zinc-800 bg-black p-6">
             <h3 class="text-xs font-bold text-white uppercase tracking-widest mb-10 flex items-center">
                 <span class="w-1.5 h-1.5 bg-green-500 mr-2 shadow-[0_0_8px_#22c55e]"></span>
-                Sales_Activity_7D
+                {{ __('ui.admin.sales_activity') }}
             </h3>
             
             <div class="flex items-end justify-between h-48 gap-2">
@@ -66,15 +66,15 @@
 
         {{-- ТОП ТОВАРОВ (Справа) --}}
         <div class="border border-zinc-800 bg-black p-6">
-            <h3 class="text-xs font-bold text-white uppercase tracking-widest mb-6">Top_Modules_Sold</h3>
+            <h3 class="text-xs font-bold text-white uppercase tracking-widest mb-6">{{ __('ui.admin.top_products') }}</h3>
             <div class="space-y-4">
                 @foreach($topProducts as $item)
                 <div class="flex items-center justify-between">
                     <div class="flex flex-col">
                         <span class="text-[10px] text-zinc-300 font-bold uppercase truncate w-32">
-                            {{ $item->product->name ?? 'Deleted_Item' }}
+                            {{ $item->product->name ?? __('ui.admin.deleted_item') }}
                         </span>
-                        <span class="text-[8px] text-zinc-600 uppercase">Sales: {{ $item->total_qty }}</span>
+                        <span class="text-[8px] text-zinc-600 uppercase">{{ __('ui.admin.sales') }}: {{ $item->total_qty }}</span>
                     </div>
                     <div class="h-1 flex-1 mx-4 bg-zinc-900 overflow-hidden">
                         @php $barWidth = ($item->total_qty / ($topProducts->first()->total_qty ?: 1)) * 100; @endphp
@@ -88,12 +88,12 @@
 
     {{-- ПОСЛЕДНИЕ ЗАКАЗЫ (ЛОГ) --}}
     <div class="mt-8 border border-zinc-800 bg-black p-6">
-        <h3 class="text-xs font-bold text-white uppercase tracking-widest mb-4">Live_System_Logs // Recent_Orders</h3>
+        <h3 class="text-xs font-bold text-white uppercase tracking-widest mb-4">{{ __('ui.admin.recent_orders') }}</h3>
         <div class="space-y-2">
             @foreach($recentOrders as $order)
                 <div class="text-[10px] flex items-center space-x-4 py-2 border-b border-zinc-900 last:border-0">
-                    <span class="text-zinc-600">[{{ $order->created_at->format('H:i:s') }}]</span>
-                    <span class="text-green-500 tracking-tighter">SUCCESS</span>
+                    <span class="text-zinc-600">[{{ $order->created_at->timezone(config('app.timezone'))->format('H:i:s') }}]</span>
+                    <span class="text-green-500 tracking-tighter">{{ __('ui.admin.success') }}</span>
                     <span class="text-zinc-400 font-mono">ORDER_#{{ str_pad($order->id, 5, '0', STR_PAD_LEFT) }}</span>
                     <span class="text-zinc-500 uppercase">{{ $order->customer_name }}</span>
                     <span class="ml-auto font-bold text-white">${{ number_format($order->total_amount, 2) }}</span>

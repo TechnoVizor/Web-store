@@ -76,11 +76,11 @@
                     
                     <div class="flex items-center space-x-4">
                         <span class="mono text-xs text-white/40 uppercase tracking-widest">
-                            Category: {{ $product->category->name ?? 'None' }}
+                            {{ __('ui.product.category') }}: {{ $product->category->name ?? __('ui.product.none') }}
                         </span>
                         <span class="w-1 h-1 bg-white/20 rounded-full"></span>
                         <span class="mono text-xs text-white/40 uppercase tracking-widest">
-                            Status: Available
+                            {{ __('ui.product.status') }}: {{ __('ui.product.available') }}
                         </span>
                     </div>
                 </div>
@@ -89,33 +89,33 @@
                     <div class="flex items-baseline space-x-4">
                         <span
                             class="text-4xl font-bold tracking-tighter">${{ number_format($product->price, 0) }}</span>
-                        <span class="mono text-[10px] text-white/20 uppercase tracking-widest">Tax_Included</span>
+                        <span class="mono text-[10px] text-white/20 uppercase tracking-widest">{{ __('ui.product.tax_included') }}</span>
                     </div>
 
                     <p class="text-white/50 text-sm leading-relaxed font-light max-w-md italic">
-                        {{ $product->description ?: 'Engineering excellence integrated into every fiber. Minimalist aesthetic paired with maximum performance for high-stakes environments.' }}
+                        {{ $product->description ?: __('ui.product.fallback_description') }}
                     </p>
                 </div>
 
                 <div class="space-y-8 p-8 bg-[#0a0a0a] border border-white/10 relative overflow-hidden">
-                    <div class="absolute top-0 right-0 p-2 mono text-[7px] text-white/10 uppercase">Security_Protocol_V4
+                    <div class="absolute top-0 right-0 p-2 mono text-[7px] text-white/10 uppercase">{{ __('ui.product.details') }}
                     </div>
 
                     <livewire:add-to-cart :product-id="$product->id" />
 
                     <div class="grid grid-cols-2 gap-y-6 gap-x-4 pt-8 border-t border-white/5">
                         <div class="space-y-1">
-                            <p class="mono text-[8px] text-white/30 uppercase tracking-widest leading-none">Materials
+                            <p class="mono text-[8px] text-white/30 uppercase tracking-widest leading-none">{{ __('ui.product.materials') }}
                             </p>
-                            <p class="text-[10px] font-bold uppercase leading-none italic">Technical_Composite</p>
+                            <p class="text-[10px] font-bold uppercase leading-none italic">{{ __('ui.product.materials_value') }}</p>
                         </div>
                         <div class="space-y-1">
-                            <p class="mono text-[8px] text-white/30 uppercase tracking-widest leading-none">Shipping</p>
-                            <p class="text-[10px] font-bold uppercase leading-none italic">Global_Priority</p>
+                            <p class="mono text-[8px] text-white/30 uppercase tracking-widest leading-none">{{ __('ui.product.shipping') }}</p>
+                            <p class="text-[10px] font-bold uppercase leading-none italic">{{ __('ui.product.shipping_value') }}</p>
                         </div>
                         <div class="space-y-1">
-                            <p class="mono text-[8px] text-white/30 uppercase tracking-widest leading-none">Warranty</p>
-                            <p class="text-[10px] font-bold uppercase leading-none italic">2_Year_Limited</p>
+                            <p class="mono text-[8px] text-white/30 uppercase tracking-widest leading-none">{{ __('ui.product.warranty') }}</p>
+                            <p class="text-[10px] font-bold uppercase leading-none italic">{{ __('ui.product.warranty_value') }}</p>
                         </div>
                         <div class="space-y-1 text-right flex flex-col justify-end">
                             <div class="flex justify-end space-x-1">
@@ -129,9 +129,9 @@
 
                 <div class="mt-12 p-4 border border-dashed border-white/10 opacity-20">
                     <div class="mono text-[7px] space-y-1 uppercase tracking-widest leading-none">
-                        <p>> Initializing product_view_mode...</p>
-                        <p>> Assets loaded successfully.</p>
-                        <p>> System ready for transaction.</p>
+                        <p>> {{ __('ui.product.view_ready') }}</p>
+                        <p>> {{ __('ui.product.assets_loaded') }}</p>
+                        <p>> {{ __('ui.product.ready') }}</p>
                     </div>
                 </div>
             </div>
@@ -139,6 +139,6 @@
     </main>
 
     <footer class="py-20 text-center border-t border-white/5 mt-20">
-        <p class="mono text-[8px] uppercase tracking-[0.8em] text-white/20">Digi // INDUSTRIAL // 2026</p>
+        <p class="mono text-[8px] uppercase tracking-[0.8em] text-white/20">{{ __('ui.product.footer') }}</p>
     </footer>
 @endsection

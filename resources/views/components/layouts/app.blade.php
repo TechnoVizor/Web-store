@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ $title ?? 'DIGI_STORE // CORE' }}</title>
+    <title>{{ $title ?? __('ui.brand') }}</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -21,6 +21,7 @@
 
         body {
             font-family: 'Inter', sans-serif;
+            font-size: 16px;
             background-color: #000;
             color: #fff;
             letter-spacing: -0.02em;
@@ -31,6 +32,12 @@
         .mono {
             font-family: 'JetBrains Mono', monospace !important;
         }
+
+        .text-\[7px\] { font-size: 8px !important; }
+        .text-\[8px\] { font-size: 9px !important; }
+        .text-\[9px\] { font-size: 10px !important; }
+        .text-\[10px\] { font-size: 11px !important; }
+        .text-\[11px\] { font-size: 12px !important; }
 
         .glass {
             background: rgba(0, 0, 0, 0.8);
@@ -273,29 +280,28 @@
                         DIGI<span class="text-white/20">_</span>STORE
                     </a>
                     <p class="text-[10px] leading-relaxed text-white/30 tracking-widest uppercase max-w-xs">
-                        High-end digital & physical infrastructure. Designed for the next generation of creators and
-                        tech enthusiasts.
+                        {{ __('ui.footer.description') }}
                     </p>
                 </div>
 
                 <div class="md:col-span-2 space-y-4">
-                    <h4 class="text-[10px] font-bold tracking-[0.3em] text-white uppercase">Sitemap</h4>
+                    <h4 class="text-[10px] font-bold tracking-[0.3em] text-white uppercase">{{ __('ui.footer.sitemap') }}</h4>
                     <ul class="space-y-2 text-[10px] tracking-widest text-white/40 uppercase">
                         <li><a href="/" wire:navigate class="hover:text-white transition-colors">{{ __('ui.nav.collections') }}</a>
                         </li>
                         <li><a href="/orders" wire:navigate class="hover:text-white transition-colors">{{ __('ui.nav.archive') }}</a>
                         </li>
                         <li><a href="/about" wire:navigate
-                                class="hover:text-white transition-colors">Manifesto</a></li>
+                                class="hover:text-white transition-colors">{{ __('ui.footer.about') }}</a></li>
                         <li><a href="/privacy" wire:navigate
-                                class="hover:text-white transition-colors">Privacy</a></li>
-                        <li><a href="/terms" wire:navigate class="hover:text-white transition-colors">Terms</a>
+                                class="hover:text-white transition-colors">{{ __('ui.footer.privacy') }}</a></li>
+                        <li><a href="/terms" wire:navigate class="hover:text-white transition-colors">{{ __('ui.footer.terms') }}</a>
                         </li>
                     </ul>
                 </div>
 
                 <div class="md:col-span-2 space-y-4">
-                    <h4 class="text-[10px] font-bold tracking-[0.3em] text-white uppercase">Connect</h4>
+                    <h4 class="text-[10px] font-bold tracking-[0.3em] text-white uppercase">{{ __('ui.footer.connect') }}</h4>
                     <ul class="space-y-2 text-[10px] tracking-widest text-white/40 uppercase">
                         <li><a href="#" class="hover:text-white transition-colors">Instagram</a></li>
                         <li><a href="#" class="hover:text-white transition-colors">Twitter (X)</a></li>
@@ -304,12 +310,12 @@
                 </div>
 
                 <div class="md:col-span-4 space-y-4">
-                    <h4 class="text-[10px] font-bold tracking-[0.3em] text-white uppercase">Newsletter</h4>
+                    <h4 class="text-[10px] font-bold tracking-[0.3em] text-white uppercase">{{ __('ui.footer.newsletter') }}</h4>
                     <div class="relative">
-                        <input type="email" placeholder="ENTER EMAIL"
+                        <input type="email" placeholder="{{ __('ui.footer.email_placeholder') }}"
                             class="w-full bg-transparent border-b border-white/10 py-2 text-base md:text-[11px] mono focus:border-white outline-none transition-all placeholder:text-white/10">
                         <button
-                            class="absolute right-0 bottom-2 text-[10px] font-bold hover:text-white/60 transition-colors">JOIN</button>
+                            class="absolute right-0 bottom-2 text-[10px] font-bold hover:text-white/60 transition-colors">{{ __('ui.footer.join') }}</button>
                     </div>
                 </div>
 
@@ -318,11 +324,11 @@
             <div
                 class="mt-20 pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
                 <div class="text-[8px] text-white/10 tracking-[0.5em] uppercase">
-                    © 2026 DIGI_STORE // ALL RIGHTS RESERVED
+                    © 2026 DIGI STORE // {{ __('ui.footer.rights') }}
                 </div>
                 <div class="flex space-x-8 text-[8px] text-white/10 tracking-[0.3em] uppercase italic">
                     <span>LVA_NODE_01</span>
-                    <span>System_Stable</span>
+                    <span>{{ __('ui.footer.stable') }}</span>
                 </div>
             </div>
         </div>
@@ -333,7 +339,7 @@
     <script>
         document.addEventListener('livewire:navigating', () => {
             // Показываем какой-то системный лог в консоли для красоты (опционально)
-            console.log('SYSTEM: NAVIGATING_TO_NODE...');
+            console.log('DIGI_STORE: navigating...');
         });
     </script>
     @livewireScripts

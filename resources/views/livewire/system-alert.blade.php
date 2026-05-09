@@ -9,8 +9,7 @@ new class extends Component {
     #[On('cart-updated')]
     public function showAlert()
     {
-        // Твое системное сообщение
-        $this->message = "PROTOCOL_EXECUTED: SUCCESS";
+        $this->message = __('ui.alert.success');
         $this->visible = true;
     }
 }; ?>
@@ -42,7 +41,7 @@ new class extends Component {
             <div class="w-2 h-2 bg-white animate-pulse shrink-0"></div>
             
             <div class="flex-grow">
-                <p class="mono text-[9px] uppercase tracking-[0.3em] text-white/30 mb-1">System_Response</p>
+                <p class="mono text-[9px] uppercase tracking-[0.3em] text-white/30 mb-1">{{ __('ui.alert.title') }}</p>
                 <p class="mono text-[11px] uppercase tracking-widest text-white font-bold leading-none">
                     {{ $message }}
                 </p>
@@ -60,7 +59,7 @@ new class extends Component {
 
         {{-- Декоративный элемент --}}
         <div class="absolute top-0 right-0 p-2">
-            <div class="mono text-[7px] text-white/10 uppercase tracking-tighter italic">Module_01 // OK</div>
+            <div class="mono text-[7px] text-white/10 uppercase tracking-tighter italic">{{ __('ui.alert.ok') }}</div>
         </div>
     </div>
 </div>

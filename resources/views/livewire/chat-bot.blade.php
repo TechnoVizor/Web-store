@@ -46,7 +46,7 @@
     <div class="shrink-0 p-3 border-b border-white/10 flex justify-between items-center bg-white/5">
         <div class="flex items-center space-x-2">
             <div class="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></div>
-            <span class="text-[9px] font-bold tracking-[0.3em] uppercase">Core_Chat_Terminal</span>
+            <span class="text-[9px] font-bold tracking-[0.3em] uppercase">{{ __('ui.chat.title') }}</span>
         </div>
     </div>
 
@@ -63,13 +63,13 @@
         
         @if($isTyping)
             <div class="flex items-center space-x-1 text-white/40 animate-pulse shrink-0">
-                <span class="text-[10px]">SYSTEM_TYPING...</span>
+                <span class="text-[10px]">{{ __('ui.chat.typing') }}</span>
             </div>
         @endif
     </div>
 
     <div class="shrink-0 px-4 py-2 flex gap-2 border-t border-white/5 bg-black/20 overflow-x-auto no-scrollbar">
-        @foreach(['Доставка', 'Оплата', 'Гарантия'] as $cmd)
+        @foreach([__('ui.chat.quick_delivery'), __('ui.chat.quick_payment'), __('ui.chat.quick_returns')] as $cmd)
             <button wire:click="sendMessage('{{ $cmd }}')" 
                     class="shrink-0 whitespace-nowrap text-[8px] border border-white/10 px-2 py-1 text-white/40 hover:border-white hover:text-white transition-all uppercase">
                 {{ $cmd }}
@@ -83,7 +83,7 @@
             <input type="text" 
                    wire:model.defer="userInput" 
                    wire:keydown.enter="sendMessage"
-                   placeholder="INPUT_COMMAND..." 
+                   placeholder="{{ __('ui.chat.placeholder') }}" 
                    class="w-full bg-transparent border-none outline-none text-[11px] uppercase placeholder:text-white/5 focus:ring-0">
         </div>
     </div>

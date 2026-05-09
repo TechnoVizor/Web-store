@@ -3,8 +3,8 @@
 @section('content')
 <div class="container mx-auto px-6 py-24 max-w-5xl">
     <div class="mb-16 border-l-2 border-white pl-6">
-        <h1 class="text-3xl font-bold uppercase tracking-tighter text-white">Order_Archive</h1>
-        <p class="mono text-[10px] text-white/30 uppercase tracking-[0.3em] mt-2">Authenticated_User: {{ auth()->user()->name }}</p>
+        <h1 class="text-3xl font-bold uppercase tracking-tighter text-white">{{ __('ui.orders.title') }}</h1>
+        <p class="mono text-[10px] text-white/30 uppercase tracking-[0.3em] mt-2">{{ __('ui.orders.subtitle', ['name' => auth()->user()->name]) }}</p>
     </div>
 
     <div class="space-y-6">
@@ -25,14 +25,14 @@
                     <div class="flex items-center space-x-6">
                         <span class="mono text-[10px] text-white/20 uppercase">#{{ str_pad($order->id, 5, '0', STR_PAD_LEFT) }}</span>
                         <div>
-                            <p class="text-xs font-bold text-white uppercase">{{ $order->created_at->format('d.m.Y // H:i') }}</p>
-                            <p class="mono text-[9px] text-white/30 uppercase mt-1">{{ $order->items->sum('quantity') }} Units_Total</p>
+                            <p class="text-xs font-bold text-white uppercase">{{ $order->created_at->timezone(config('app.timezone'))->format('d.m.Y // H:i') }}</p>
+                            <p class="mono text-[9px] text-white/30 uppercase mt-1">{{ $order->items->sum('quantity') }} {{ __('ui.orders.units_total') }}</p>
                         </div>
                     </div>
                     
                     <div class="flex items-center space-x-8">
                         <div class="text-right">
-                            <p class="mono text-[9px] text-white/30 uppercase mb-1">Amount</p>
+                            <p class="mono text-[9px] text-white/30 uppercase mb-1">{{ __('ui.orders.amount') }}</p>
                             <p class="mono text-sm font-bold text-white">${{ number_format($order->total_amount, 2) }}</p>
                         </div>
                         
@@ -43,7 +43,7 @@
                             @elseif($order->status == 'shipped') border-purple-500/30 text-purple-500 bg-purple-500/10
                             @elseif($order->status == 'delivered') border-green-500/30 text-green-500 bg-green-500/10
                             @else border-red-500/30 text-red-500 bg-red-500/10 @endif">
-                            {{ $order->status }}
+                            {{ __('ui.status.' . $order->status) }}
                         </div>
                     </div>
                 </div>
@@ -63,10 +63,10 @@
                         <div class="flex-1">
                             <div class="text-xs font-bold text-white uppercase tracking-widest">
                                 <a href="{{ $item->product ? route('product.show', $item->product->slug) : '#' }}" class="hover:text-gray-400 transition-colors">
-                                    {{ $item->product ? $item->product->name : 'UNKNOWN_MODULE' }}
+                                    {{ $item->product ? $item->product->name : __('ui.product.unknown') }}
                                 </a>
                             </div>
-                            <div class="mono text-[9px] text-white/40 uppercase mt-1">{{ $item->quantity }} UNITS</div>
+                            <div class="mono text-[9px] text-white/40 uppercase mt-1">{{ $item->quantity }} {{ __('ui.cart.units') }}</div>
                         </div>
                         
                         {{-- Цена за единицу --}}
@@ -85,7 +85,7 @@
             </div>
         @empty
             <div class="py-20 text-center border border-dashed border-white/5">
-                <p class="mono text-[10px] text-white/20 uppercase tracking-[0.5em]">Archive_Empty // No_Records_Found</p>
+                <p class="mono text-[10px] text-white/20 uppercase tracking-[0.5em]">{{ __('ui.orders.empty') }}</p>
             </div>
         @endforelse
     </div>
