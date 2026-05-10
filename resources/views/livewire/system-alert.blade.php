@@ -59,7 +59,7 @@ new class extends Component {
 
         <button type="button"
             x-on:click="show = false"
-            class="ui-btn ui-btn-icon absolute right-0 top-0 h-9 w-9 border-r-0 border-t-0 text-white/35 hover:text-white"
+            class="absolute right-0 top-0 z-10 flex h-9 w-9 items-center justify-center border-b border-l border-white/20 bg-black text-white/35 transition-colors hover:border-white/45 hover:bg-white/10 hover:text-white focus:outline-none focus-visible:border-white"
             aria-label="{{ __('ui.admin.close') }}">
             <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2" aria-hidden="true">
                 <path d="M6 18L18 6M6 6l12 12" />

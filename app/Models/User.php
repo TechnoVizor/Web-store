@@ -15,9 +15,9 @@ class User extends Authenticatable
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable;
 
-    public const AVATAR_MALE = '/images/avatar-male.svg';
+    public const AVATAR_MALE = '/images/photo_5188666243190298206_y.jpg';
 
-    public const AVATAR_FEMALE = '/images/avatar-female.svg';
+    public const AVATAR_FEMALE = '/images/photo_5188666243190298207_y.jpg';
 
     public const AVATARS = [
         self::AVATAR_MALE,
