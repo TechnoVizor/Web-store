@@ -12,6 +12,9 @@ return [
         'admin_panel' => 'Админка',
         'language' => 'Язык',
     ],
+    'pagination' => [
+        'results' => 'результатов',
+    ],
     'cart' => [
         'system_bag' => 'Корзина',
         'status_loaded' => 'Готово к оформлению',
@@ -48,6 +51,10 @@ return [
         'add_to_bag' => 'В корзину',
         'adding' => 'Добавляем...',
         'price_label' => 'Цена',
+        'showing_range' => 'Показано :shown из :total товаров',
+        'load_more' => 'Показать ещё',
+        'loading_more' => 'Загружаем...',
+        'end_of_catalog' => 'Весь каталог загружен',
     ],
     'product' => [
         'category' => 'Категория',

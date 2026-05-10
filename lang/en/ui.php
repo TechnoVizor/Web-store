@@ -12,6 +12,9 @@ return [
         'admin_panel' => 'Admin',
         'language' => 'Language',
     ],
+    'pagination' => [
+        'results' => 'results',
+    ],
     'cart' => [
         'system_bag' => 'Bag',
         'status_loaded' => 'Ready to checkout',
@@ -48,6 +51,10 @@ return [
         'add_to_bag' => 'Add to bag',
         'adding' => 'Adding...',
         'price_label' => 'Price',
+        'showing_range' => 'Showing :shown of :total pieces',
+        'load_more' => 'Load more',
+        'loading_more' => 'Loading...',
+        'end_of_catalog' => 'Full catalog loaded',
     ],
     'product' => [
         'category' => 'Category',

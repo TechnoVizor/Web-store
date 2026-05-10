@@ -12,6 +12,9 @@ return [
         'admin_panel' => 'Admin',
         'language' => 'Valoda',
     ],
+    'pagination' => [
+        'results' => 'rezultāti',
+    ],
     'cart' => [
         'system_bag' => 'Grozs',
         'status_loaded' => 'Gatavs noformēšanai',
@@ -48,6 +51,10 @@ return [
         'add_to_bag' => 'Pievienot grozam',
         'adding' => 'Pievieno...',
         'price_label' => 'Cena',
+        'showing_range' => 'Rādīti :shown no :total produktiem',
+        'load_more' => 'Rādīt vēl',
+        'loading_more' => 'Ielādē...',
+        'end_of_catalog' => 'Viss katalogs ielādēts',
     ],
     'product' => [
         'category' => 'Kategorija',

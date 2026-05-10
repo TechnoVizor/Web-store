@@ -188,7 +188,7 @@
         <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-12 gap-6">
             <div class="border-l-2 border-white pl-4">
                 <h2 class="text-xs font-bold uppercase tracking-[0.4em]">{{ __('ui.store.inventory') }}</h2>
-                <span class="mono text-[10px] text-white/40 uppercase">{{ __('ui.store.total_units') }}: {{ $products->total() }}</span>
+                <span class="mono text-[10px] text-white/40 uppercase">{{ __('ui.store.total_units') }}: {{ $totalProducts }}</span>
             </div>
 
             <div class="w-full md:hidden">
@@ -340,8 +340,25 @@
                         @endforeach
                     </div>
 
-                    <div class="mt-20">
-                        {{ $products->links() }}
+                    <div class="mt-20 flex flex-col gap-5 border-t border-white/6 pt-8 md:flex-row md:items-center md:justify-between">
+                        <div class="mono text-[10px] uppercase tracking-[0.22em] text-white/42">
+                            {{ __('ui.store.showing_range', ['shown' => $products->count(), 'total' => $totalProducts]) }}
+                        </div>
+
+                        @if($products->count() < $totalProducts)
+                            <button type="button"
+                                wire:click="loadMore"
+                                wire:loading.attr="disabled"
+                                wire:target="loadMore"
+                                class="ui-btn min-h-12 w-full px-8 py-3 mono text-[10px] font-bold uppercase tracking-[0.24em] md:w-auto">
+                                <span wire:loading.remove wire:target="loadMore">{{ __('ui.store.load_more') }}</span>
+                                <span wire:loading wire:target="loadMore">{{ __('ui.store.loading_more') }}</span>
+                            </button>
+                        @else
+                            <div class="border border-white/8 bg-white/[0.015] px-5 py-3 mono text-[10px] uppercase tracking-[0.22em] text-white/26">
+                                {{ __('ui.store.end_of_catalog') }}
+                            </div>
+                        @endif
                     </div>
                 @endif
             </div>

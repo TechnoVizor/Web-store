@@ -6,13 +6,10 @@ use App\Models\Category;
 use App\Models\Product;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
-use Livewire\WithPagination;
 
 #[Layout('layouts.app')]
 class StoreIndex extends Component
 {
-    use WithPagination;
-
     // Параметры фильтрации
     public $search = '';
 
@@ -20,10 +17,14 @@ class StoreIndex extends Component
 
     public array $selectedSizes = [];
 
-    // Сбрасываем страницу пагинации при поиске
+    public int $visibleProducts = 20;
+
+    private int $loadStep = 20;
+
+    // Сбрасываем витрину при поиске
     public function updatingSearch()
     {
-        $this->resetPage();
+        $this->visibleProducts = $this->loadStep;
     }
 
     public function updatedSelectedCategory($value): void
@@ -32,17 +33,24 @@ class StoreIndex extends Component
             $this->selectedCategory = null;
         }
 
-        $this->resetPage();
+        $this->visibleProducts = $this->loadStep;
     }
 
     public function selectCategory($categoryId)
     {
         $this->selectedCategory = ($this->selectedCategory == $categoryId) ? null : $categoryId;
+        $this->visibleProducts = $this->loadStep;
     }
 
     public function resetFilters()
     {
         $this->reset(['search', 'selectedCategory']);
+        $this->visibleProducts = $this->loadStep;
+    }
+
+    public function loadMore(): void
+    {
+        $this->visibleProducts += $this->loadStep;
     }
 
     public function addToBag(int $productId): void
@@ -90,7 +98,7 @@ class StoreIndex extends Component
 
     public function render()
     {
-        $products = Product::query()
+        $productsQuery = Product::query()
             ->with('category')
             ->select(['id', 'category_id', 'name', 'slug', 'price', 'image', 'sizes', 'is_active', 'created_at'])
             ->where('is_active', true)
@@ -100,11 +108,16 @@ class StoreIndex extends Component
             ->when($this->selectedCategory, function ($query) {
                 $query->where('category_id', $this->selectedCategory);
             })
-            ->latest()
-            ->paginate(8);
+            ->latest();
+
+        $totalProducts = (clone $productsQuery)->count();
+        $products = $productsQuery
+            ->limit($this->visibleProducts)
+            ->get();
 
         return view('livewire.store-index', [
             'products' => $products,
+            'totalProducts' => $totalProducts,
             'categories' => Category::query()
                 ->select(['id', 'name'])
                 ->orderBy('name')
