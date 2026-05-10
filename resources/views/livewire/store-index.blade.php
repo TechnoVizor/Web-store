@@ -317,7 +317,6 @@
                                                         <input type="radio"
                                                             wire:model.live="selectedSizes.{{ $product->id }}"
                                                             value="{{ $size }}"
-                                                            @checked(($selectedSizes[$product->id] ?? $product->availableSizes()[0]) === $size)
                                                             class="peer sr-only">
                                                         <span class="flex min-h-7 items-center justify-center border border-white/10 bg-black/30 mono text-[8px] font-bold uppercase tracking-[0.12em] text-white/42 transition-all group-hover/size:border-white/28 group-hover/size:text-white/78 peer-checked:border-white/70 peer-checked:bg-white/80 peer-checked:text-black sm:min-h-8 sm:text-[9px] sm:tracking-[0.14em]">
                                                             {{ $size }}

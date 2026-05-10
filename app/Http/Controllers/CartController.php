@@ -10,12 +10,23 @@ class CartController extends Controller
 {
     public function add(Request $request, int $id)
     {
+        $validated = $request->validate([
+            'size' => ['required', 'string'],
+        ]);
+
         $product = Product::query()
             ->where('is_active', true)
             ->findOrFail($id);
 
-        $size = strtoupper((string) $request->input('size', $product->availableSizes()[0]));
-        $size = in_array($size, $product->availableSizes(), true) ? $size : $product->availableSizes()[0];
+        $size = strtoupper(trim($validated['size']));
+        $size = in_array($size, $product->availableSizes(), true) ? $size : null;
+
+        if (! $size) {
+            throw ValidationException::withMessages([
+                'size' => __('ui.alert.select_size'),
+            ]);
+        }
+
         $cartKey = $product->id.':'.$size;
         $cart = session()->get('cart', []);
         $currentQuantity = (int) ($cart[$cartKey]['quantity'] ?? 0);

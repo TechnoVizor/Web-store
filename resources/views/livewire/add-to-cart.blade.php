@@ -11,11 +11,7 @@ new class extends Component
 
     public function mount(): void
     {
-        $product = Product::query()
-            ->select(['id', 'sizes'])
-            ->findOrFail($this->productId);
-
-        $this->selectedSize = $product->availableSizes()[0];
+        $this->selectedSize = '';
     }
 
     public function addToBag()
@@ -26,6 +22,13 @@ new class extends Component
             ->findOrFail($this->productId);
 
         $size = $this->selectedSizeFor($product);
+
+        if (! $size) {
+            $this->dispatch('show-system-alert', message: __('ui.alert.select_size'));
+
+            return;
+        }
+
         $cartKey = $product->id.':'.$size;
         $cart = session()->get('cart', []);
 
@@ -56,12 +59,12 @@ new class extends Component
             ->availableSizes();
     }
 
-    private function selectedSizeFor(Product $product): string
+    private function selectedSizeFor(Product $product): ?string
     {
         $sizes = $product->availableSizes();
         $size = strtoupper(trim($this->selectedSize));
 
-        return in_array($size, $sizes, true) ? $size : $sizes[0];
+        return in_array($size, $sizes, true) ? $size : null;
     }
 }; ?>
 

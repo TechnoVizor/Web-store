@@ -12,6 +12,13 @@ new class extends Component {
         $this->message = __('ui.alert.success');
         $this->visible = true;
     }
+
+    #[On('show-system-alert')]
+    public function showSystemAlert(string $message)
+    {
+        $this->message = $message;
+        $this->visible = true;
+    }
 }; ?>
 
 <div x-data="{ 

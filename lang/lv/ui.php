@@ -242,6 +242,7 @@ return [
     'alert' => [
         'title' => 'Veikala atjauninājums',
         'success' => 'Veiksmīgi atjaunināts',
+        'select_size' => 'Vispirms izvēlieties izmēru',
         'ok' => 'OK',
     ],
     'admin' => [

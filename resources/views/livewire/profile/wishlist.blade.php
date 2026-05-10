@@ -60,14 +60,10 @@
 
                         <div class="mt-auto flex items-center justify-between gap-3 pt-4">
                             <span class="mono text-sm font-bold text-white/80">${{ number_format($product->price, 0) }}</span>
-                            <button type="button"
-                                wire:click.prevent="addToBag({{ $product->id }})"
-                                wire:loading.attr="disabled"
-                                wire:target="addToBag({{ $product->id }})"
+                            <a href="{{ route('product.show', $product->slug) }}" wire:navigate
                                 class="ui-btn px-3 py-2 text-[10px] font-bold tracking-[0.22em]">
-                                <span wire:loading.remove wire:target="addToBag({{ $product->id }})">{{ __('ui.profile.add') }}</span>
-                                <span wire:loading wire:target="addToBag({{ $product->id }})">...</span>
-                            </button>
+                                {{ __('ui.profile.add') }}
+                            </a>
                         </div>
                     </div>
                 </article>

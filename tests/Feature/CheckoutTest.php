@@ -245,4 +245,38 @@ class CheckoutTest extends TestCase
             ->assertSee('CAP')
             ->assertDontSee('Leather Jacket');
     }
+
+    public function test_store_requires_size_before_adding_to_bag(): void
+    {
+        $product = Product::factory()->create([
+            'name' => 'Sized Hoodie',
+            'slug' => 'sized-hoodie',
+            'is_active' => true,
+            'sizes' => ['S', 'M', 'L'],
+        ]);
+
+        Livewire::test(StoreIndex::class)
+            ->call('addToBag', $product->id)
+            ->assertDispatched('show-system-alert');
+
+        $this->assertSame([], session()->get('cart', []));
+    }
+
+    public function test_store_adds_selected_size_to_bag(): void
+    {
+        $product = Product::factory()->create([
+            'name' => 'Sized Jacket',
+            'slug' => 'sized-jacket',
+            'is_active' => true,
+            'price' => 120,
+            'sizes' => ['S', 'M', 'L'],
+        ]);
+
+        Livewire::test(StoreIndex::class)
+            ->set("selectedSizes.{$product->id}", 'M')
+            ->call('addToBag', $product->id)
+            ->assertDispatched('cart-updated');
+
+        $this->assertSame('M', session("cart.{$product->id}:M.size"));
+    }
 }

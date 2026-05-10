@@ -2,7 +2,6 @@
 
 namespace App\Livewire\Profile;
 
-use App\Models\Product;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
@@ -12,36 +11,6 @@ class Wishlist extends Component
     public function remove(int $productId): void
     {
         Auth::user()->wishlists()->detach($productId);
-    }
-
-    public function addToBag(int $productId): void
-    {
-        $product = Product::query()
-            ->select(['id', 'name', 'price', 'image', 'sizes'])
-            ->whereKey($productId)
-            ->where('is_active', true)
-            ->firstOrFail();
-
-        $size = $product->availableSizes()[0];
-        $cartKey = $product->id.':'.$size;
-        $cart = session()->get('cart', []);
-
-        if (isset($cart[$cartKey])) {
-            $cart[$cartKey]['quantity']++;
-        } else {
-            $cart[$cartKey] = [
-                'product_id' => $product->id,
-                'name' => $product->name,
-                'size' => $size,
-                'quantity' => 1,
-                'price' => $product->price,
-                'image' => $product->image_url,
-            ];
-        }
-
-        session()->put('cart', $cart);
-
-        $this->dispatch('cart-updated');
     }
 
     public function render(): View

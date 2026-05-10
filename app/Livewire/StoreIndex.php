@@ -63,6 +63,13 @@ class StoreIndex extends Component
             ->firstOrFail();
 
         $size = $this->selectedSizeFor($product);
+
+        if (! $size) {
+            $this->dispatch('show-system-alert', message: __('ui.alert.select_size'));
+
+            return;
+        }
+
         $cartKey = $this->cartKey($product->id, $size);
         $cart = session()->get('cart', []);
 
@@ -84,12 +91,12 @@ class StoreIndex extends Component
         $this->dispatch('cart-updated');
     }
 
-    private function selectedSizeFor(Product $product): string
+    private function selectedSizeFor(Product $product): ?string
     {
         $sizes = $product->availableSizes();
-        $size = strtoupper((string) ($this->selectedSizes[$product->id] ?? $sizes[0]));
+        $size = strtoupper(trim((string) ($this->selectedSizes[$product->id] ?? '')));
 
-        return in_array($size, $sizes, true) ? $size : $sizes[0];
+        return in_array($size, $sizes, true) ? $size : null;
     }
 
     private function cartKey(int $productId, string $size): string

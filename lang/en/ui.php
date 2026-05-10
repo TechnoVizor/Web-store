@@ -242,6 +242,7 @@ return [
     'alert' => [
         'title' => 'Store update',
         'success' => 'Updated successfully',
+        'select_size' => 'Select a size first',
         'ok' => 'OK',
     ],
     'admin' => [
