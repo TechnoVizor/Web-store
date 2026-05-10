@@ -26,6 +26,8 @@
         width: 100%;
         border: 0;
         background: transparent;
+        font-size: 16px;
+        line-height: 1.5rem;
         outline: none;
     }
 

@@ -96,31 +96,31 @@ new class extends Component {
                     <div class="profile-field">
                         <label class="mono block text-[10px] uppercase tracking-[0.28em] text-white/40">{{ __('ui.profile.full_name') }}</label>
                         <input type="text" wire:model="name"
-                            class="mono pt-3 text-sm text-white/80">
+                            class="mono pt-3 text-base text-white/80">
                     </div>
 
                     <div class="profile-field">
                         <label class="mono block text-[10px] uppercase tracking-[0.28em] text-white/40">{{ __('ui.profile.nickname') }}</label>
                         <input type="text" wire:model="nickname"
-                            class="mono pt-3 text-sm text-white/80">
+                            class="mono pt-3 text-base text-white/80">
                     </div>
 
                     <div class="profile-field">
                         <label class="mono block text-[10px] uppercase tracking-[0.28em] text-white/40">{{ __('ui.profile.email') }}</label>
                         <input type="email" wire:model="email"
-                            class="mono pt-3 text-sm text-white/80">
+                            class="mono pt-3 text-base text-white/80">
                     </div>
 
                     <div class="profile-field">
                         <label class="mono block text-[10px] uppercase tracking-[0.28em] text-white/40">{{ __('ui.profile.phone') }}</label>
                         <input type="text" wire:model="phone" placeholder="+371..."
-                            class="mono pt-3 text-sm text-white/80 placeholder:text-white/25">
+                            class="mono pt-3 text-base text-white/80 placeholder:text-white/25">
                     </div>
 
                     <div class="profile-field md:col-span-2">
                         <label class="mono block text-[10px] uppercase tracking-[0.28em] text-white/40">{{ __('ui.profile.address') }}</label>
                         <input type="text" wire:model="address" placeholder="{{ __('ui.profile.address_placeholder') }}"
-                            class="mono pt-3 text-sm text-white/80 placeholder:text-white/25">
+                            class="mono pt-3 text-base text-white/80 placeholder:text-white/25">
                     </div>
                 </div>
 

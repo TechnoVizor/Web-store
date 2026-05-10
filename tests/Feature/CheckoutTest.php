@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Livewire\Checkout;
 use App\Models\Order;
+use App\Models\OrderItem;
 use App\Models\Product;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -189,5 +190,38 @@ class CheckoutTest extends TestCase
         $this->get(route('cart.index'))->assertOk();
         $this->get(route('checkout.index'))->assertOk();
         $this->get(route('orders.success'))->assertOk();
+    }
+
+    public function test_authenticated_user_can_open_order_details(): void
+    {
+        $user = User::factory()->create();
+        $product = Product::factory()->create([
+            'is_active' => true,
+            'price' => 45,
+            'sizes' => ['M', 'XS', 'XL'],
+        ]);
+        $order = Order::create([
+            'user_id' => $user->id,
+            'customer_name' => $user->name,
+            'customer_email' => $user->email,
+            'customer_phone' => '+371 20000009',
+            'customer_address' => 'Riga Detail Street 9',
+            'status' => 'pending',
+            'total_amount' => 45,
+        ]);
+
+        OrderItem::create([
+            'order_id' => $order->id,
+            'product_id' => $product->id,
+            'quantity' => 1,
+            'price' => 45,
+            'size' => 'M',
+        ]);
+
+        $this->actingAs($user)
+            ->get(route('orders.show', $order))
+            ->assertOk()
+            ->assertSee('#'.str_pad($order->id, 5, '0', STR_PAD_LEFT))
+            ->assertSee($product->name);
     }
 }
