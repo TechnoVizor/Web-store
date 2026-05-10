@@ -222,6 +222,11 @@
             outline: none !important;
         }
 
+        .admin-terminal :is(input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="submit"]):not([type="button"]), textarea, select) {
+            font-size: 16px !important;
+            line-height: 1.5rem !important;
+        }
+
         .status-pill {
             display: inline-flex;
             align-items: center;

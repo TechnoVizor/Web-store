@@ -331,6 +331,11 @@
             /* Важно для Firefox! */
         }
 
+        body :is(input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="submit"]):not([type="button"]), textarea, select) {
+            font-size: 16px !important;
+            line-height: 1.5rem !important;
+        }
+
         /* Internet Explorer 10-11 */
         input:-ms-input-placeholder,
         textarea:-ms-input-placeholder {

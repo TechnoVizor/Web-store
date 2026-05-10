@@ -147,7 +147,7 @@ new class extends Component
                 <div class="auth-field">
                     <label class="mono mb-2 block text-[10px] uppercase tracking-[0.22em] text-white/38">First name</label>
                     <input type="text" wire:model="name"
-                        class="w-full bg-transparent py-1 text-sm text-white/80 outline-none placeholder:text-white/18"
+                        class="w-full bg-transparent py-1 text-base text-white/80 outline-none placeholder:text-white/18"
                         placeholder="Illia">
                     @error('name') <span class="text-red-900 text-[8px] uppercase tracking-widest mt-2 block">{{ $message }}</span> @enderror
                 </div>
@@ -155,7 +155,7 @@ new class extends Component
                 <div class="auth-field">
                     <label class="mono mb-2 block text-[10px] uppercase tracking-[0.22em] text-white/38">Last name</label>
                     <input type="text" wire:model="nickname"
-                        class="w-full bg-transparent py-1 text-sm text-white/80 outline-none placeholder:text-white/18"
+                        class="w-full bg-transparent py-1 text-base text-white/80 outline-none placeholder:text-white/18"
                         placeholder="Ponomarov">
                     @error('nickname') <span class="text-red-900 text-[8px] uppercase tracking-widest mt-2 block">{{ $message }}</span> @enderror
                 </div>
@@ -167,7 +167,7 @@ new class extends Component
                 <div class="auth-field">
                     <label class="mono mb-2 block text-[10px] uppercase tracking-[0.22em] text-white/38">Phone</label>
                     <input type="tel" wire:model="phone"
-                        class="w-full bg-transparent py-1 text-sm text-white/80 outline-none placeholder:text-white/18"
+                        class="w-full bg-transparent py-1 text-base text-white/80 outline-none placeholder:text-white/18"
                         placeholder="+371 20000000">
                     @error('phone') <span class="text-red-900 text-[8px] uppercase tracking-widest mt-2 block">{{ $message }}</span> @enderror
                 </div>
@@ -175,7 +175,7 @@ new class extends Component
                 <div class="auth-field">
                     <label class="mono mb-2 block text-[10px] uppercase tracking-[0.22em] text-white/38">Email optional</label>
                     <input type="email" wire:model="email"
-                        class="w-full bg-transparent py-1 text-sm text-white/80 outline-none placeholder:text-white/18"
+                        class="w-full bg-transparent py-1 text-base text-white/80 outline-none placeholder:text-white/18"
                         placeholder="you@example.com">
                     @error('email') <span class="text-red-900 text-[8px] uppercase tracking-widest mt-2 block">{{ $message }}</span> @enderror
                 </div>
@@ -186,7 +186,7 @@ new class extends Component
             <div class="auth-field">
                 <label class="mono mb-2 block text-[10px] uppercase tracking-[0.22em] text-white/38">Email or phone</label>
                 <input type="text" wire:model="loginIdentifier"
-                    class="w-full bg-transparent py-1 text-sm text-white/80 outline-none placeholder:text-white/18"
+                    class="w-full bg-transparent py-1 text-base text-white/80 outline-none placeholder:text-white/18"
                     placeholder="you@example.com / +371 20000000">
                 @error('loginIdentifier') <span class="text-red-900 text-[8px] uppercase tracking-widest mt-2 block">{{ $message }}</span> @enderror
             </div>
@@ -195,7 +195,7 @@ new class extends Component
         <div class="auth-field">
             <label class="mono mb-2 block text-[10px] uppercase tracking-[0.22em] text-white/38">Password</label>
             <input type="password" wire:model="password"
-                class="w-full bg-transparent py-1 text-sm text-white/80 outline-none placeholder:text-white/18"
+                class="w-full bg-transparent py-1 text-base text-white/80 outline-none placeholder:text-white/18"
                 placeholder="••••••••">
             @error('password') <span class="text-red-900 text-[8px] uppercase tracking-widest mt-2 block">{{ $message }}</span> @enderror
         </div>
@@ -204,7 +204,7 @@ new class extends Component
             <div class="auth-field">
                 <label class="mono mb-2 block text-[10px] uppercase tracking-[0.22em] text-white/38">Confirm password</label>
                 <input type="password" wire:model="password_confirmation"
-                    class="w-full bg-transparent py-1 text-sm text-white/80 outline-none placeholder:text-white/18"
+                    class="w-full bg-transparent py-1 text-base text-white/80 outline-none placeholder:text-white/18"
                     placeholder="••••••••">
             </div>
         </template>
