@@ -142,6 +142,8 @@ return [
         'no_avatar' => 'No profile image',
         'uploading' => 'Uploading...',
         'update_picture' => 'Update picture',
+        'avatar_male' => 'Male',
+        'avatar_female' => 'Female',
         'profile_status' => 'Profile status',
         'active' => 'Active',
         'last_login' => 'Local time',

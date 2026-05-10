@@ -15,6 +15,15 @@ class User extends Authenticatable
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable;
 
+    public const AVATAR_MALE = '/images/avatar-male.svg';
+
+    public const AVATAR_FEMALE = '/images/avatar-female.svg';
+
+    public const AVATARS = [
+        self::AVATAR_MALE,
+        self::AVATAR_FEMALE,
+    ];
+
     /**
      * The attributes that are mass assignable.
      *
@@ -37,6 +46,20 @@ class User extends Authenticatable
     public function wishlists()
     {
         return $this->belongsToMany(Product::class, 'wishlists');
+    }
+
+    public function getAvatarAttribute($value): string
+    {
+        if (in_array($value, self::AVATARS, true)) {
+            return $value;
+        }
+
+        return $this->defaultAvatar();
+    }
+
+    public function defaultAvatar(): string
+    {
+        return ((int) $this->getKey() % 2 === 0) ? self::AVATAR_FEMALE : self::AVATAR_MALE;
     }
 
     /**

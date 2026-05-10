@@ -58,8 +58,8 @@
 
     {{-- КИБЕР-МОДАЛЬНОЕ ОКНО --}}
     @if($isModalOpen)
-    <div class="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50">
-        <div class="bg-black border border-gray-600 w-full max-w-md p-6 relative">
+    <div class="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black/85 p-4">
+        <div class="my-8 w-full max-w-2xl border border-gray-600 bg-black p-6 relative">
             <h2 class="text-2xl font-bold tracking-widest uppercase mb-6">
                 {{ $product_id ? __('ui.admin.edit_product') : __('ui.admin.new_product') }}
             </h2>

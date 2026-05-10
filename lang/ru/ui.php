@@ -142,6 +142,8 @@ return [
         'no_avatar' => 'Нет фото профиля',
         'uploading' => 'Загрузка...',
         'update_picture' => 'Обновить фото',
+        'avatar_male' => 'Мужской',
+        'avatar_female' => 'Женский',
         'profile_status' => 'Статус профиля',
         'active' => 'Активен',
         'last_login' => 'Локальное время',

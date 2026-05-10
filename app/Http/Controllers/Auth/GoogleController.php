@@ -40,14 +40,14 @@ class GoogleController extends Controller
             if ($user) {
                 $user->update([
                     'google_id' => $googleUser->id,
-                    'avatar' => $googleUser->avatar,
+                    'avatar' => $user->avatar,
                 ]);
             } else {
                 $user = User::create([
                     'name' => $googleUser->name,
                     'email' => $googleUser->email,
                     'google_id' => $googleUser->id,
-                    'avatar' => $googleUser->avatar,
+                    'avatar' => User::AVATAR_MALE,
                     'password' => bcrypt(str()->random(32)),
                     'nickname' => $this->uniqueNickname(),
                 ]);

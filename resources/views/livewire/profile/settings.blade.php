@@ -1,20 +1,17 @@
 <?php
 
 use Livewire\Volt\Component;
+use App\Models\User;
 use App\Support\CustomerOrders;
-use App\Support\VercelBlobUploader;
 use Illuminate\Support\Facades\Auth;
-use Livewire\WithFileUploads;
 
 new class extends Component {
-    use WithFileUploads;
-
     public $name;
     public $nickname;
     public $email;
     public $phone;
     public $address;
-    public $newAvatar;
+    public $avatar;
 
     public function mount()
     {
@@ -24,22 +21,7 @@ new class extends Component {
         $this->email = $user->email;
         $this->phone = $user->phone;
         $this->address = $user->address;
-    }
-
-    public function updatedNewAvatar()
-    {
-        $this->validate([
-            'newAvatar' => 'image|max:2048',
-        ]);
-
-        $user = Auth::user();
-        $avatar = $this->storeAvatar();
-
-        $user->update([
-            'avatar' => $avatar,
-        ]);
-
-        session()->flash('message', __('ui.profile.avatar_updated'));
+        $this->avatar = $user->avatar;
     }
 
     public function updateSettings()
@@ -50,7 +32,7 @@ new class extends Component {
             'name' => 'required|string|max:255',
             'nickname' => 'required|string|max:50|unique:users,nickname,' . $user->id,
             'email' => 'required|email|unique:users,email,' . $user->id,
-            'newAvatar' => 'nullable|image|max:5048',
+            'avatar' => 'required|in:' . implode(',', User::AVATARS),
         ]);
 
         $data = [
@@ -59,11 +41,8 @@ new class extends Component {
             'email' => $this->email,
             'phone' => $this->phone,
             'address' => $this->address,
+            'avatar' => $this->avatar,
         ];
-
-        if ($this->newAvatar) {
-            $data['avatar'] = $this->storeAvatar();
-        }
 
         $user->update($data);
         CustomerOrders::attachGuestOrders($user);
@@ -71,45 +50,28 @@ new class extends Component {
         $this->dispatch('cart-updated');
         session()->flash('message', __('ui.profile.updated'));
     }
-
-    private function storeAvatar(): string
-    {
-        $path = app(VercelBlobUploader::class)->upload($this->newAvatar, 'avatars');
-
-        if (str_starts_with($path, 'http://') || str_starts_with($path, 'https://') || str_starts_with($path, '/')) {
-            return $path;
-        }
-
-        return '/storage/' . ltrim($path, '/');
-    }
 }; ?>
 
 <div class="grid grid-cols-1 gap-8 lg:grid-cols-12">
     <div class="space-y-5 lg:col-span-4">
-        <div x-data="{ uploading: false }" x-on:livewire-upload-start="uploading = true"
-            x-on:livewire-upload-finish="uploading = false" x-on:livewire-upload-error="uploading = false"
-            class="profile-frame group relative flex aspect-square items-center justify-center overflow-hidden bg-[#050505]">
-            @if($newAvatar)
-                <img src="{{ $newAvatar->temporaryUrl() }}" class="h-full w-full object-cover">
-            @elseif(auth()->user()->avatar)
-                <img src="{{ auth()->user()->avatar }}"
-                    class="h-full w-full object-cover opacity-75 transition duration-300 group-hover:scale-[1.015] group-hover:opacity-60">
-            @else
-                <div class="mono text-[10px] uppercase tracking-[0.35em] text-white/20">{{ __('ui.profile.no_avatar') }}</div>
-            @endif
-
-            <div x-show="uploading" class="absolute inset-0 z-20 flex items-center justify-center bg-black/80">
-                <div class="mono animate-pulse text-[10px] uppercase tracking-[0.35em] text-green-400">{{ __('ui.profile.uploading') }}
-                </div>
+        <div class="profile-frame overflow-hidden bg-[#050505]">
+            <div class="aspect-square bg-black">
+                <img src="{{ $avatar }}" class="h-full w-full object-cover opacity-85">
             </div>
 
-            <label
-                class="absolute inset-x-0 bottom-0 flex cursor-pointer flex-col justify-end border-t border-white/10 bg-black/80 p-5 opacity-0 transition duration-300 group-hover:opacity-100">
-                <input type="file" wire:model="newAvatar" accept="image/*" class="hidden">
-                <span class="ui-btn w-full py-3 mono text-[10px] font-bold tracking-[0.25em]">
-                    {{ __('ui.profile.update_picture') }}
-                </span>
-            </label>
+            <div class="grid grid-cols-2 gap-3 border-t border-white/10 p-4">
+                @foreach(\App\Models\User::AVATARS as $option)
+                    <label class="group/avatar cursor-pointer">
+                        <input type="radio" wire:model.live="avatar" value="{{ $option }}" class="peer sr-only">
+                        <span class="block border border-white/10 bg-black p-2 transition-all group-hover/avatar:border-white/30 peer-checked:border-white/70 peer-checked:bg-white/8">
+                            <img src="{{ $option }}" class="aspect-square w-full object-cover opacity-70 transition-opacity peer-checked:opacity-100">
+                            <span class="mt-2 block text-center mono text-[9px] uppercase tracking-[0.18em] text-white/35 peer-checked:text-white/75">
+                                {{ $loop->first ? __('ui.profile.avatar_male') : __('ui.profile.avatar_female') }}
+                            </span>
+                        </span>
+                    </label>
+                @endforeach
+            </div>
         </div>
 
         <div class="profile-frame p-5">

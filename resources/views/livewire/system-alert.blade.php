@@ -57,9 +57,13 @@ new class extends Component {
             </div>
         </div>
 
-        {{-- Декоративный элемент --}}
-        <div class="absolute top-0 right-0 p-2">
-            <div class="mono text-[7px] text-white/10 uppercase tracking-tighter italic">{{ __('ui.alert.ok') }}</div>
-        </div>
+        <button type="button"
+            x-on:click="show = false"
+            class="ui-btn ui-btn-icon absolute right-2 top-2 h-7 w-7 text-white/35 hover:text-white"
+            aria-label="{{ __('ui.admin.close') }}">
+            <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2" aria-hidden="true">
+                <path d="M6 18L18 6M6 6l12 12" />
+            </svg>
+        </button>
     </div>
 </div>

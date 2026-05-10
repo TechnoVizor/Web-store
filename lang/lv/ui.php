@@ -142,6 +142,8 @@ return [
         'no_avatar' => 'Nav profila attēla',
         'uploading' => 'Augšupielāde...',
         'update_picture' => 'Mainīt attēlu',
+        'avatar_male' => 'Vīriešu',
+        'avatar_female' => 'Sieviešu',
         'profile_status' => 'Profila statuss',
         'active' => 'Aktīvs',
         'last_login' => 'Vietējais laiks',
