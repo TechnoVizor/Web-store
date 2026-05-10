@@ -17,7 +17,7 @@ class Products extends Component
 {
     use WithFileUploads, WithPagination;
 
-    public const SIZE_OPTIONS = ['XXS', 'XS', 'S', 'M', 'L', 'XL', 'XXL'];
+    public const SIZE_OPTIONS = Product::SIZE_ORDER;
 
     public $search = '';
 

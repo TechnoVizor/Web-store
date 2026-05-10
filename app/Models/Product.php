@@ -28,6 +28,8 @@ class Product extends Model
         'is_active' => 'boolean',
     ];
 
+    public const SIZE_ORDER = ['XXS', 'XS', 'S', 'M', 'L', 'XL', 'XXL'];
+
     public const DEFAULT_SIZES = ['XS', 'S', 'M', 'L', 'XL'];
 
     public function availableSizes(): array
@@ -36,6 +38,11 @@ class Product extends Model
             ->filter(fn ($size): bool => is_string($size) && trim($size) !== '')
             ->map(fn ($size): string => strtoupper(trim($size)))
             ->unique()
+            ->sortBy(function ($size): int {
+                $position = array_search($size, self::SIZE_ORDER, true);
+
+                return $position === false ? count(self::SIZE_ORDER) : $position;
+            })
             ->values()
             ->all();
 
