@@ -34,7 +34,7 @@ new class extends Component {
            left-1/2 -translate-x-1/2 
            sm:left-auto sm:right-10 sm:translate-x-0 pointer-events-none">
     
-    <div class="pointer-events-auto border border-white/20 bg-black p-5 min-w-[300px] shadow-[0_0_50px_rgba(0,0,0,0.8)] relative overflow-hidden glass">
+    <div class="pointer-events-auto border border-white/20 bg-black p-5 pr-12 min-w-[300px] shadow-[0_0_50px_rgba(0,0,0,0.8)] relative overflow-hidden glass">
 
         <div class="flex items-center space-x-4">
             {{-- Индикатор статуса --}}
@@ -59,7 +59,7 @@ new class extends Component {
 
         <button type="button"
             x-on:click="show = false"
-            class="ui-btn ui-btn-icon absolute right-2 top-2 h-7 w-7 text-white/35 hover:text-white"
+            class="ui-btn ui-btn-icon absolute right-0 top-0 h-9 w-9 border-r-0 border-t-0 text-white/35 hover:text-white"
             aria-label="{{ __('ui.admin.close') }}">
             <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2" aria-hidden="true">
                 <path d="M6 18L18 6M6 6l12 12" />
