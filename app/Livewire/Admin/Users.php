@@ -3,6 +3,7 @@
 namespace App\Livewire\Admin;
 
 use App\Models\User;
+use App\Support\Search;
 use Illuminate\Validation\Rule;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
@@ -128,8 +129,13 @@ class Users extends Component
     public function render()
     {
         return view('livewire.admin.users', [
-            'users' => User::where('name', 'like', "%{$this->search}%")
-                ->orWhere('email', 'like', "%{$this->search}%")
+            'users' => User::query()
+                ->when(filled($this->search), function ($query) {
+                    $query->where(function ($query) {
+                        Search::whereLike($query, 'name', $this->search);
+                        Search::orWhereLike($query, 'email', $this->search);
+                    });
+                })
                 ->latest()
                 ->paginate(10),
         ]);

@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Livewire\Checkout;
+use App\Livewire\StoreIndex;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
@@ -223,5 +224,25 @@ class CheckoutTest extends TestCase
             ->assertOk()
             ->assertSee('#'.str_pad($order->id, 5, '0', STR_PAD_LEFT))
             ->assertSee($product->name);
+    }
+
+    public function test_store_search_is_case_insensitive(): void
+    {
+        Product::factory()->create([
+            'name' => 'CAP',
+            'slug' => 'cap',
+            'is_active' => true,
+        ]);
+
+        Product::factory()->create([
+            'name' => 'Leather Jacket',
+            'slug' => 'leather-jacket',
+            'is_active' => true,
+        ]);
+
+        Livewire::test(StoreIndex::class)
+            ->set('search', 'cap')
+            ->assertSee('CAP')
+            ->assertDontSee('Leather Jacket');
     }
 }

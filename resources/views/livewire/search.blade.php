@@ -2,6 +2,7 @@
 
 use Livewire\Volt\Component;
 use App\Models\Product;
+use App\Support\Search;
 
 new class extends Component {
     public $query = '';
@@ -19,8 +20,11 @@ new class extends Component {
         return Product::query()
             ->with('category:id,name')
             ->select(['id', 'category_id', 'name', 'slug', 'description', 'price', 'image'])
-            ->where('name', 'like', '%' . $this->query . '%')
-            ->orWhere('description', 'like', '%' . $this->query . '%')
+            ->where('is_active', true)
+            ->where(function ($query) {
+                Search::whereLike($query, 'name', $this->query);
+                Search::orWhereLike($query, 'description', $this->query);
+            })
             ->take(5)
             ->get();
     }

@@ -3,6 +3,7 @@
 namespace App\Livewire\Admin;
 
 use App\Models\Order;
+use App\Support\Search;
 use Illuminate\Validation\Rule;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
@@ -42,13 +43,11 @@ class Orders extends Component
         $orders = Order::query()
             ->withCount('items')
             ->when(filled($this->search), function ($query) {
-                $term = '%'.trim($this->search).'%';
-
-                $query->where(function ($query) use ($term) {
-                    $query->where('customer_name', 'like', $term)
-                        ->orWhere('customer_phone', 'like', $term)
-                        ->orWhere('customer_email', 'like', $term)
-                        ->orWhere('id', 'like', $term);
+                $query->where(function ($query) {
+                    Search::whereLike($query, 'customer_name', $this->search);
+                    Search::orWhereLike($query, 'customer_phone', $this->search);
+                    Search::orWhereLike($query, 'customer_email', $this->search);
+                    Search::orWhereIntegerLike($query, 'id', $this->search);
                 });
             })
             ->latest()

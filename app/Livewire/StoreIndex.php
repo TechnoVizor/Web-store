@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Models\Category;
 use App\Models\Product;
+use App\Support\Search;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 
@@ -103,7 +104,7 @@ class StoreIndex extends Component
             ->select(['id', 'category_id', 'name', 'slug', 'price', 'image', 'sizes', 'is_active', 'created_at'])
             ->where('is_active', true)
             ->when($this->search, function ($query) {
-                $query->where('name', 'like', '%'.trim($this->search).'%');
+                Search::whereLike($query, 'name', $this->search);
             })
             ->when($this->selectedCategory, function ($query) {
                 $query->where('category_id', $this->selectedCategory);

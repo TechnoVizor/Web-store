@@ -3,6 +3,7 @@
 namespace App\Livewire\Admin;
 
 use App\Models\Category;
+use App\Support\Search;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Livewire\Attributes\Layout;
@@ -98,7 +99,8 @@ class Categories extends Component
 
     public function render()
     {
-        $categories = Category::where('name', 'like', '%'.$this->search.'%')
+        $categories = Category::query()
+            ->when(filled($this->search), fn ($query) => Search::whereLike($query, 'name', $this->search))
             ->latest()
             ->paginate(10);
 

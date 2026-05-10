@@ -4,6 +4,7 @@ namespace App\Livewire\Admin;
 
 use App\Models\Category;
 use App\Models\Product;
+use App\Support\Search;
 use App\Support\VercelBlobUploader;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
@@ -156,7 +157,8 @@ class Products extends Component
 
     public function render()
     {
-        $products = Product::where('name', 'like', '%'.$this->search.'%')
+        $products = Product::query()
+            ->when(filled($this->search), fn ($query) => Search::whereLike($query, 'name', $this->search))
             ->latest()
             ->paginate(10);
 
